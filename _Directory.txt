@@ -18,3 +18,9 @@ SpotifyFunctions.py -
 Main.py - 
   *Where everything will take place
   *Create needed classes, run things in order; controller of it all
+
+
+TODO:
+  *Debug
+  *Feature: Insert playlist containing songs that can't be included
+  *Feature: Insert playlist containing songs that must be included
