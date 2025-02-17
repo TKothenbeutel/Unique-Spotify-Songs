@@ -68,8 +68,18 @@ def about():
   input(f'Press {bold("Enter")} to return')
 
 def saveResults(songContainer:MasterSongContainer):
+  plainSongs = {} #Get dictionary in a readable format
+  for key in songContainer.desiredSongs:
+    value = songContainer.desiredSongs[key]
+    plainSongs[key] = {
+      "timestamp":str(value.ts),
+      "title":value.title,
+      "artist":value.artist,
+      "album":value.album,
+      "count":value.count
+    }
   fPath = f"./Results/{currentTime()}.json"
-  resultToJSON = dictToJSON(songContainer.desiredSongs)
+  resultToJSON = dictToJSON(plainSongs)
   with open(fPath,'w') as file:
     file.write(resultToJSON)
   print(f'Song results written in {abspath(fPath)}')
