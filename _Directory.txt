@@ -1,0 +1,20 @@
+_importENVVar.py  - **DONE**
+  *Creates the environmental variables containing the spotify API key and stuff
+  *Will not be included when put onto GitHub
+DataParse.py  - 
+  *Gets file verifies it's readability and such
+ProgressBar.py  - **DONE**
+  *Class that runs all the workings of a progress bar
+  *Each function that does some iterative process should use this class
+Settings.py - **FRAMEWORK DONE**
+  *Holds all of the settings the user has in one place
+  *Main will create this class, and pass it around to other classes
+  *
+SongStruct.py - **DONEISH**
+  *Holds and parses songs
+SpotifyFunctions.py - 
+  *Class that deals with Spotify itself
+  *Take in the list of songs and adds it to given playlist
+Main.py - 
+  *Where everything will take place
+  *Create needed classes, run things in order; controller of it all
