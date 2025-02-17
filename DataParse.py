@@ -40,6 +40,12 @@ def dictToJSON(dictionary:dict):
 
 if __name__ == "__main__":
   #validatedFile("C:\Users\tkong\Downloads\Spotify Data\AllTime_my_spotify_data-2024\Spotify Extended Streaming History\Streaming_History_Audio_2020-2022_1.json".replace('\\','/'))
-  k = input()
-  print(validatedFile(k))
+  #k = input()
+  #print(validatedFile(k))
+  diction = {'hello': 20, 'Hi':123, 'Woah':'heap'}
+  fPath = f"./Results/test.json"
+  resultToJSON = dictToJSON(diction)
+  with open(fPath,'w') as file:
+    file.write(resultToJSON)
+  
   pass

@@ -21,6 +21,8 @@ Main.py -
 
 
 TODO:
-  *Debug
+  *Debug --done (for now)
   *Feature: Insert playlist containing songs that can't be included
   *Feature: Insert playlist containing songs that must be included
+  *Add function calls to DataParse parse() (this program does NOT parse)
+  *Feature: user input folder containing spotify data and automatically pulls them

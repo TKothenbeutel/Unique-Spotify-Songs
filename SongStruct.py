@@ -37,8 +37,8 @@ class SongsContainer(object):
     self._songs = {}  #Dictionary with key = song URI and value = song info
     self._artists = {} #Dictionary with key = artist and value = set of keys
 
-  def addSong(self, uri: int, ts, song_title: str, song_artist: str):
-    song = self._Song(ts, song_title, song_artist)
+  def addSong(self, uri: int, ts, song_title: str, song_artist: str, album: str):
+    song = self._Song(ts, song_title, song_artist, album)
     if(uri in self):  #If song's uri is already in dictionary
       self._addCount(uri)
       if(ts < self.getTS(uri)): #Take the earliest date
@@ -154,11 +154,12 @@ class MasterSongContainer(object):
     ts = datetime.strptime(song_entry['ts'], '%Y-%m-%dT%H:%M:%SZ') #Converts time stamp to dateTime object
     title = song_entry['master_metadata_track_name']
     artist = song_entry['master_metadata_album_artist_name']
+    album = song_entry['master_metadata_album_album_name']
     if(self._checkSong(song_entry) and ts < self.lastDate and ts > self.earlyDate):
       if(ts < self.earlyRange):
-        self.previousSongs.addSong(uri, ts, title, artist)
+        self.previousSongs.addSong(uri, ts, title, artist, album)
       else:
-        self.desiredSongs.addSong(uri, ts, title, artist)
+        self.desiredSongs.addSong(uri, ts, title, artist, album)
 
 
   def removeLowCount(self) -> None:
@@ -503,4 +504,9 @@ if __name__ == "__main__":
   test_container.addSong(test_songs[-2])
   test_container.combineSongs()
   print(test_container.desiredSongs._songs)
+  print(dict(test_container.desiredSongs._songs))
+
+  mmm = datetime.today()
+  mmm = str(mmm)
+  print(mmm)
   
