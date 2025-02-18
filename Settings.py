@@ -32,14 +32,18 @@ from dateutil.relativedelta import relativedelta
 
 class _Setting():
   def __init__(self, name:str, value, message:str, possibleOptions=None, minVal=None, maxVal=None):
+    self.index =  ''
     self.name = name
     self.value = value
     self.message = message
     self.options = possibleOptions
     self.min = minVal
     self.max = maxVal
+
+  def setIndex(self, index: str):
+    self.index = index
   
-  def UpdateValue(self, value):
+  def updateValue(self, value):
     if(self.min is not None and value < self.min):
       self.value = self.min
     elif(self.max is not None and value > self.max):
@@ -53,7 +57,7 @@ class _Setting():
     return message
 
   def __repr__(self) -> str:
-    message = (self.name + ":\t|\t") if len(self.name)>=8 else (self.name + ":\t\t|\t")
+    message = (f'{self.index}  {self.name}:\t|\t') if len(self.name)>=10 else (f'{self.index}  {self.name}:\t\t|\t')
     if(self.options): #Setting has multiple options that don't fit type
       for i in range(len(self.options)):
         if(self.value == i):
@@ -85,36 +89,56 @@ def init():
   gracePeriod = _Setting('gracePeriod',today-relativedelta(days=7),'Period at which the song has a chance to be included in the playlist, regardless of how many times the song was listened to. Range starts at day given through today, to allow recent new songs a chance to make it in. Please follow yyyy-mm-dd format. Default is a week from today.')
   playlistTimer = _Setting('playlistTimer',0.0,"Amount of time to wait in between adding each song to given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is 0.",minVal=0.0)
 
-  settings = {'minCount':minCount,
-              'countOverride':countOverride,
-              'songPreference':songPreference,
-              'earlyRange':earlyRange,
-              'lastDate':lastDate,
-              'earlyDate':earlyDate,
-              'minMS':minMS,
-              'prevMinCount':prevMinCount,
-              'gracePeriod':gracePeriod,
-              'playlistTimer':playlistTimer}
+  settings = [
+              minCount,
+              countOverride,
+              songPreference,
+              earlyRange,
+              lastDate,
+              earlyDate,
+              minMS,
+              prevMinCount,
+              gracePeriod,
+              playlistTimer
+            ]
+  
+  for i in range(len(settings)):
+    if(i < 9):
+      settings[i].setIndex(f'{i+1}. ')
+    else:
+      settings[i].setIndex(f'{i+1}.')
   
 
 
 def printSettings():
   system('cls' if name == 'nt' else 'clear')
-  for i in settings:
-    print(settings[i])
+  for setting in settings:
+    print(setting)
   print()
 
 def printAbouts():
   system('cls' if name == 'nt' else 'clear')
-  for i in settings:
-    print(settings[i].printWithAbout())
+  for setting in settings:
+    print(setting.printWithAbout())
 
 def updateValue(setting:str, value:str):
   """Verifies value and setting given, then updates setting."""
-  #Verify setting typed exists
-  if(not setting in settings):  #Setting does not exist
-    print(f'{setting} is not a valid setting.')
+  #Convert setting to int
+  if(setting[-1] == '.'): #Remove period
+    setting = setting[:-1]
+
+  if(setting.isdecimal()):
+    setting = int(setting) -1
+  else:
+    print('Please input a number corresponding to the setting, followed by a value.')
     return
+  
+  #Verify setting typed exists
+  if(setting < 0 or setting > len(settings)):  #Setting does not exist
+    print(f'{setting+1} is not a possible setting option.')
+    return
+
+  sName = settings[setting].name
 
   #Convert value to proper type
   if(value.count('-') == 2):  #Value may be datetime
@@ -145,15 +169,15 @@ def updateValue(setting:str, value:str):
   if(settings[setting].options):  #Setting has custom options
     try:
       newNum = settings[setting].options.index(value.lower())
-      settings[setting].UpdateValue(newNum)
+      settings[setting].updateValue(newNum)
     except:
-      print(f'{value} is not a valid choice for setting {setting}.')
+      print(f'{value} is not a valid choice for setting {sName}.')
       input('Press "Enter" to return')
       return printSettings()
   elif(type(settings[setting].value) == type(value)): #Value is correct type
-    settings[setting].UpdateValue(value)
+    settings[setting].updateValue(value)
   else: #Value is not correct
-    print(f'{setting} must take input of type {type(settings[setting].value)}.')
+    print(f'{sName} must take input of type {type(settings[setting].value)}.')
     input('Press "Enter" to return')
     return printSettings()
   printSettings()  
@@ -164,18 +188,17 @@ if __name__ == "__main__":
   init()
   #Print settings
   printSettings()
-  '''
+  
   #Pass cases
-  updateValue('countOverride','20')
-  updateValue('countOverride','-20')
-  updateValue('playlistTimer','2.5')
-  updateValue('songPreference','Oldest')
-  updateValue('earlyRange','2001-09-11')
-  updateValue('prevMinCount', 'TRUE')
+  updateValue('2','20')
+  updateValue('2','-20')  #Snap to -1
+  updateValue('10.','2.5')
+  updateValue('3','Oldest')
+  updateValue('4','2001-09-11')
+  updateValue('8.', 'TRUE')
   #Fail cases
-  updateValue('notASetting','Null')
-  updateValue('countOverride','1999-05-12')
-  updateValue('songPreference','never')
+  updateValue('0','Null')
+  updateValue('2.','1999-05-12')
+  updateValue('3','never')
   #Print about section
   printAbouts()
-  '''

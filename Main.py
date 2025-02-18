@@ -19,9 +19,9 @@ def currentTime():
 
 def exportSettings():
   fPath = f"/savedSettings.txt"
-  with open(fPath,'w') as file:
-    for i in Settings.settings:
-      file.write(f'{i}: {Settings.settings[i].value}')
+  with open(fPath,'w') as file: #TODO
+    for setting in Settings.settings:
+      file.write(f'{setting}: {setting.value}')
   print(f'Settings saved at {abspath(fPath)}. Please to not edit or relocate file.')
   input(f'Press {bold("Enter")} to return')
   return
@@ -32,7 +32,16 @@ def importSettings():
       options = file.readlines()
       for i in options:
         option = i.split(': ')
-        Settings.updateValue[option[0],option[1]]
+        numSetting = -1
+        for i in range(len(Settings.settings)):
+          if(option[0] == Settings.settings[i].name):
+            numSetting = i
+            break
+
+        if(numSetting == -1):
+          print(f'Could not find option named {option[0]}.')
+          continue
+        Settings.updateValue[numSetting,option[1]]
   except:
     print('Could not find saved setting file.')
   input(f'Press {bold("Enter")} to return')
@@ -42,7 +51,7 @@ def options():
   """Displays the settings and takes in user input to alter them."""
   Settings.printSettings()
   while(True):
-    inp = input(f'You may change a setting by inputting {bold("{setting} {value}")}, input {bold("about")} to learn more about each setting, input {bold("export")} to export current settings, input {"import"} to import previously saved settings, or input {bold("back")} to go back.\n')
+    inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold("about")} to learn more about each setting, input {bold("export")} to export current settings, input {"import"} to import previously saved settings, or input {bold("back")} to go back.\n')
     if(inp.lower() == 'about'):
       print()
       Settings.printAbouts()
