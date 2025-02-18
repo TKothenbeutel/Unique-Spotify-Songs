@@ -1,7 +1,7 @@
 import _importENVVar
 
 from os import system, name
-from DataParse import validatedFile, dictToJSON
+from DataParse import validatedFile, dictToJSON, validatedFolder
 import Settings
 from SongStruct import MasterSongContainer
 from ProgressBar import ProgressBar
@@ -151,15 +151,26 @@ def run():
 
   #Gather files
   print("First, let's get every file containing songs from your all time Spotify history.")
-  print('Please input a file location, or input "Done" when all files have been imported in.')
+  print(f'Please input a file location (the file should be called {bold("Streaming_History_Audio")}....json), folder containing the files, or input "Done" when all files have been imported in.')
   while(True):
     inp = input('Enter file location or "Done" here: ')
     if(inp.lower() == 'done'):
       break
-    data = validatedFile(inp)
-    if(data):
-      dataContainer.append(data)
-      print('File succesfully imported.')
+    if(inp[0] == '"' and inp[-1] == '"'): #Disregard quotations around location
+      inp = inp[1:-1]
+    #Check if location is folder
+    if(".json" not in inp):
+      data = validatedFolder(inp)
+      if(data):
+        dataContainer += data
+    else:
+      data = validatedFile(inp)
+      if(data):
+        dataContainer.append(data)
+        print('File succesfully imported.')
+
+  print()#Spacing
+
   print('Great! Time to add them into a containers for easier parsing.')
 
   #Get total number of songs
@@ -182,6 +193,8 @@ def run():
   print("Now that all songs have been accounted for, let's get parsing!")
   songContainer.parse()
   
+  print()#Spacing
+
   #Announce results
   print(f"Parsing is now complete! In the end, {len(songContainer.desiredSongs)} are found to be unique songs. That's a lot of songs (maybe)!")
 
