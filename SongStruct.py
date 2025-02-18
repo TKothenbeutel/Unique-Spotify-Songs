@@ -200,11 +200,13 @@ class MasterSongContainer(object):
             if(self.songPref == 0): #Keep oldest
               if(self.desiredSongs[uri1] > self.desiredSongs[uri2]):
                 del self.desiredSongs[uri1]
+                break
               else:
                 del self.desiredSongs[uri2]
             elif(self.songPref == 1): #Keep newest
               if(self.desiredSongs[uri1] < self.desiredSongs[uri2]):
                 del self.desiredSongs[uri1]
+                break
               else:
                 del self.desiredSongs[uri2]
             elif(self.songPref == 3): #Ask user
@@ -218,6 +220,7 @@ class MasterSongContainer(object):
                 del self.desiredSongs[uri2]
               elif(response == "2"):
                 del self.desiredSongs[uri1]
+                break
     pBar.finish()
 
 
@@ -261,7 +264,10 @@ class MasterSongContainer(object):
 
   def parse(self):
     """Runs data parsing functions."""
-    pass
+    self.removeLowCount() #Remove low counts
+    self.compareContainersURI() #Remove by uris from dict
+    self.compareContainersSong() #Remove by songs from dict
+    self.combineSongs() #Combine songs with diff uri
   
     
 
