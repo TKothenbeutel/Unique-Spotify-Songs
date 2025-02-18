@@ -18,32 +18,39 @@ def currentTime():
   return f'{datetime.today().date()}_{str(datetime.today().time()).replace(":","-")[:8]}'
 
 def exportSettings():
-  fPath = f"/savedSettings.txt"
-  with open(fPath,'w') as file: #TODO
+  fPath = f"savedSettings.txt"
+  with open(fPath,'w') as file:
     for setting in Settings.settings:
-      file.write(f'{setting}: {setting.value}')
-  print(f'Settings saved at {abspath(fPath)}. Please to not edit or relocate file.')
+      if(setting.options is not None): #Get index of option
+        file.write(f'{setting.name}: {setting.options[setting.value]}\n')
+      else:
+        file.write(f'{setting.name}: {setting.value}\n')
+  print(f'Settings saved at {abspath(fPath)}. Please do not edit or relocate file.')
   input(f'Press {bold("Enter")} to return')
   return
 
 def importSettings():
   try:
-    with open("./savedSettings.txt",'r') as file:
+    with open("savedSettings.txt",'r') as file:
       options = file.readlines()
       for i in options:
         option = i.split(': ')
         numSetting = -1
+        #Find setting line corresponds to
         for i in range(len(Settings.settings)):
           if(option[0] == Settings.settings[i].name):
-            numSetting = i
+            numSetting = i+1
             break
+
+        if(option[1][-1] == '\n'): #Remove newline
+          option[1] = option[1][:-1]
 
         if(numSetting == -1):
           print(f'Could not find option named {option[0]}.')
           continue
-        Settings.updateValue[numSetting,option[1]]
-  except:
-    print('Could not find saved setting file.')
+        Settings.updateValue(str(numSetting),option[1])
+  except Exception as e:
+    print(f'Could not find saved setting file. {e}')
   input(f'Press {bold("Enter")} to return')
   return
 
@@ -51,7 +58,7 @@ def options():
   """Displays the settings and takes in user input to alter them."""
   Settings.printSettings()
   while(True):
-    inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold("about")} to learn more about each setting, input {bold("export")} to export current settings, input {"import"} to import previously saved settings, or input {bold("back")} to go back.\n')
+    inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold("about")} to learn more about each setting, input {bold("export")} to export current settings, input {bold("import")} to import previously saved settings, or input {bold("back")} to go back.\n')
     if(inp.lower() == 'about'):
       print()
       Settings.printAbouts()

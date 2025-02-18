@@ -25,4 +25,3 @@ TODO:
   *Feature: Insert playlist containing songs that can't be included
   *Feature: Insert playlist containing songs that must be included
   *Bold more items
-  *Change settings to numbered --Fix export/import
