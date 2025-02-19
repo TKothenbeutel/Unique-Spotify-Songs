@@ -1,5 +1,6 @@
 from datetime import datetime
 from ProgressBar import ProgressBar
+from Settings import settingByName
 
 class SongsContainer(object):
   """ """
@@ -66,7 +67,7 @@ class SongsContainer(object):
   def __iter__(self):
     for i in self._songs.keys():
       yield i
-  
+        
   def artists(self, artist = None):
     if artist:
       return [i for i in self._artists[artist]]
@@ -107,18 +108,18 @@ class SongsContainer(object):
 
 class MasterSongContainer(object):
   """ """
-  def __init__(self, settings:dict):
+  def __init__(self):
     self.desiredSongs = SongsContainer()
     self.previousSongs = SongsContainer()
     #Keep easier reachable references for needed settings
-    self.earlyRange = settings['earlyRange'].value  #Earliest date of desired
-    self.lastDate = settings['lastDate'].value  #Last date of desired
-    self.earlyDate = settings['earlyDate'].value  #Earliest date of previous
-    self.minCount = settings['minCount'].value  #Minimum number of times song should be counted for
-    self.msPlayed = settings['minMS'].value #Minimum milliseconds the track has to be played to count (unless track was finished)
-    self.songPref = settings['songPreference'].value #If same songs with different uris, choice of which to keep
-    self.prevCountMatters = settings['prevMinCount'].value #If True, will follow count rules for previous songs too
-    self.gracePeriod = settings['gracePeriod'].value #Period at which the count will not matter
+    self.earlyRange = settingByName('earlyRange').value#settings['earlyRange'].value  #Earliest date of desired
+    self.lastDate = settingByName('lastDate').value  #Last date of desired
+    self.earlyDate = settingByName('earlyDate').value  #Earliest date of previous
+    self.minCount = settingByName('minCount').value  #Minimum number of times song should be counted for
+    self.msPlayed = settingByName('minMS').value #Minimum milliseconds the track has to be played to count (unless track was finished)
+    self.songPref = settingByName('songPreference').value #If same songs with different uris, choice of which to keep
+    self.prevCountMatters = settingByName('prevMinCount').value #If True, will follow count rules for previous songs too
+    self.gracePeriod = settingByName('gracePeriod').value #Period at which the count will not matter
     self._convertDatetimes()
 
   def _convertDatetimes(self):

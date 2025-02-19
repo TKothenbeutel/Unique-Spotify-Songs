@@ -2,7 +2,7 @@ import _importENVVar
 
 from os import system, name
 from DataParse import validatedFile, dictToJSON, validatedFolder
-import Settings
+import Settings as S
 from SongStruct import MasterSongContainer
 from ProgressBar import ProgressBar
 from os.path import abspath
@@ -20,7 +20,7 @@ def currentTime():
 def exportSettings():
   fPath = f"savedSettings.txt"
   with open(fPath,'w') as file:
-    for setting in Settings.settings:
+    for setting in S.settings:
       if(setting.options is not None): #Get index of option
         file.write(f'{setting.name}: {setting.options[setting.value]}\n')
       else:
@@ -37,8 +37,8 @@ def importSettings():
         option = i.split(': ')
         numSetting = -1
         #Find setting line corresponds to
-        for i in range(len(Settings.settings)):
-          if(option[0] == Settings.settings[i].name):
+        for i in range(len(S.settings)):
+          if(option[0] == S.settings[i].name):
             numSetting = i+1
             break
 
@@ -48,39 +48,42 @@ def importSettings():
         if(numSetting == -1):
           print(f'Could not find option named {option[0]}.')
           continue
-        Settings.updateValue(str(numSetting),option[1])
+        S.updateValue(str(numSetting),option[1])
+  except FileNotFoundError:
+    print('Could not find saved setting file.')
   except Exception as e:
-    print(f'Could not find saved setting file. {e}')
+    print(f'Could not import settings due to an error ({e}).')
   input(f'Press {bold("Enter")} to return')
   return
 
 def options():
   """Displays the settings and takes in user input to alter them."""
-  Settings.printSettings()
+  S.printSettings()
   while(True):
-    inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold("about")} to learn more about each setting, input {bold("export")} to export current settings, input {bold("import")} to import previously saved settings, or input {bold("back")} to go back.\n')
-    if(inp.lower() == 'about'):
+    inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold("about")} to learn more about each setting, {bold("export")} to export current settings, {bold("import")} to import previously saved settings, or input {bold("back")} to go back.\n')
+    
+    if(inp.lower() == 'about'): #About
       print()
-      Settings.printAbouts()
-    elif(len(inp.split(' ')) == 2):
+      S.printAbouts()
+    elif(len(inp.split(' ')) == 2): #Change setting
       inp = inp.split(' ')
       print()
-      Settings.updateValue(inp[0], inp[1])
+      S.updateValue(inp[0], inp[1])
       inp = ''
-    elif(inp.lower() == 'export'):
+    elif(inp.lower() == 'export'):  #Export
       exportSettings()
-      Settings.printSettings()
-    elif(inp.lower() == 'import'):
+      S.printSettings()
+    elif(inp.lower() == 'import'):  #Import
       importSettings()
-      Settings.printSettings()
-    elif(inp.lower() == 'back'):
+      S.printSettings()
+    elif(inp.lower() == 'back'):  #Back
       return
     else:
       print('Input given could not be used. Please try again.')
 
 def about():
   system('cls' if name == 'nt' else 'clear')
-  print('Made by Taylor Kothenbeutel')
+  print(f'Made by {bold("Taylor Kothenbeutel")}')
   input(f'Press {bold("Enter")} to return')
 
 def saveResults(songContainer:MasterSongContainer):
@@ -98,16 +101,16 @@ def saveResults(songContainer:MasterSongContainer):
   resultToJSON = dictToJSON(plainSongs)
   with open(fPath,'w') as file:
     file.write(resultToJSON)
-  print(f'Song results written in {abspath(fPath)}')
+  print(f'\nSong results written in {abspath(fPath)}')
 
 def addToPlaylist(songContainer:MasterSongContainer):
-  print('To add these songs onto a playlist, some information of your Spotify is first needed.')
+  print(f'\nTo add these songs onto a playlist, some information of your {bold("Spotify")} is first needed.')
   #Get username
-  username = input('Please enter your Spotify username (not your display name): ')
+  username = input(f'Please enter your {bold("Spotify username")} (not your display name): ')
   #Get playlist id (help if needed)
   playlist_id = input(f"Now, please enter the id of the playlist you would like the songs added to. Enter {bold('help')} for information on how to retrieve a playlist's id: ")
   if(playlist_id.lower() == 'help'):
-    print(f"To retrieve a playlist's id, please follow these instructions:\n\t1. Open a web browser and sign into your Spotify account\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This keysmash of characters is your playlist id.")
+    print(f"To retrieve a playlist's id, please follow these instructions:\n\t1. Open a web browser and sign into your {bold('Spotify')} account\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This keysmash of characters is your playlist id.")
     playlist_id = input("Please enter the desired playlist's id: ")
   
   sp = SpotifyGateway(username, playlist_id)
@@ -116,15 +119,15 @@ def addToPlaylist(songContainer:MasterSongContainer):
   print('Making sure playlist is valid and accessible...')
   test = sp.validateInformation()
   if(not test): #Test failed
-    print('Unfortunately, the test was unsuccesful. Please keep in mind to enter your username and a playlist id that you are the owner of.')
-    input(f'Press {bold("Enter")} to try again.')
+    print(f'Unfortunately, the test was unsuccesful. Please keep in mind to enter your {bold("username")} and a {bold("playlist id")} that you are the owner of.')
+    input(f'Press {bold("Enter")} to try again.\n')
     return addToPlaylist(songContainer)
   #Test passed
-  print("Test has successfully passed. Now it's time to add the songs to the playlist.")
+  print("Test has successfully passed. Now it's time to add the songs to the playlist.\n")
   
   #If timer is >0, run timed adder
-  if(Settings.settings['playlistTimer'].value > 0):
-    sp.addToSpotifyTimed(songContainer.desiredSongs,Settings.settings['playlistTimer'].value)
+  if(S.settingByName('playlistTimer').value > 0):
+    sp.addToSpotifyTimed(songContainer.desiredSongs,S.settingByName('playlistTimer').value)
   #Else run batch adder
   else:
     sp.addToSpotifyBatch(songContainer.desiredSongs)
@@ -160,16 +163,16 @@ def welcome():
 def run():
   #Major variables
   dataContainer = [] #Each item will contain a dictionary of what the JSON file had
-  songContainer = MasterSongContainer(Settings.settings)
+  songContainer = MasterSongContainer() #Settings transfer over
   
   system('cls' if name == 'nt' else 'clear')
-  print("Let's begin!")
+  print("Let's begin!\n")
 
   #Gather files
   print("First, let's get every file containing songs from your all time Spotify history.")
-  print(f'Please input a file location (the file should be called {bold("Streaming_History_Audio")}....json), folder containing the files, or input "Done" when all files have been imported in.')
+  print(f'Please input a file location (the file should be called {bold("Streaming_History_Audio")}....json) or a folder containing the files, and input "Done" when all files have been imported in.')
   while(True):
-    inp = input('Enter file location or "Done" here: ')
+    inp = input(f'Enter file location or {bold("Done")} here: ')
     if(inp.lower() == 'done'):
       break
     if(inp[0] == '"' and inp[-1] == '"'): #Disregard quotations around location
@@ -187,7 +190,9 @@ def run():
 
   print()#Spacing
 
-  print('Great! Time to add them into a containers for easier parsing.')
+  print('Great! Time to add them into containers for easier parsing.')
+  
+  input()#Wait for user
 
   #Get total number of songs
   numberSongs = 0
@@ -203,7 +208,9 @@ def run():
   pBar.finish()
 
   #Adding to container results
-  print(f"With adding all the songs to respective containers, {len(songContainer.desiredSongs)} of the {len(songContainer.desiredSongs)+len(songContainer.previousSongs)} songs are potential unique songs listened to in the given range. Let's shrink that number!")
+  print(f"With adding all the songs to respective containers, {bold(str(len(songContainer.desiredSongs)))} of the {bold(str(len(songContainer.desiredSongs)+len(songContainer.previousSongs)))} songs are potential unique songs listened to in the given range. Let's shrink that number!")
+
+  input()#Wait for user
 
   #Parse
   print("Now that all songs have been accounted for, let's get parsing!")
@@ -212,7 +219,7 @@ def run():
   print()#Spacing
 
   #Announce results
-  print(f"Parsing is now complete! In the end, {len(songContainer.desiredSongs)} are found to be unique songs. That's a lot of songs (maybe)!")
+  print(f"Parsing is now complete! In the end, {bold(str(len(songContainer.desiredSongs)))} are found to be unique songs. That's a lot of songs (probably)!\n")
 
   #Save for later or add to playlist
   while(True):
@@ -231,12 +238,12 @@ def run():
       print(f'{inp} is not a valid option. Please respond with either {bold("save")}, {bold("add")}, or {bold("both")} to choose.')
 
   #After saving/adding/bothing
-  print(f'This program is now finished. Thank you for using it!')
+  print(f'This program is now finished. {bold("Thank you for using it!")}')
   input()
   return
 
 
 if __name__ == "__main__":
   _importENVVar.instantiate()
-  Settings.init()
+  S.init()
   welcome()

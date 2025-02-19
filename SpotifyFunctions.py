@@ -44,7 +44,7 @@ class SpotifyGateway():
     """Takes in a dictionary with the URIs as keys and adds each song to the playlist in batches"""
     length = len(songs)
     pBar = ProgressBar(length,"Adding songs to playlist")
-    URIs = list(songs.keys())
+    URIs = list(songs)
     begIndex = 0
     #Add songs in bactches of 100
     while(length - begIndex >= 100):
