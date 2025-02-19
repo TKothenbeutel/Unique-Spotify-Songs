@@ -25,3 +25,9 @@ TODO:
   *Feature: Insert playlist containing songs that can't be included
   *Feature: Insert playlist containing songs that must be included
   *Bold more items
+  *Feature: default settings button
+
+
+Future Plans:
+  *Add in ability to use non-all-time spotify data for this
+  *Something that goes through the data made and make silly graphs with

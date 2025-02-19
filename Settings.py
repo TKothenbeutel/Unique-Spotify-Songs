@@ -107,6 +107,12 @@ def init():
       settings[i].setIndex(f'{i+1}. ')
     else:
       settings[i].setIndex(f'{i+1}.')
+
+def settingByName(name:str):
+  for setting in settings:
+    if setting.name == name:
+      return setting
+  return None
   
 
 
