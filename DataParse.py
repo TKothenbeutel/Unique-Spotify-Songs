@@ -1,11 +1,12 @@
 import json
 from os import listdir
+from Main import bold
 
 def validatedFile(file, ext = '.json') -> str:
   """Get file inputted by user and ensure it can be used."""
   #Check if extension is correct
   if(file[0-len(ext):] != ext):
-    print(f'Please give the absolute file location with extention {ext}.')
+    print(f'Please give the absolute file location with extention {bold(ext)}.')
   else:
     #Attempt to open and close file
     try:
@@ -17,11 +18,11 @@ def validatedFile(file, ext = '.json') -> str:
         return file
     #File can not be found at specified location
     except FileNotFoundError:
-      print("File specified cannot be found. Please use its absolute location and try again.")
+      print(f"File specified cannot be found. Please use its {bold('absolute location')} and try again.")
       return None
     #Unaccounted for error
     except Exception as e:
-      print(f'Unfortanetely, the program ran into error {e}. Please try again.')
+      print(f'Unfortanetely, the program ran into error {bold(e)}. Please try again.')
       return None
 
 def validatedFolder(folder:str) -> list:

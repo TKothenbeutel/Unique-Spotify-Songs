@@ -208,7 +208,7 @@ def run():
   pBar.finish()
 
   #Adding to container results
-  print(f"With adding all the songs to respective containers, {bold(str(len(songContainer.desiredSongs)))} of the {bold(str(len(songContainer.desiredSongs)+len(songContainer.previousSongs)))} songs are potential unique songs listened to in the given range. Let's shrink that number!")
+  print(f"With adding all the songs to respective containers, {bold(len(songContainer.desiredSongs))} of the {bold(len(songContainer.desiredSongs)+len(songContainer.previousSongs))} songs are potential unique songs listened to in the given range. Let's shrink that number!")
 
   input()#Wait for user
 
@@ -219,7 +219,7 @@ def run():
   print()#Spacing
 
   #Announce results
-  print(f"Parsing is now complete! In the end, {bold(str(len(songContainer.desiredSongs)))} are found to be unique songs. That's a lot of songs (probably)!\n")
+  print(f"Parsing is now complete! In the end, {bold(len(songContainer.desiredSongs))} are found to be unique songs. That's a lot of songs (probably)!\n")
 
   #Save for later or add to playlist
   while(True):

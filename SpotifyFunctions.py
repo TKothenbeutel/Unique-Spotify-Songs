@@ -12,13 +12,6 @@ class SpotifyGateway():
                                                  client_id=os.environ['SPOTIPY_CLIENT_ID'],
                                                  client_secret=os.environ['SPOTIPY_CLIENT_SECRET'],
                                                  redirect_uri=os.environ['SPOTIPY_REDIRECT_URI'])
-    '''
-    self._sp = spotipy.Spotify(auth_manager=SpotifyOAuth(username=username,
-                                              client_id=os.environ['SPOTIPY_CLIENT_ID'],
-                                              client_secret=os.environ['SPOTIPY_CLIENT_SECRET'],
-                                              redirect_uri=os.environ['SPOTIPY_REDIRECT_URI'] ,
-                                              scope="user-library-read,playlist-modify-private"))
-    '''
     self.sp = spotipy.Spotify(auth=self.token)
     self.playlist = playlist
     self.username = username
