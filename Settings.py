@@ -29,6 +29,7 @@ the value and print each setting. Settings are as follows:
 from os import system, name
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from Main import bold
 
 class _Setting():
   def __init__(self, name:str, value, message:str, possibleOptions=None, minVal=None, maxVal=None):
@@ -136,12 +137,12 @@ def updateValue(setting:str, value:str):
   if(setting.isdecimal()):
     setting = int(setting) -1
   else:
-    print('Please input a number corresponding to the setting, followed by a value.')
+    print(f'Please input a {bold("number")} corresponding to the setting, followed by a {bold("value")}.')
     return
   
   #Verify setting typed exists
   if(setting < 0 or setting > len(settings)):  #Setting does not exist
-    print(f'{setting+1} is not a possible setting option.')
+    print(f'{bold(setting+1)} is not a possible setting option.')
     return
 
   sName = settings[setting].name
@@ -177,14 +178,14 @@ def updateValue(setting:str, value:str):
       newNum = settings[setting].options.index(value.lower())
       settings[setting].updateValue(newNum)
     except:
-      print(f'{value} is not a valid choice for setting {sName}.')
-      input('Press "Enter" to return')
+      print(f'{bold(value)} is not a valid choice for setting {bold(sName)}.')
+      input(f'Press {bold("Enter")} to return.')
       return printSettings()
   elif(type(settings[setting].value) == type(value)): #Value is correct type
     settings[setting].updateValue(value)
   else: #Value is not correct
-    print(f'{sName} must take input of type {type(settings[setting].value)}.')
-    input('Press "Enter" to return')
+    print(f'{bold(sName)} must take input of type {bold(type(settings[setting].value))}.')
+    input(f'Press {bold("Enter")} to return.')
     return printSettings()
   printSettings()  
   

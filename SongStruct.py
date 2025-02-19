@@ -1,6 +1,5 @@
 from datetime import datetime
 from ProgressBar import ProgressBar
-from Settings import settingByName
 
 class SongsContainer(object):
   """ """
@@ -109,6 +108,7 @@ class SongsContainer(object):
 class MasterSongContainer(object):
   """ """
   def __init__(self):
+    from Settings import settingByName
     self.desiredSongs = SongsContainer()
     self.previousSongs = SongsContainer()
     #Keep easier reachable references for needed settings
@@ -279,7 +279,7 @@ if __name__ == "__main__":
   Settings.updateValue('earlyRange','2023-10-17')
   Settings.updateValue('songPreference','both')
   #Mann so much testing will be needed...
-  test_container = MasterSongContainer(Settings.settings)
+  test_container = MasterSongContainer()
   #skipped = 1 (eyewishes)
   #unknown = 1 (in desired)
   #len = 9 - 2
