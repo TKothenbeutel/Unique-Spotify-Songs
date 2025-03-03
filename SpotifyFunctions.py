@@ -23,6 +23,15 @@ class SpotifyGateway():
       return playlist['owner']['id'] == self.username
     except:
       return False
+    
+  def getPlaylistSongs(self):
+    results = self.sp.user_playlist_tracks(self.username,self.playlist)
+    tracks = results['items']
+    while results['next']:
+        results = self.sp.next(results)
+        tracks.extend(results['items'])
+    return tracks
+    self.sp.user_playlist_tracks(self.username, self.playlist)
   
   def addToSpotifyTimed(self,songs:dict,time:float):
     """Takes in a dictionary with the URIs as keys and adds each song to the playlist one at a time"""
@@ -57,6 +66,7 @@ if __name__ == "__main__":
   os.environ['SPOTIPY_CLIENT_ID'] = '***REMOVED***'
   os.environ['SPOTIPY_CLIENT_SECRET'] = '***REMOVED***'
   os.environ['SPOTIPY_REDIRECT_URI'] = '***REMOVED***'
+  '''
   temp = DataParse.validatedFile("sophomoreResults.json")
   test = {}
   for i in temp:
@@ -65,8 +75,30 @@ if __name__ == "__main__":
   for i in test:
     print(i, test[i])
     break
-  sp = SpotifyGateway('kothenbeutel','4ciSROGT0MXGOHO0QyyQZG')#'0GVSAKCLow1SlOZPq325c7')
+  '''
+  sp = SpotifyGateway('kothenbeutel','7L40apfN820LogCSpfMmjp')#'4ciSROGT0MXGOHO0QyyQZG')#'0GVSAKCLow1SlOZPq325c7')
   #sp.addToSpotifyTimed(test,0.01)
   #sp.addToSpotifyBatch(test)
   print(sp.validateInformation())
+  test = sp.getPlaylistSongs()
+  print(len(test))
+  print(type(test))
+  print(test[0])
+  print()
+  print(test[0]['track'].keys())
+  print(test[0]['track']['uri'])
+  print(test[0]['track']['artists'][0]['name'])
+  print(test[0]['track']['album']['name'])
+  print(test[0]['track']['name'])
+
+
+  """
+  "spotify:track:1MsU7LDRTqvMaKbptPp72z": {
+        "timestamp": "2024-02-17 00:02:01",
+        "title": "For The Wicked",
+        "artist": "Friday Pilots Club",
+        "album": "For The Wicked",
+        "count": 2
+    },
+  """
 

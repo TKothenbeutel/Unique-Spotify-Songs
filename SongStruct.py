@@ -8,12 +8,12 @@ class SongsContainer(object):
 
     __slots__ = "uri", "ts", "title", "artist", "album", "count"
 
-    def __init__(self, ts: datetime, song_title: str, song_artist: str, album: str):
+    def __init__(self, ts: datetime, song_title: str, song_artist: str, album: str, count:int):
       self.ts = ts
       self.title = song_title
       self.artist = song_artist
       self.album = album
-      self.count = 1
+      self.count = count
 
     def __eq__(self, other) -> bool:
       return self.title == other.title and self.artist == other.artist
@@ -37,8 +37,8 @@ class SongsContainer(object):
     self._songs = {}  #Dictionary with key = song URI and value = song info
     self._artists = {} #Dictionary with key = artist and value = set of keys
 
-  def addSong(self, uri: int, ts, song_title: str, song_artist: str, album: str):
-    song = self._Song(ts, song_title, song_artist, album)
+  def addSong(self, uri: int, ts, song_title: str, song_artist: str, album: str, count = 1):
+    song = self._Song(ts, song_title, song_artist, album, count)
     if(uri in self):  #If song's uri is already in dictionary
       self._addCount(uri)
       if(ts < self.getTS(uri)): #Take the earliest date
@@ -161,6 +161,16 @@ class MasterSongContainer(object):
         self.previousSongs.addSong(uri, ts, title, artist, album)
       else:
         self.desiredSongs.addSong(uri, ts, title, artist, album)
+  
+  def forceAdd(self, uri:str, title:str, artist:str, album:str) -> None:
+    """Given a song uri, title, artist, and album, add it to the desiredSongs"""
+    today = datetime.today()
+    self.desiredSongs.addSong(uri, today, title, artist, album, count=0)
+
+    
+  def forceRemove(self, uri: str) -> None:
+    """Finds given song uri and removes it from desiredSongs"""
+    pass
 
 
   def removeLowCount(self) -> None:
