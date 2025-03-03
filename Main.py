@@ -8,23 +8,24 @@ from ProgressBar import ProgressBar
 from os.path import abspath
 from datetime import datetime
 from SpotifyFunctions import SpotifyGateway
-
-def bold(s:str)->str:
-  """Formats to bold given string when printed in console"""
-  ###Look into blessed to make UI a bit more pretty (may need big overhaul...)
-  return f'\u001b[1m{s}\u001b[0m' if True else f'"{s}"'
+from Formatting import *
 
 def currentTime():
   return f'{datetime.today().date()}_{str(datetime.today().time()).replace(":","-")[:8]}'
 
 def exportSettings():
   fPath = f"savedSettings.txt"
-  with open(fPath,'w') as file:
+  #Access savedSettings.txt (assume already created because of bold quesiton)
+  with open(fPath, 'r+') as file:
+    bolded = file.readline()
+    file.seek(0)
+    file.write(bolded)
     for setting in S.settings:
       if(setting.options is not None): #Get index of option
         file.write(f'{setting.name}: {setting.options[setting.value]}\n')
       else:
         file.write(f'{setting.name}: {setting.value}\n')
+    file.truncate()
   print(f'Settings saved at {abspath(fPath)}. Please do not edit or relocate file.')
   input(f'Press {bold("Enter")} to return')
   return
@@ -60,9 +61,9 @@ def options():
   """Displays the settings and takes in user input to alter them."""
   S.printSettings()
   while(True):
-    inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold("about")} to learn more about each setting, {bold("export")} to export current settings, {bold("import")} to import previously saved settings, or input {bold("back")} to go back.\n')
+    inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold("about")} to learn more about each setting, {bold("export")} to export current settings, {bold("import")} to import previously saved settings, or input {bold("back")} to go back. You may also input {bold("default")} to revert the settings back to their default values.\n').lower()
     
-    if(inp.lower() == 'about'): #About
+    if(inp == 'about'): #About
       print()
       S.printAbouts()
     elif(len(inp.split(' ')) == 2): #Change setting
@@ -70,14 +71,17 @@ def options():
       print()
       S.updateValue(inp[0], inp[1])
       inp = ''
-    elif(inp.lower() == 'export'):  #Export
+    elif(inp == 'export'):  #Export
       exportSettings()
       S.printSettings()
-    elif(inp.lower() == 'import'):  #Import
+    elif(inp == 'import'):  #Import
       importSettings()
       S.printSettings()
-    elif(inp.lower() == 'back'):  #Back
+    elif(inp == 'back'):  #Back
       return
+    elif(inp == 'default'):
+      S.init()
+      S.printSettings()
     else:
       print('Input given could not be used. Please try again.')
 
@@ -245,5 +249,7 @@ def run():
 
 if __name__ == "__main__":
   _importENVVar.instantiate()
+  system('cls' if name == 'nt' else 'clear')
   S.init()
+  initBold()
   welcome()
