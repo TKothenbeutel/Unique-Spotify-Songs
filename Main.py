@@ -77,7 +77,7 @@ def options():
     elif(inp == 'import'):  #Import
       importSettings()
       S.printSettings()
-    elif(inp == 'back'):  #Back
+    elif(inp == 'back' or inp == 'b'):  #Back
       return
     elif(inp == 'default'):
       S.init()
@@ -158,7 +158,7 @@ def welcome():
     about()
     print()
     return welcome()
-  elif(inp == 'exit'):
+  elif(inp == 'exit' or inp == 'q' or inp == 'e'):
     return
   else:
     print("Couldn't use input. Please try again\n")
@@ -228,13 +228,13 @@ def run():
   #Save for later or add to playlist
   while(True):
     inp = input(f"Would you like to {bold('save')} the results, {bold('add')} the unique songs to a playlist, or do {bold('both')} options? ").lower()
-    if(inp == 'save'):
+    if(inp == 'save' or inp == 's'):
       saveResults(songContainer)
       break
-    elif(inp == 'add'):
+    elif(inp == 'add' or inp == 'a'):
       addToPlaylist(songContainer)
       break
-    elif(inp == 'both'):
+    elif(inp == 'both' or inp == 'b'):
       saveResults(songContainer)
       addToPlaylist(songContainer)
       break
