@@ -138,6 +138,67 @@ def addToPlaylist(songContainer:MasterSongContainer):
   print('All songs successfully added to the playlist.')
   return
 
+def forceAddRemove(songContainer:MasterSongContainer):
+  system('cls' if name == 'nt' else 'clear')
+  #Force add
+  inp = input(f"I'm sure you got some great songs snagged already, but would you like any songs required to be in this data, regardless if it's a unique song or not? {bold('(y/n)')} ").lower()
+  if(inp == 'y' or inp == 'yes'):
+    print("Sounds good! To do this, add the songs you would like to be force added to this data into a spotify playlist. Please note that timestamp added these songs will be today's date and current time. If you save your song results, the songs added through this method will have a count of 0.")
+    print(f"To get the playlist for songs to include into the data, this program will need your {bold("Spotify username")} and the {bold("playlist id")}. Feel free to input {bold('q')} when prompted for your username or playlist id to stop this process.")
+    
+    print()
+    
+    sp = None
+    while(True): #Do this until it they give usable stuff
+      #Get username
+      username = input(f'Please enter your {bold("Spotify username")} (not your display name): ')
+      if(username.lower() == 'q'):
+        break
+      #Get playlist id (help if needed)
+      playlist_id = input(f"Now, please enter the id of the playlist containing the songs you would like added. Enter {bold('help')} for information on how to retrieve a playlist's id: ")
+      if(playlist_id.lower() == 'help'):
+        print(f"To retrieve a playlist's id, please follow these instructions:\n\t1. Open a web browser and sign into your {bold('Spotify')} account\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This keysmash of characters is your playlist id.")
+        playlist_id = input("Please enter the desired playlist's id: ")
+      if(username.lower() == 'q'):
+        break
+
+      sp = SpotifyGateway(username, playlist_id)
+
+      #Test
+      print('Making sure playlist is valid and accessible...')
+      test = sp.validateInformation()
+      if(not test): #Test failed
+        print(f'Unfortunately, the test was unsuccesful. Please keep in mind to enter your {bold("username")} and a {bold("playlist id")} that you are the owner of.')
+        input(f'Press {bold("Enter")} to try again.\n')
+        sp = None
+      else: #Test passed
+        break
+    
+    if(sp is not None): #They went through with username/playlist
+      print("Time to add these songs to the data!")
+      songs = sp.getPlaylistSongs()
+      pBar = ProgressBar(len(songs), 'Adding songs to dataset')
+      for song in songs:
+        uri = song['track']['uri']
+        if(uri in songContainer.desiredSongs):
+          pBar.updateProgress() #Song already in dataset
+        else:
+          title = song['track']['name']
+          artist = song['track']['artists'][0]['name']
+          album = song['track']['album']['name']
+          songContainer.forceAdd(uri, title, artist, album)
+          pBar.updateProgress()
+      print(f"Your new total is now {bold(len(songContainer.desiredSongs))} songs!")
+      input()#Wait for user
+  elif(inp == 'n' or inp == 'no'):
+    pass
+  else:
+    input("Sorry, that input couldn't be read, please try again. ")
+    return forceAddRemove()
+
+  #Force remove
+
+
 
 def welcome():
   """Prints messages that appear at the start of the program."""
@@ -224,6 +285,11 @@ def run():
 
   #Announce results
   print(f"Parsing is now complete! In the end, {bold(len(songContainer.desiredSongs))} are found to be unique songs. That's a lot of songs (probably)!\n")
+
+  input()#Wait for user
+
+  #Force add or remove any songs
+  forceAddRemove()
 
   #Save for later or add to playlist
   while(True):
