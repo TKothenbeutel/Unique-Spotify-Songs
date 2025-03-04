@@ -22,7 +22,7 @@ Main.py -
 
 TODO:
   *Debug --done (for now)
-  *Feature: Insert playlist containing songs that can't be included
+  *Feature: Insert playlist containing songs that can't be included --done (not tested)
   *Feature: Insert playlist containing songs that must be included --done (not tested)
   *Bold more items --Done: Main, Settings, DataParse, SpotifyFunctions
   *Feature: Skip to song adding
