@@ -285,7 +285,7 @@ def run():
     inp = input(f'Enter file location or {bold("Done")} here: ')
     if(inp.lower() == 'done'):
       break
-    if(inp[0] == '"' and inp[-1] == '"'): #Disregard quotations around location
+    if(len(inp) > 2 and inp[0] == '"' and inp[-1] == '"'): #Disregard quotations around location
       inp = inp[1:-1]
     #Check if location is folder
     if(".json" not in inp):
@@ -364,19 +364,21 @@ def resume():
 
   masterSongs = MasterSongContainer()
 
-  file = input(f"First, please input the {bold('abolute path')} of your results from previously using this program. Ensure this file has not been altered, otherwise the program may not be able to use that file.")
-  if(file[0] == '"' and file[-1] == '"'): #Disregard quotations around location
+  print(f"First, please input the {bold('abolute path')} of your results from previously using this program. Ensure this file has not been altered, otherwise the program may not be able to use that file.")
+  file = input(f'Enter file location here: ')
+  if(len(file) > 2 and file[0] == '"' and file[-1] == '"'): #Disregard quotations around location
       file = file[1:-1]
   addResult = masterSongs.desiredSongs.addFromFile(file)
   while(not addResult):
     input("Please try again.")
-    file = input(f"Input the {bold('abolute path')} of your results from previously using this program. Ensure this file has not been altered, otherwise the program may not be able to use that file.")
-    if(file[0] == '"' and file[-1] == '"'): #Disregard quotations around location
+    print(f"Input the {bold('abolute path')} of your results from previously using this program. Ensure this file has not been altered, otherwise the program may not be able to use that file.")
+    file = input(f'Enter file location here: ')
+    if(len(file) > 2 and file[0] == '"' and file[-1] == '"'): #Disregard quotations around location
       file = file[1:-1]
     addResult = masterSongs.desiredSongs.addFromFile(file)
   
   #Songs added
-  print(f"All {len(masterSongs.desiredSongs)} have been imported! Let's move on.")
+  print(f"All {len(masterSongs.desiredSongs)} songs have been imported! Let's move on.")
   input()#Wait for user
 
   #Force add/remove
