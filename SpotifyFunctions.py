@@ -24,14 +24,16 @@ class SpotifyGateway():
     except:
       return False
     
-  def getPlaylistSongs(self):
-    results = self.sp.user_playlist_tracks(self.username,self.playlist)
-    tracks = results['items']
-    while results['next']:
+  def getPlaylistSongs(self, playlist_id: str):
+    try:
+      results = self.sp.user_playlist_tracks(self.username, playlist_id)
+      tracks = results['items']
+      while results['next']:
         results = self.sp.next(results)
         tracks.extend(results['items'])
-    return tracks
-    self.sp.user_playlist_tracks(self.username, self.playlist)
+      return tracks
+    except:
+      return None
   
   def addToSpotifyTimed(self,songs:dict,time:float):
     """Takes in a dictionary with the URIs as keys and adds each song to the playlist one at a time"""
@@ -76,21 +78,24 @@ if __name__ == "__main__":
     print(i, test[i])
     break
   '''
-  sp = SpotifyGateway('kothenbeutel','7L40apfN820LogCSpfMmjp')#'4ciSROGT0MXGOHO0QyyQZG')#'0GVSAKCLow1SlOZPq325c7')
+  #sp = SpotifyGateway('kothenbeutel','7L40apfN820LogCSpfMmjp')#'4ciSROGT0MXGOHO0QyyQZG')#'0GVSAKCLow1SlOZPq325c7')
   #sp.addToSpotifyTimed(test,0.01)
   #sp.addToSpotifyBatch(test)
-  print(sp.validateInformation())
-  test = sp.getPlaylistSongs()
-  print(len(test))
-  print(type(test))
-  print(test[0])
-  print()
-  print(test[0]['track'].keys())
-  print(test[0]['track']['uri'])
-  print(test[0]['track']['artists'][0]['name'])
-  print(test[0]['track']['album']['name'])
-  print(test[0]['track']['name'])
+  #print(sp.validateInformation())
+  #test = sp.getPlaylistSongs()
+  #print(len(test))
+  #print(type(test))
+  #print(test[0])
+  #print()
+  #print(test[0]['track'].keys())
+  #print(test[0]['track']['uri'])
+  #print(test[0]['track']['artists'][0]['name'])
+  #print(test[0]['track']['album']['name'])
+  #print(test[0]['track']['name'])
+  #print(sp.sp.user_playlist_tracks(None,'4ciSROGT0MXGOHO0QyyQZG'))
 
+  sp = SpotifyGateway(None, None)
+  print(sp.sp.user_playlist_tracks(None, 'notRealPlaylist'))
 
   """
   "spotify:track:1MsU7LDRTqvMaKbptPp72z": {

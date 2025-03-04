@@ -140,56 +140,49 @@ def addToPlaylist(songContainer:MasterSongContainer):
 
 def forceAddRemove(songContainer:MasterSongContainer):
   system('cls' if name == 'nt' else 'clear')
+
   #Force add
   inp = input(f"I'm sure you got some great songs snagged already, but would you like any songs required to be in this data, regardless if it's a unique song or not? {bold('(y/n)')} ").lower()
+
   if(inp == 'y' or inp == 'yes'):
-    print("Sounds good! To do this, add the songs you would like to be force added to this data into a spotify playlist. Please note that timestamp added these songs will be today's date and current time. If you save your song results, the songs added through this method will have a count of 0.")
-    print(f"To get the playlist for songs to include into the data, this program will need your {bold("Spotify username")} and the {bold("playlist id")}. Feel free to input {bold('q')} when prompted for your username or playlist id to stop this process.")
-    
-    print()
-    
-    sp = None
-    while(True): #Do this until it they give usable stuff
-      #Get username
-      username = input(f'Please enter your {bold("Spotify username")} (not your display name): ')
-      if(username.lower() == 'q'):
-        break
-      #Get playlist id (help if needed)
-      playlist_id = input(f"Now, please enter the id of the playlist containing the songs you would like added. Enter {bold('help')} for information on how to retrieve a playlist's id: ")
-      if(playlist_id.lower() == 'help'):
+    print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force added to this data. Please note that timestamp added these songs will be today's date and current time. If you save your song results, the songs added through this method will have a count of 0.")
+    print()#Spacer
+
+    sp = SpotifyGateway(None, None)
+    songs = []
+    while(True):
+      playlist = input(f"Please enter the id of the playlist containing the songs you would like added. Enter {bold('help')} for information on how to retrieve a playlist's id, or enter {bold('done')} when you are finished inputting playlist ids: ")
+      if(playlist.lower() == 'help'):
         print(f"To retrieve a playlist's id, please follow these instructions:\n\t1. Open a web browser and sign into your {bold('Spotify')} account\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This keysmash of characters is your playlist id.")
-        playlist_id = input("Please enter the desired playlist's id: ")
-      if(username.lower() == 'q'):
+        playlist = input("Please enter the desired playlist's id: ")
+      elif(playlist.lower() == 'done'):
         break
-
-      sp = SpotifyGateway(username, playlist_id)
-
-      #Test
-      print('Making sure playlist is valid and accessible...')
-      test = sp.validateInformation()
-      if(not test): #Test failed
-        print(f'Unfortunately, the test was unsuccesful. Please keep in mind to enter your {bold("username")} and a {bold("playlist id")} that you are the owner of.')
-        input(f'Press {bold("Enter")} to try again.\n')
-        sp = None
-      else: #Test passed
-        break
+      else:
+        track_results = sp.getPlaylistSongs(playlist)
+        if(track_results is None):
+          print("The input given could not be read properly, or the playlist given is empty. Remember to enter a playlist id one at a time. Please try again.")
+          input()#Wait for user
+          continue
+        songs.append(track_results)
+        print(f"Found {len(track_results)} songs from this playlist.")
+        input()#Wait for user
     
-    if(sp is not None): #They went through with username/playlist
-      print("Time to add these songs to the data!")
-      songs = sp.getPlaylistSongs()
-      pBar = ProgressBar(len(songs), 'Adding songs to dataset')
-      for song in songs:
-        uri = song['track']['uri']
-        if(uri in songContainer.desiredSongs):
-          pBar.updateProgress() #Song already in dataset
-        else:
-          title = song['track']['name']
-          artist = song['track']['artists'][0]['name']
-          album = song['track']['album']['name']
-          songContainer.forceAdd(uri, title, artist, album)
-          pBar.updateProgress()
-      print(f"Your new total is now {bold(len(songContainer.desiredSongs))} songs!")
-      input()#Wait for user
+    print("Time to add these songs to the data!")
+    pBar = ProgressBar(len(songs), 'Adding songs to dataset')
+    for song in songs:
+      uri = song['track']['uri']
+      if(uri in songContainer.desiredSongs):
+        pBar.updateProgress() #Song already in dataset
+      else:
+        title = song['track']['name']
+        artist = song['track']['artists'][0]['name']
+        album = song['track']['album']['name']
+        songContainer.forceAdd(uri, title, artist, album)
+        pBar.updateProgress()
+    pBar.finish()
+    print(f"Your new total is now {bold(len(songContainer.desiredSongs))} songs!")
+    input()#Wait for user
+    system('cls' if name == 'nt' else 'clear')
   elif(inp == 'n' or inp == 'no'):
     pass
   else:
@@ -197,6 +190,49 @@ def forceAddRemove(songContainer:MasterSongContainer):
     return forceAddRemove()
 
   #Force remove
+  while(True):#While loop in case input could not be read
+    inp = input(f"Would you like any songs to be forced removed from this data? {bold('(y/n)')} ").lower()
+    
+    if(inp == 'y' or inp == 'yes'):
+      print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force removed from this data.")
+      print()
+
+      sp = SpotifyGateway(None, None)
+      songs = []
+      while(True):
+        playlist = input(f"Please enter the id of the playlist containing the songs you would like removed. Enter {bold('help')} for information on how to retrieve a playlist's id, or enter {bold('done')} when you are finished inputting playlist ids: ")
+        if(playlist.lower() == 'help'):
+          print(f"To retrieve a playlist's id, please follow these instructions:\n\t1. Open a web browser and sign into your {bold('Spotify')} account\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This keysmash of characters is your playlist id.")
+          playlist = input("Please enter the desired playlist's id: ")
+        elif(playlist.lower() == 'done'):
+          break
+        else:
+          track_results = sp.getPlaylistSongs(playlist)
+          if(track_results is None):
+            print("The input given could not be read properly, or the playlist given is empty. Remember to enter a playlist id one at a time. Please try again.")
+            input()#Wait for user
+            continue
+          songs.append(track_results)
+          print(f"Found {len(track_results)} songs from this playlist.")
+          input()#Wait for user
+      
+      print("Time to remove these songs from the data!")
+      pBar = ProgressBar(len(songs), 'Removing songs from dataset')
+      for song in songs:
+        uri = song['track']['uri']
+        songContainer.forceRemove(uri)
+        pBar.updateProgress()
+      pBar.finish()
+      print(f"Your new total is now {bold(len(songContainer.desiredSongs))} songs!")
+      input()#Wait for user
+      system('cls' if name == 'nt' else 'clear')
+      return
+    elif(inp == 'n' or inp == 'no'):
+      return
+    else:
+      input("Sorry, that input couldn't be read, please try again. ")
+      system('cls' if name == 'nt' else 'clear')
+      continue
 
 
 
