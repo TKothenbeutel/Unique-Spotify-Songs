@@ -3,7 +3,7 @@ import _importENVVar
 from os import system, name
 from DataParse import validatedFile, dictToJSON, validatedFolder
 import Settings as S
-from SongStruct import MasterSongContainer
+from SongStruct import MasterSongContainer, SongsContainer
 from ProgressBar import ProgressBar
 from os.path import abspath
 from datetime import datetime
@@ -138,7 +138,9 @@ def addToPlaylist(songContainer:MasterSongContainer):
   print('All songs successfully added to the playlist.')
   return
 
-def forceAddRemove(songContainer:MasterSongContainer):
+def forceAddRemove(songContainer:MasterSongContainer) -> bool:
+  """Asks user if they would like to force add/remove songs. Returns True if they did do either."""
+  containerAltered = False
   system('cls' if name == 'nt' else 'clear')
 
   #Force add
@@ -174,6 +176,7 @@ def forceAddRemove(songContainer:MasterSongContainer):
       if(uri in songContainer.desiredSongs):
         pBar.updateProgress() #Song already in dataset
       else:
+        containerAltered = True
         title = song['track']['name']
         artist = song['track']['artists'][0]['name']
         album = song['track']['album']['name']
@@ -217,18 +220,21 @@ def forceAddRemove(songContainer:MasterSongContainer):
           input()#Wait for user
       
       print("Time to remove these songs from the data!")
+      prevLen = len(songContainer.desiredSongs)
       pBar = ProgressBar(len(songs), 'Removing songs from dataset')
       for song in songs:
         uri = song['track']['uri']
         songContainer.forceRemove(uri)
         pBar.updateProgress()
       pBar.finish()
+      if(prevLen > len(songContainer.desiredSongs)):
+        containerAltered = True
       print(f"Your new total is now {bold(len(songContainer.desiredSongs))} songs!")
       input()#Wait for user
       system('cls' if name == 'nt' else 'clear')
-      return
+      return containerAltered
     elif(inp == 'n' or inp == 'no'):
-      return
+      return containerAltered
     else:
       input("Sorry, that input couldn't be read, please try again. ")
       system('cls' if name == 'nt' else 'clear')
@@ -241,12 +247,15 @@ def welcome():
   system('cls' if name == 'nt' else 'clear')
   print(f'Welcome to the {bold("Spotify Unique Song Parser")}!')
   print(f'{bold("Start")}: Gather you Spotify data and parse through it')
+  print(f'{bold("Resume")}: Use previous program results and skip the parsing')
   print(f'{bold("Settings")}: View and change the settings')
   print(f'{bold("About")}: Learn more about this program')
   print(f'{bold("Exit")}: Close the program')
   inp = input('\n\n').lower()
   if(inp == 'start'):
     return run()
+  elif(inp == 'resume'):
+    return resume()
   elif(inp == 'settings'):
     options()
     print()
@@ -345,9 +354,60 @@ def run():
 
   #After saving/adding/bothing
   print(f'This program is now finished. {bold("Thank you for using it!")}')
-  input()
+  input()#Wait for user
   return
 
+def resume():
+  system('cls' if name == 'nt' else 'clear')
+  print("Welcome back! Let's get your previously saved data.")
+  input()#Wait for user
+
+  masterSongs = MasterSongContainer()
+
+  file = input(f"First, please input the {bold('abolute path')} of your results from previously using this program. Ensure this file has not been altered, otherwise the program may not be able to use that file.")
+  if(file[0] == '"' and file[-1] == '"'): #Disregard quotations around location
+      file = file[1:-1]
+  addResult = masterSongs.desiredSongs.addFromFile(file)
+  while(not addResult):
+    input("Please try again.")
+    file = input(f"Input the {bold('abolute path')} of your results from previously using this program. Ensure this file has not been altered, otherwise the program may not be able to use that file.")
+    if(file[0] == '"' and file[-1] == '"'): #Disregard quotations around location
+      file = file[1:-1]
+    addResult = masterSongs.desiredSongs.addFromFile(file)
+  
+  #Songs added
+  print(f"All {len(masterSongs.desiredSongs)} have been imported! Let's move on.")
+  input()#Wait for user
+
+  #Force add/remove
+  altered = forceAddRemove(masterSongs)
+  
+  #Check if results were altered
+  if(altered):
+    while(True):
+      inp = input(f"Because the results were just altered, would you like to {bold('save')} the results to a new file, {bold('add')} the unique songs to a playlist, or do {bold('both')} options? ").lower()
+      if(inp == 'save' or inp == 's'):
+        saveResults(masterSongs)
+        break
+      elif(inp == 'add' or inp == 'a'):
+        addToPlaylist(masterSongs)
+        break
+      elif(inp == 'both' or inp == 'b'):
+        saveResults(masterSongs)
+        addToPlaylist(masterSongs)
+        break
+      else:
+        print(f'{inp} is not a valid option. Please respond with either {bold("save")}, {bold("add")}, or {bold("both")} to choose.')
+  else: #Results were not altered
+    print("Okay, time for the start of this show: adding these songs to a Spotify playlist!")
+    input()#Wait for user
+    addToPlaylist(masterSongs)
+
+  #After adding
+  print(f'This program is now finished. {bold("Thank you for using it!")}')
+  input()#Wait for user
+  return
+  
 
 if __name__ == "__main__":
   _importENVVar.instantiate()

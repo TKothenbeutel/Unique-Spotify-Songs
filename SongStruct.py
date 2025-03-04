@@ -1,5 +1,6 @@
 from datetime import datetime
 from ProgressBar import ProgressBar
+from DataParse import validatedFile
 
 class SongsContainer(object):
   """ """
@@ -36,6 +37,31 @@ class SongsContainer(object):
   def __init__(self):
     self._songs = {}  #Dictionary with key = song URI and value = song info
     self._artists = {} #Dictionary with key = artist and value = set of keys
+
+  def addFromFile(self, file: str) -> bool:
+    '''Validates a file containing results from past program run, and adds them to self. Returns False if anything fails, otherwise True.'''
+    song_dict = validatedFile(file)
+    if(song_dict is None):
+      return False
+    #Ensure each song can be added
+    pBar = ProgressBar(len(song_dict), "Validating file contents")
+    tempContainer = SongsContainer()
+    for uri in song_dict:
+      if(type(uri) != str):
+        return False
+      for detail in ["timestamp","title","artist","album","count"]:
+        if(detail not in song_dict[uri]):
+          return False
+      tempContainer.addSong(uri,
+                            song_dict[uri]['timestamp'],
+                            song_dict[uri]['title'],
+                            song_dict[uri]['artist'],
+                            song_dict[uri]['album'],
+                            song_dict[uri]['count'])
+      pBar.updateProgress()
+    pBar.finish()
+    self = tempContainer
+    return True
 
   def addSong(self, uri: int, ts, song_title: str, song_artist: str, album: str, count = 1):
     song = self._Song(ts, song_title, song_artist, album, count)
