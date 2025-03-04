@@ -60,7 +60,8 @@ class SongsContainer(object):
                             song_dict[uri]['count'])
       pBar.updateProgress()
     pBar.finish()
-    self = tempContainer
+    self._songs = tempContainer._songs
+    self._artists = tempContainer._artists
     return True
 
   def addSong(self, uri: int, ts, song_title: str, song_artist: str, album: str, count = 1):
