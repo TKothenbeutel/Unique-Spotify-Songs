@@ -3,7 +3,7 @@ import _importENVVar
 from os import system, name
 from DataParse import validatedFile, dictToJSON, validatedFolder
 import Settings as S
-from SongStruct import MasterSongContainer, SongsContainer
+from SongStruct import MasterSongContainer
 from ProgressBar import ProgressBar
 from os.path import abspath
 from datetime import datetime
