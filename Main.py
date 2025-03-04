@@ -128,7 +128,8 @@ def addToPlaylist(songContainer:MasterSongContainer):
     return addToPlaylist(songContainer)
   #Test passed
   print("Test has successfully passed. Now it's time to add the songs to the playlist.\n")
-  
+  input()#Wait for user
+
   #If timer is >0, run timed adder
   if(S.settingByName('playlistTimer').value > 0):
     sp.addToSpotifyTimed(songContainer.desiredSongs,S.settingByName('playlistTimer').value)
@@ -165,26 +166,27 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
           print("The input given could not be read properly, or the playlist given is empty. Remember to enter a playlist id one at a time. Please try again.")
           input()#Wait for user
           continue
-        songs.append(track_results)
+        songs += track_results
         print(f"Found {len(track_results)} songs from this playlist.")
         input()#Wait for user
     
-    print("Time to add these songs to the data!")
-    pBar = ProgressBar(len(songs), 'Adding songs to dataset')
-    for song in songs:
-      uri = song['track']['uri']
-      if(uri in songContainer.desiredSongs):
-        pBar.updateProgress() #Song already in dataset
-      else:
-        containerAltered = True
-        title = song['track']['name']
-        artist = song['track']['artists'][0]['name']
-        album = song['track']['album']['name']
-        songContainer.forceAdd(uri, title, artist, album)
-        pBar.updateProgress()
-    pBar.finish()
-    print(f"Your new total is now {bold(len(songContainer.desiredSongs))} songs!")
-    input()#Wait for user
+    if(len(songs)>0):
+      print("Time to add these songs to the data!")
+      pBar = ProgressBar(len(songs), 'Adding songs to dataset')
+      for song in songs:
+        uri = song['track']['uri']
+        if(uri in songContainer.desiredSongs):
+          pBar.updateProgress() #Song already in dataset
+        else:
+          containerAltered = True
+          title = song['track']['name']
+          artist = song['track']['artists'][0]['name']
+          album = song['track']['album']['name']
+          songContainer.forceAdd(uri, title, artist, album)
+          pBar.updateProgress()
+      pBar.finish()
+      print(f"Your new total is now {bold(len(songContainer.desiredSongs))} songs!")
+      input()#Wait for user
     system('cls' if name == 'nt' else 'clear')
   elif(inp == 'n' or inp == 'no'):
     pass
@@ -215,22 +217,23 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
             print("The input given could not be read properly, or the playlist given is empty. Remember to enter a playlist id one at a time. Please try again.")
             input()#Wait for user
             continue
-          songs.append(track_results)
+          songs += track_results
           print(f"Found {len(track_results)} songs from this playlist.")
           input()#Wait for user
       
-      print("Time to remove these songs from the data!")
-      prevLen = len(songContainer.desiredSongs)
-      pBar = ProgressBar(len(songs), 'Removing songs from dataset')
-      for song in songs:
-        uri = song['track']['uri']
-        songContainer.forceRemove(uri)
-        pBar.updateProgress()
-      pBar.finish()
-      if(prevLen > len(songContainer.desiredSongs)):
-        containerAltered = True
-      print(f"Your new total is now {bold(len(songContainer.desiredSongs))} songs!")
-      input()#Wait for user
+      if(len(songs)>0):
+        print("Time to remove these songs from the data!")
+        prevLen = len(songContainer.desiredSongs)
+        pBar = ProgressBar(len(songs), 'Removing songs from dataset')
+        for song in songs:
+          uri = song['track']['uri']
+          songContainer.forceRemove(uri)
+          pBar.updateProgress()
+        pBar.finish()
+        if(prevLen > len(songContainer.desiredSongs)):
+          containerAltered = True
+        print(f"Your new total is now {bold(len(songContainer.desiredSongs))} songs!")
+        input()#Wait for user
       system('cls' if name == 'nt' else 'clear')
       return containerAltered
     elif(inp == 'n' or inp == 'no'):
@@ -360,7 +363,7 @@ def run():
 def resume():
   system('cls' if name == 'nt' else 'clear')
   print("Welcome back! Let's get your previously saved data.")
-  input()#Wait for user
+  print()#Spacer
 
   masterSongs = MasterSongContainer()
 
