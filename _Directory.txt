@@ -25,7 +25,7 @@ TODO:
   *Feature: Insert playlist containing songs that can't be included --done (not tested)
   *Feature: Insert playlist containing songs that must be included --done (not tested)
   *Bold more items --Done: Main, Settings, DataParse, SpotifyFunctions
-  *Feature: Skip to song adding
+  *Feature: Skip to song adding --done (not tested)
 
 
 Future Plans:
