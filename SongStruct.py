@@ -170,7 +170,8 @@ class MasterSongContainer(object):
     
   def forceRemove(self, uri: str) -> None:
     """Finds given song uri and removes it from desiredSongs"""
-    pass
+    if(uri in self.desiredSongs):
+      del self.desiredSongs[uri]
 
 
   def removeLowCount(self) -> None:
