@@ -3,27 +3,29 @@ File that creates and holds global variable settings.
 settings contains a dictionary with setting name key and
 a _Setting class value. This file also houses the functions to update
 the value and print each setting. Settings are as follows:
-**minCount**: Remove songs that have been listened to less times than this number. Default is 2.
-**countOverride**: If number is greater than the difference of times listened in range than outside
-  of range, then the song will be included in playlist. If -1, it will not do this. Default is 1.
-**songPreference**: If song has multiple ids (from it being on different albums), have it keep the
-  oldest, newest, both of them, or ask which of the ids to keep every time. Default is ask'
-**earlyRange**: Date that the song must be first listened to for it to be possible to be added to
-  playlist. Please follow yyyy-mm-dd format. Default is one year from today.
-**lastDate**: Last date the program will look at for songs. Please follow yyyy-mm-dd format. Default
-  is tomorrow's date.
-**earlyDate**: Earliest date the program will look at for songs. Please follow yyyy-mm-dd format. 
-  Default is 2000-01-01.
-**minMS**: Minimum number of milliseconds the song needs to be played for it to count. Note track fully
-  finishing will override this setting. Default is 30,000 (30 seconds).
-**prevMinCount**: Determines if songs before the earlyRange should also meet the minumum count
-  requirement to be looked at. Default is False.
-**gracePeriod**: Period at which the song has a chance to be included in the playlist, regardless of
-  how many times the song was listened to. Range starts at day given through today, to allow recent
-  new songs a chance to make it in. Please follow yyyy-mm-dd format. Default is a week from today.
-**playlistTimer**: Amount of time to wait in between adding each song to given playlist so that the
-  'sort by date added' feature will work properly on Spotify. Default is 0.
 
+*Base*
+**beginningDate**: 
+  The date that the song must be first listened to for it to be possible to add it to the playlist. Please follow yyyy-mm-dd format. Default is one year from today.
+**minCount**:
+  Remove songs that have been listened to fewer times than this number. Default is 2.
+**minMS**: 
+  Minimum number of milliseconds (1,000ms = 1 second) the song needs to be listened to in one sitting for it to count. Note track fully finishing will override this setting. Default is 30,000.
+**songPreference**: 
+  If a song has multiple ids (usually from it being on different albums), have it keep the oldest, newest, both copies, or ask which of the ids to keep every time. Default is ask.
+*Extras*
+**minCountOverride**: 
+  A song listened in the range more times than outside of the range by at least this number will be added to the playlist. If this number is -1, it will not do this. Default is 1.
+**earliestDate**: 
+  The earliest date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is 2000-01-01.
+**lastDate**: 
+  The last date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is tomorrow's date.
+**playlistAddTimer**: 
+  Amount of time to wait in between adding each song to the given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is 0.
+**songGracePeriod**: 
+  Period at which a song has a chance to be included in the playlist, regardless if it reaches minCount (will still be rejected if it was listened to it prior to earlyRange). Range starts from the day given through today. Please follow yyyy-mm-dd format. Default is a week from today.
+**universalMinCount**: 
+  Determines if songs before beginningDate should also meet the minumum count requirement to be looked at. Default is False.
 """
 
 from os import system, name
@@ -58,7 +60,7 @@ class _Setting():
     return message
 
   def __repr__(self) -> str:
-    message = (f'{self.index}  {self.name}:\t|\t') if len(self.name)>=10 else (f'{self.index}  {self.name}:\t\t|\t')
+    message = (f'{self.index}  {bold(self.name)}:\t|\t') if len(self.name)>=10 else (f'{self.index}  {self.name}:\t\t|\t')
     if(self.options): #Setting has multiple options that don't fit type
       for i in range(len(self.options)):
         if(self.value == i):
@@ -76,31 +78,37 @@ class _Setting():
 
 today = datetime.today().date()
 
+EXTRA_START = 4 #First index of extras settings 
+
 def init():
   global settings
+
+  #Base
+  beginningDate = _Setting('beginningDate',today-relativedelta(year=today.year-1),"The date that the song must be first listened to for it to be possible to add it to the playlist. Please follow yyyy-mm-dd format. Default is one year from today")
+  minCount = _Setting('minCount',2,"Remove songs that have been listened to fewer times than this number. Default is 2.")
+  minMS = _Setting('minMS',30_000,"Minimum number of milliseconds (1,000ms = 1 second) the song needs to be listened to in one sitting for it to count. Note track fully finishing will override this setting. Default is 30,000.")
+  songPreference = _Setting('songPreference',3,"If a song has multiple ids (usually from it being on different albums), have it keep the oldest, newest, both copies, or ask which of the ids to keep every time. Default is ask.",('oldest','newest','both','ask'))
+
+  #Extras
+  minCountOverride = _Setting('minCountOverride',1,"A song listened in the range more times than outside of the range by at least this number will be added to the playlist. If this number is -1, it will not do this. Default is 1.")
+  earliestDate = _Setting('earliestDate',datetime(2000,1,1).date(),"The earliest date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is 2000-01-01.")
+  lastDate = _Setting('lastDate',today+relativedelta(days=1),"The last date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is tomorrow's date.")
+  playlistAddTimer = _Setting('playlistAddTimer',0,"Amount of time to wait in between adding each song to the given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is 0.")
+  songGracePeriod = _Setting('songGracePeriod',today-relativedelta(days=7),"Period at which a song has a chance to be included in the playlist, regardless if it reaches minCount (will still be rejected if it was listened to it prior to earlyRange). Range starts from the day given through today. Please follow yyyy-mm-dd format. Default is a week from today.")
+  universalMinCount = _Setting('universalMinCount',False,"Determines if songs before beginningDate should also meet the minumum count requirement to be looked at. Default is False.")
   
-  minCount = _Setting('minCount',2,'Remove songs that have been listened to less times than this number. Default is 2.', minVal=1)
-  countOverride = _Setting('countOverride',1,'If number is greater than the difference of times listened in range than outside of range, then the song will be included in playlist. If -1, it will not do this. Default is 1.',minVal=-1)
-  songPreference = _Setting('songPreference',3,'If song has multiple ids (from it being on different albums), have it keep the oldest, newest, both of them, or ask which of the ids to keep every time. Default is ask',('oldest','newest','both','ask'))
-  earlyRange = _Setting('earlyRange',today-relativedelta(year=today.year-1),'Date that the song must be first listened to for it to be possible to be added to playlist. Please follow yyyy-mm-dd format. Default is one year from today.')
-  lastDate = _Setting('lastDate',today+relativedelta(days=1),"Last date the program will look at for songs. Please follow yyyy-mm-dd format. Default is tomorrow's date.")
-  earlyDate = _Setting('earlyDate',datetime(2000,1,1).date(),'Earliest date the program will look at for songs. Please follow yyyy-mm-dd format. Default is 2000-01-01.')
-  minMS = _Setting('minMS', 30000,'Minimum number of milliseconds the song needs to be played for it to count. Note track fully finishing will override this setting. Default is 30,000 (30 seconds).',minVal=0)
-  prevMinCount = _Setting('prevMinCount', False, 'Determines if songs before the earlyRange should also meet the minumum count requirement to be looked at. Default is False.')
-  gracePeriod = _Setting('gracePeriod',today-relativedelta(days=7),'Period at which the song has a chance to be included in the playlist, regardless of how many times the song was listened to. Range starts at day given through today, to allow recent new songs a chance to make it in. Please follow yyyy-mm-dd format. Default is a week from today.')
-  playlistTimer = _Setting('playlistTimer',0.0,"Amount of time to wait in between adding each song to given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is 0.",minVal=0.0)
 
   settings = [
+              beginningDate,
               minCount,
-              countOverride,
-              songPreference,
-              earlyRange,
-              lastDate,
-              earlyDate,
               minMS,
-              prevMinCount,
-              gracePeriod,
-              playlistTimer
+              songPreference,
+              minCountOverride,
+              earliestDate,
+              lastDate,
+              playlistAddTimer,
+              songGracePeriod,
+              universalMinCount
             ]
   
   for i in range(len(settings)):
@@ -119,14 +127,20 @@ def settingByName(name:str):
 
 def printSettings():
   system('cls' if name == 'nt' else 'clear')
-  for setting in settings:
-    print(setting)
+  print(f'Base:')
+  for i in range(len(settings)):
+    if(i == EXTRA_START):
+      print(f'\nExtra:')
+    print(settings[i])
   print()
 
 def printAbouts():
   system('cls' if name == 'nt' else 'clear')
-  for setting in settings:
-    print(setting.printWithAbout())
+  print(f'Base:')
+  for i in range(len(settings)):
+    if(i == EXTRA_START):
+      print(f'\nExtra:')
+    print(settings[i].printWithAbout())
 
 def updateValue(setting:str, value:str):
   """Verifies value and setting given, then updates setting."""

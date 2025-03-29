@@ -42,6 +42,7 @@ def initBold():
   else:
     with open('SavedSettings.txt', 'w') as file:
       file.write('bolding\n' if boldingFunction else 'no bolding\n')
+  print(f'It is recommended to check out the {bold("Settings")} before beginning starting the process.')
   input() #Wait for user
     
 
