@@ -126,7 +126,6 @@ def settingByName(name:str):
 
 
 def printSettings():
-  system('cls' if name == 'nt' else 'clear')
   print(f'Base:')
   for i in range(len(settings)):
     if(i == EXTRA_START):
@@ -135,7 +134,6 @@ def printSettings():
   print()
 
 def printAbouts():
-  system('cls' if name == 'nt' else 'clear')
   print(f'Base:')
   for i in range(len(settings)):
     if(i == EXTRA_START):
@@ -152,12 +150,12 @@ def updateValue(setting:str, value:str):
     setting = int(setting) -1
   else:
     print(f'Please input a {bold("number")} corresponding to the setting, followed by a {bold("value")}.')
-    return
+    return input()
   
   #Verify setting typed exists
   if(setting < 0 or setting > len(settings)):  #Setting does not exist
     print(f'{bold(setting+1)} is not a possible setting option.')
-    return
+    return input()
 
   sName = settings[setting].name
 
@@ -193,15 +191,13 @@ def updateValue(setting:str, value:str):
       settings[setting].updateValue(newNum)
     except:
       print(f'{bold(value)} is not a valid choice for setting {bold(sName)}.')
-      input(f'Press {bold("Enter")} to return.')
-      return printSettings()
+      return input()
   elif(type(settings[setting].value) == type(value)): #Value is correct type
     settings[setting].updateValue(value)
   else: #Value is not correct
     print(f'{bold(sName)} must take input of type {bold(type(settings[setting].value))}.')
-    input(f'Press {bold("Enter")} to return.')
-    return printSettings()
-  printSettings()  
+    return input()
+  return  
   
 
 if __name__ == "__main__":
