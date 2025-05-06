@@ -27,8 +27,7 @@ def exportSettings():
         file.write(f'{setting.name}: {setting.value}\n')
     file.truncate()
   print(f'Settings saved at {abspath(fPath)}. Please do not edit or relocate file.')
-  input(f'Press {bold("Enter")} to return')
-  return
+  input()
 
 def importSettings():
   try:
@@ -50,45 +49,49 @@ def importSettings():
           print(f'Could not find option named {option[0]}.')
           continue
         S.updateValue(str(numSetting),option[1])
+      print("Settings imported.")
   except FileNotFoundError:
     print('Could not find saved setting file.')
   except Exception as e:
     print(f'Could not import settings due to an error ({e}).')
-  input(f'Press {bold("Enter")} to return')
-  return
+  input()
 
-def options():
+def options(abouts = False):
   """Displays the settings and takes in user input to alter them."""
-  S.printSettings()
-  while(True):
-    inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold("about")} to learn more about each setting, {bold("export")} to export current settings, {bold("import")} to import previously saved settings, or input {bold("back")} to go back. You may also input {bold("default")} to revert the settings back to their default values.\n').lower()
-    
-    if(inp == 'about'): #About
-      print()
-      S.printAbouts()
-    elif(len(inp.split(' ')) == 2): #Change setting
-      inp = inp.split(' ')
-      print()
-      S.updateValue(inp[0], inp[1])
-      inp = ''
-    elif(inp == 'export'):  #Export
-      exportSettings()
-      S.printSettings()
-    elif(inp == 'import'):  #Import
-      importSettings()
-      S.printSettings()
-    elif(inp == 'back' or inp == 'b'):  #Back
-      return
-    elif(inp == 'default'):
-      S.init()
-      S.printSettings()
-    else:
-      print('Input given could not be used. Please try again.')
+  system('cls' if name == 'nt' else 'clear') #Clear screen
+
+  #Print settings
+  if(abouts):
+    S.printAbouts()
+  else:
+    S.printSettings()
+
+  inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold("about")} to learn more/less about each setting, {bold("export")} to export current settings, {bold("import")} to import previously saved settings, or input {bold("back")} to go back. You may also input {bold("default")} to revert the settings back to their default values.\n\n').lower()
+  
+  if(inp == 'about'): #About
+    return options(not abouts)
+  elif(len(inp.split(' ')) == 2): #Change setting
+    inp = inp.split(' ')
+    print()
+    S.updateValue(inp[0], inp[1])
+  elif(inp == 'export'):  #Export
+    exportSettings()
+  elif(inp == 'import'):  #Import
+    importSettings()
+  elif(inp == 'back' or inp == 'b'):  #Back
+    return
+  elif(inp == 'default'):
+    S.init()
+    return options()
+  else:
+    print('Input given could not be used. Please try again.')
+    input()
+  return options(abouts)
 
 def about():
   system('cls' if name == 'nt' else 'clear')
   print(f'Made by {bold("Taylor Kothenbeutel")}')
-  input(f'Press {bold("Enter")} to return')
+  input()
 
 def saveResults(songContainer:MasterSongContainer):
   plainSongs = {} #Get dictionary in a readable format
@@ -249,9 +252,9 @@ def welcome():
   """Prints messages that appear at the start of the program."""
   system('cls' if name == 'nt' else 'clear')
   print(f'Welcome to the {bold("Spotify Unique Song Parser")}!')
-  print(f'{bold("Start")}: Gather you Spotify data and parse through it')
+  print(f'{bold("Start")}: Start the process to parse through your data')
   print(f'{bold("Resume")}: Use previous program results and skip the parsing')
-  print(f'{bold("Settings")}: View and change the settings')
+  print(f'{bold("Settings")}: View and change settings')
   print(f'{bold("About")}: Learn more about this program')
   print(f'{bold("Exit")}: Close the program')
   inp = input('\n\n').lower()
@@ -261,16 +264,15 @@ def welcome():
     return resume()
   elif(inp == 'settings'):
     options()
-    print()
     return welcome()
   elif(inp == 'about'):
     about()
-    print()
     return welcome()
   elif(inp == 'exit' or inp == 'q' or inp == 'e'):
     return
   else:
-    print("Couldn't use input. Please try again\n")
+    print("Couldn't use input. Please try again")
+    input()
     return welcome()
     
 def run():
@@ -280,12 +282,13 @@ def run():
   
   system('cls' if name == 'nt' else 'clear')
   print("Let's begin!\n")
+  input()
 
   #Gather files
   print("First, let's get every file containing songs from your all time Spotify history.")
-  print(f'Please input a file location (the file should be called {bold("Streaming_History_Audio")}....json) or a folder containing the files, and input "Done" when all files have been imported in.')
+  print(f'Please input a file location (the file should be called {bold("Streaming_History_Audio")}...{bold(".json")}) or a folder containing the files, and input "Done" when all files have been imported in.')
   while(True):
-    inp = input(f'Enter file location or {bold("Done")} here: ')
+    inp = input(f'Enter file/folder location or {bold("Done")} here: ')
     if(inp.lower() == 'done'):
       break
     if(len(inp) > 2 and inp[0] == '"' and inp[-1] == '"'): #Disregard quotations around location
@@ -300,6 +303,7 @@ def run():
       if(data):
         dataContainer.append(data)
         print('File succesfully imported.')
+        input()
 
   print()#Spacing
 
@@ -327,6 +331,7 @@ def run():
 
   #Parse
   print("Now that all songs have been accounted for, let's get parsing!")
+  input()
   songContainer.parse()
   
   print()#Spacing
@@ -341,7 +346,7 @@ def run():
 
   #Save for later or add to playlist
   while(True):
-    inp = input(f"Would you like to {bold('save')} the results, {bold('add')} the unique songs to a playlist, or do {bold('both')} options? ").lower()
+    inp = input(f"Would you like to {bold('save')} the results, {bold('add')} the unique songs to a playlist, or do {bold('both')} options? \n").lower()
     if(inp == 'save' or inp == 's'):
       saveResults(songContainer)
       break
@@ -354,6 +359,7 @@ def run():
       break
     else:
       print(f'{inp} is not a valid option. Please respond with either {bold("save")}, {bold("add")}, or {bold("both")} to choose.')
+      input()
 
   #After saving/adding/bothing
   print(f'This program is now finished. {bold("Thank you for using it!")}')
@@ -363,7 +369,7 @@ def run():
 def resume():
   system('cls' if name == 'nt' else 'clear')
   print("Welcome back! Let's get your previously saved data.")
-  print()#Spacer
+  input()
 
   masterSongs = MasterSongContainer()
 
@@ -373,7 +379,7 @@ def resume():
       file = file[1:-1]
   addResult = masterSongs.desiredSongs.addFromFile(file)
   while(not addResult):
-    input("Please try again.")
+    input("Please try again.\n")
     print(f"Input the {bold('abolute path')} of your results from previously using this program. Ensure this file has not been altered, otherwise the program may not be able to use that file.")
     file = input(f'Enter file location here: ')
     if(len(file) > 2 and file[0] == '"' and file[-1] == '"'): #Disregard quotations around location
@@ -390,7 +396,7 @@ def resume():
   #Check if results were altered
   if(altered):
     while(True):
-      inp = input(f"Because the results were just altered, would you like to {bold('save')} the results to a new file, {bold('add')} the unique songs to a playlist, or do {bold('both')} options? ").lower()
+      inp = input(f"Because the results were just altered, would you like to {bold('save')} the results to a new file, {bold('add')} the unique songs to a playlist, or do {bold('both')} options?\n").lower()
       if(inp == 'save' or inp == 's'):
         saveResults(masterSongs)
         break
@@ -403,6 +409,7 @@ def resume():
         break
       else:
         print(f'{inp} is not a valid option. Please respond with either {bold("save")}, {bold("add")}, or {bold("both")} to choose.')
+        input()
   else: #Results were not altered
     print("Okay, time for the start of this show: adding these songs to a Spotify playlist!")
     input()#Wait for user
