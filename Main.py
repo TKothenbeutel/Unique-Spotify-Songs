@@ -109,6 +109,7 @@ def saveResults(songContainer:MasterSongContainer):
   with open(fPath,'w') as file:
     file.write(resultToJSON)
   print(f'\nSong results written in {abspath(fPath)}')
+  input()
 
 def addToPlaylist(songContainer:MasterSongContainer):
   print(f'\nTo add these songs onto a playlist, some information of your {bold("Spotify")} is first needed.')
@@ -140,6 +141,7 @@ def addToPlaylist(songContainer:MasterSongContainer):
   else:
     sp.addToSpotifyBatch(songContainer.desiredSongs)
   print('All songs successfully added to the playlist.')
+  input()
   return
 
 def forceAddRemove(songContainer:MasterSongContainer) -> bool:
@@ -152,7 +154,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
 
   if(inp == 'y' or inp == 'yes'):
     print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force added to this data. Please note that timestamp added these songs will be today's date and current time. If you save your song results, the songs added through this method will have a count of 0.")
-    print()#Spacer
+    input()
 
     sp = SpotifyGateway(None, None)
     songs = []
@@ -175,6 +177,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
     
     if(len(songs)>0):
       print("Time to add these songs to the data!")
+      input()
       pBar = ProgressBar(len(songs), 'Adding songs to dataset')
       for song in songs:
         uri = song['track']['uri']
@@ -203,7 +206,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
     
     if(inp == 'y' or inp == 'yes'):
       print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force removed from this data.")
-      print()
+      input()
 
       sp = SpotifyGateway(None, None)
       songs = []
@@ -226,6 +229,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
       
       if(len(songs)>0):
         print("Time to remove these songs from the data!")
+        input()
         prevLen = len(songContainer.desiredSongs)
         pBar = ProgressBar(len(songs), 'Removing songs from dataset')
         for song in songs:
