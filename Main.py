@@ -425,5 +425,5 @@ if __name__ == "__main__":
   _importENVVar.instantiate()
   system('cls' if name == 'nt' else 'clear')
   S.init()
-  initBold()
+  initFormat()
   welcome()
