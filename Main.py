@@ -251,25 +251,24 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
       continue
 
 
-
 def welcome():
   """Prints messages that appear at the start of the program."""
   system('cls' if name == 'nt' else 'clear')
   print(f'Welcome to the {bold("Spotify Unique Song Parser")}!')
-  print(f'{bold("Start")}: Start the process to parse through your data')
-  print(f'{bold("Resume")}: Use previous program results and skip the parsing')
-  print(f'{bold("Settings")}: View and change settings')
-  print(f'{bold("About")}: Learn more about this program')
-  print(f'{bold("Exit")}: Close the program')
+  print(f'{bold(underline("S")+"tart")}: Start the process to parse through your data')
+  print(f'{bold(underline("R")+"esume")}: Use previous program results and skip the parsing')
+  print(f'{bold(underline("Set")+"tings")}: View and change settings')
+  print(f'{bold(underline("A")+"bout")}: Learn more about this program')
+  print(f'{bold(underline("E")+"xit")}: Close the program')
   inp = input('\n\n').lower()
-  if(inp == 'start'):
+  if(inp == 'start' or inp == 's'):
     return run()
-  elif(inp == 'resume'):
+  elif(inp == 'resume' or inp == 'r'):
     return resume()
-  elif(inp == 'settings'):
+  elif(inp == 'settings' or inp == 'set'):
     options()
     return welcome()
-  elif(inp == 'about'):
+  elif(inp == 'about' or inp == 'a'):
     about()
     return welcome()
   elif(inp == 'exit' or inp == 'q' or inp == 'e'):
