@@ -60,20 +60,22 @@ class _Setting():
     return message
 
   def __repr__(self) -> str:
-    message = (f'{self.index}  {bold(self.name)}:\t|\t') if len(self.name)>=10 else (f'{self.index}  {self.name}:\t\t|\t')
+    tab = ' '*5
+    spaces = ' ' * (19-len(self.name))
+    message = (f'{self.index}  {underline(self.name)}:{spaces}|{tab}')
     if(self.options): #Setting has multiple options that don't fit type
       for i in range(len(self.options)):
         if(self.value == i):
-          message += f'"{self.options[i]}"\t'
+          message += f'{bold(self.options[i])}{tab}'
         else:
-          message += f' {self.options[i]} \t'
+          message += f'{self.options[i]}{tab}'
     elif(type(self.value) == bool):
       if(self.value):
-        message += f'"True"\t False '
+        message += f'{bold("True")}{tab}False'
       else:
-        message += f' True \t"False"'
+        message += f'True{tab}{bold("False")}'
     else:
-      message += f'{self.value}'
+      message += f'{bold(self.value)}'
     return message
 
 today = datetime.today().date()
