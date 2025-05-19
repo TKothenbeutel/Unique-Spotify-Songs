@@ -1,10 +1,12 @@
-# Project Title
+# Spotify's Unique Song Collector
 
 Simple overview of use/purpose.
+Parses through an accounts' extended streaming history and finds every unique song listened to in a given range. Spotipy is also utilized to add those results to a playlist.
 
 ## Description
 
 An in-depth paragraph about your project and overview of use.
+This Python progam parses through data files the user retrieves from Spotify, and collects any new songs listened to in a given time range. Once ran, the user interacts with the program through the terminal, and follows the instructions to get the desired results. This program currently only works with Spotify's extended streaming history, and not with the lesser account data package. The user can also alter the program with 10 different settings, allowing for different timeframes, changing what constitutes as a new song, and more! Afterwards, the user may save these results to a .json file such as how Spotify gives its stored data, or it can be uploaded to a playlist thanks to Spotipy and Spotify API.
 
 ## Getting Started
 
