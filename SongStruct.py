@@ -139,14 +139,14 @@ class MasterSongContainer(object):
     self.desiredSongs = SongsContainer()
     self.previousSongs = SongsContainer()
     #Keep easier reachable references for needed settings
-    self.earlyRange = settingByName('earlyRange').value#settings['earlyRange'].value  #Earliest date of desired
+    self.earlyRange = settingByName('beginningDate').value#settings['earlyRange'].value  #Earliest date of desired
     self.lastDate = settingByName('lastDate').value  #Last date of desired
-    self.earlyDate = settingByName('earlyDate').value  #Earliest date of previous
+    self.earlyDate = settingByName('earliestDate').value  #Earliest date of previous
     self.minCount = settingByName('minCount').value  #Minimum number of times song should be counted for
     self.msPlayed = settingByName('minMS').value #Minimum milliseconds the track has to be played to count (unless track was finished)
     self.songPref = settingByName('songPreference').value #If same songs with different uris, choice of which to keep
-    self.prevCountMatters = settingByName('prevMinCount').value #If True, will follow count rules for previous songs too
-    self.gracePeriod = settingByName('gracePeriod').value #Period at which the count will not matter
+    self.prevCountMatters = settingByName('universalMinCount').value #If True, will follow count rules for previous songs too
+    self.gracePeriod = settingByName('songGracePeriod').value #Period at which the count will not matter
     self._convertDatetimes()
 
   def _convertDatetimes(self):

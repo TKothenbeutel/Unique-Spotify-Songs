@@ -14,8 +14,8 @@ def currentTime():
   return f'{datetime.today().date()}_{str(datetime.today().time()).replace(":","-")[:8]}'
 
 def exportSettings():
-  fPath = f"savedSettings.txt"
-  #Access savedSettings.txt (assume already created because of bold quesiton)
+  fPath = f"SavedSettings.txt"
+  #Access SavedSettings.txt (assume already created because of bold quesiton)
   with open(fPath, 'r+') as file:
     bolded = file.readline()
     file.seek(0)
@@ -31,10 +31,12 @@ def exportSettings():
 
 def importSettings():
   try:
-    with open("savedSettings.txt",'r') as file:
+    with open("SavedSettings.txt",'r') as file:
       options = file.readlines()
       for i in options:
         option = i.split(': ')
+        if(len(option) == 1):#Skips formatting option
+          continue
         numSetting = -1
         #Find setting line corresponds to
         for i in range(len(S.settings)):
