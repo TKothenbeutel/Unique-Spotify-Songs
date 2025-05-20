@@ -2,7 +2,7 @@ import os
 from time import sleep
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from Helpers.ProgressBar import ProgressBar
+from ProgressBar import ProgressBar
 
 class SpotifyGateway():
   
@@ -63,7 +63,7 @@ class SpotifyGateway():
 
 
 if __name__ == "__main__":
-  import Helpers.DataParse as DataParse
+  import DataParse as DataParse
   #Delete from final
   os.environ['SPOTIPY_CLIENT_ID'] = '***REMOVED***'
   os.environ['SPOTIPY_CLIENT_SECRET'] = '***REMOVED***'
@@ -78,8 +78,9 @@ if __name__ == "__main__":
     print(i, test[i])
     break
   '''
-  #sp = SpotifyGateway('kothenbeutel','7L40apfN820LogCSpfMmjp')#'4ciSROGT0MXGOHO0QyyQZG')#'0GVSAKCLow1SlOZPq325c7')
-  #sp.addToSpotifyTimed(test,0.01)
+  test = {'69G9nIj6Pb1HfqFXa9DGFs':20}
+  sp = SpotifyGateway('kothenbeutel','0DAaXxZpR5S0AszP2ThL6A')#'4ciSROGT0MXGOHO0QyyQZG')#'0GVSAKCLow1SlOZPq325c7')
+  sp.addToSpotifyTimed(test,0.01)
   #sp.addToSpotifyBatch(test)
   #print(sp.validateInformation())
   #test = sp.getPlaylistSongs()
@@ -94,8 +95,8 @@ if __name__ == "__main__":
   #print(test[0]['track']['name'])
   #print(sp.sp.user_playlist_tracks(None,'4ciSROGT0MXGOHO0QyyQZG'))
 
-  sp = SpotifyGateway(None, None)
-  print(sp.sp.user_playlist_tracks(None, 'notRealPlaylist'))
+  #sp = SpotifyGateway(None, None)
+  #print(sp.sp.user_playlist_tracks(None, 'notRealPlaylist'))
 
   """
   "spotify:track:1MsU7LDRTqvMaKbptPp72z": {
