@@ -1,14 +1,14 @@
-import _importENVVar
+import Helpers._importENVVar as _importENVVar
 
 from os import system, name
-from DataParse import validatedFile, dictToJSON, validatedFolder
-import Settings as S
-from SongStruct import MasterSongContainer
-from ProgressBar import ProgressBar
+from Helpers.DataParse import validatedFile, dictToJSON, validatedFolder
+import Helpers.Settings as S
+from Helpers.SongStruct import MasterSongContainer
+from Helpers.ProgressBar import ProgressBar
 from os.path import abspath
 from datetime import datetime
-from SpotifyFunctions import SpotifyGateway
-from Formatting import *
+from Helpers.SpotifyFunctions import SpotifyGateway
+from Helpers.Formatting import *
 
 def currentTime():
   return f'{datetime.today().date()}_{str(datetime.today().time()).replace(":","-")[:8]}'
