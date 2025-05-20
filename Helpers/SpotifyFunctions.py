@@ -7,15 +7,20 @@ from ProgressBar import ProgressBar
 class SpotifyGateway():
   
   def __init__(self, username: str, playlist: str):
-    self.token = spotipy.util.prompt_for_user_token(username=username,
-                                                 scope="user-library-read,playlist-modify-private,playlist-modify-public",
-                                                 client_id=os.environ['SPOTIPY_CLIENT_ID'],
-                                                 client_secret=os.environ['SPOTIPY_CLIENT_SECRET'],
-                                                 redirect_uri=os.environ['SPOTIPY_REDIRECT_URI'],
-                                                 cache_handler=spotipy.CacheFileHandler(cache_path="/path/to/cache"))
+    auth = SpotifyOAuth(scope="user-library-read,playlist-modify-private,playlist-modify-public",
+                        username=username,
+                        cache_handler=spotipy.CacheFileHandler(cache_path=f"./caches/.cache-{username}"))
+    #sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope="user-library-read,playlist-modify-private,playlist-modify-public"))
+    #self.token = spotipy.util.prompt_for_user_token(username=username,
+    #                                             scope="user-library-read,playlist-modify-private,playlist-modify-public",
+    #                                             client_id=os.environ['SPOTIPY_CLIENT_ID'],
+    #                                             client_secret=os.environ['SPOTIPY_CLIENT_SECRET'],
+    #                                             redirect_uri=os.environ['SPOTIPY_REDIRECT_URI'])
     #self.sp = spotipy.Spotify(auth=self.token)
-    #self.playlist = playlist
+    self.sp = spotipy.Spotify(auth_manager=auth)
+    self.playlist = playlist
     self.username = username
+
 
   def validateInformation(self) -> bool:
     """Attempts to retrieve information from given playlist to ensure information has been entered correctly."""
@@ -80,14 +85,14 @@ if __name__ == "__main__":
     break
   '''
   test = ['69G9nIj6Pb1HfqFXa9DGFs']
-  scope = "user-library-read,playlist-modify-private,playlist-modify-public"
-  sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
-  sp.user_playlist_add_tracks("kothenbeutel", '0DAaXxZpR5S0AszP2ThL6A', test)
-  print('done')
+  #scope = "user-library-read,playlist-modify-private,playlist-modify-public"
+  #sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+  #sp.user_playlist_add_tracks("kothenbeutel", '0DAaXxZpR5S0AszP2ThL6A', test)
+  #print('done')
 
-  #sp = SpotifyGateway('kothenbeutel','0DAaXxZpR5S0AszP2ThL6A')#'4ciSROGT0MXGOHO0QyyQZG')#'0GVSAKCLow1SlOZPq325c7')
+  sp = SpotifyGateway('kothenbeutel','0DAaXxZpR5S0AszP2ThL6A')#'4ciSROGT0MXGOHO0QyyQZG')#'0GVSAKCLow1SlOZPq325c7')
   #sp.addToSpotifyTimed(test,0.01)
-  #sp.addToSpotifyBatch(test)
+  sp.addToSpotifyBatch(test)
   #print(sp.validateInformation())
   #test = sp.getPlaylistSongs()
   #print(len(test))

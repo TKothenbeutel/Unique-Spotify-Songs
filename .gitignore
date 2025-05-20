@@ -2,5 +2,6 @@ Results
 SavedSettings.txt
 Testing.py
 __pycache__
-.cache-kothenbeutel
-.cache
+caches/*
+
+!caches
