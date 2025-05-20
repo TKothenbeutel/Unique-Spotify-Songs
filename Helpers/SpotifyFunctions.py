@@ -2,7 +2,7 @@ import os
 from time import sleep
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from ProgressBar import ProgressBar
+from Helpers.ProgressBar import ProgressBar
 
 class SpotifyGateway():
   
@@ -63,7 +63,7 @@ class SpotifyGateway():
 
 
 if __name__ == "__main__":
-  import DataParse
+  import Helpers.DataParse as DataParse
   #Delete from final
   os.environ['SPOTIPY_CLIENT_ID'] = '***REMOVED***'
   os.environ['SPOTIPY_CLIENT_SECRET'] = '***REMOVED***'
