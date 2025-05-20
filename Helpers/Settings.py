@@ -31,7 +31,7 @@ the value and print each setting. Settings are as follows:
 from os import system, name
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from Helpers.Formatting import *
+from Formatting import *
 
 class _Setting():
   def __init__(self, name:str, value, message:str, possibleOptions=None, minVal=None, maxVal=None):
