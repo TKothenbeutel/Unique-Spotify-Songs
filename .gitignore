@@ -1,7 +1,7 @@
-Results
-SavedSettings.txt
-Testing.py
-__pycache__
+Results/*
 caches/*
+SavedSettings.txt
+__pycache__
+
 
 !.gitkeep
