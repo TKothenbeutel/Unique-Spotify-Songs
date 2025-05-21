@@ -1,6 +1,6 @@
 from datetime import datetime
-from ProgressBar import ProgressBar
-from DataParse import validatedFile
+from Helpers.ProgressBar import ProgressBar
+from Helpers.DataParse import validatedFile
 
 class SongsContainer(object):
   """ """
