@@ -1,6 +1,7 @@
 from datetime import datetime
 from Helpers.ProgressBar import ProgressBar
 from Helpers.DataParse import validatedFile
+from Helpers.Settings import settingByName
 
 class SongsContainer(object):
   """ """
@@ -135,7 +136,6 @@ class SongsContainer(object):
 class MasterSongContainer(object):
   """ """
   def __init__(self):
-    from Settings import settingByName
     self.desiredSongs = SongsContainer()
     self.previousSongs = SongsContainer()
     #Keep easier reachable references for needed settings
@@ -312,7 +312,7 @@ class MasterSongContainer(object):
 
 
 if __name__ == "__main__":
-  import Settings as Settings
+  import Helpers.Settings as Settings
   Settings.init()
   Settings.updateValue('earlyRange','2023-10-17')
   Settings.updateValue('songPreference','both')
