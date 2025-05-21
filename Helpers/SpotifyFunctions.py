@@ -3,12 +3,12 @@ from time import sleep
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from Helpers.ProgressBar import ProgressBar
+#from ProgressBar import ProgressBar
 
 class SpotifyGateway():
   
   def __init__(self, username: str, playlist: str):
     auth = SpotifyOAuth(scope="user-library-read,playlist-modify-private,playlist-modify-public",
-                        username=username,
                         cache_handler=spotipy.CacheFileHandler(cache_path=f"./caches/.cache-{username}"))
     #sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope="user-library-read,playlist-modify-private,playlist-modify-public"))
     #self.token = spotipy.util.prompt_for_user_token(username=username,
@@ -69,7 +69,7 @@ class SpotifyGateway():
 
 
 if __name__ == "__main__":
-  import DataParse as DataParse
+  #import DataParse as DataParse
   #Delete from final
   os.environ['SPOTIPY_CLIENT_ID'] = '***REMOVED***'
   os.environ['SPOTIPY_CLIENT_SECRET'] = '***REMOVED***'
