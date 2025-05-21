@@ -1,5 +1,3 @@
-import Helpers._importENVVar as _importENVVar
-
 from os import system, name
 from Helpers.DataParse import validatedFile, dictToJSON, validatedFolder
 import Helpers.Settings as S
@@ -429,7 +427,6 @@ def resume():
   
 
 if __name__ == "__main__":
-  _importENVVar.instantiate()
   system('cls' if name == 'nt' else 'clear')
   S.init()
   initFormat()

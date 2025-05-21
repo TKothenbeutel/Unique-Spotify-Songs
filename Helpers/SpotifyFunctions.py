@@ -70,10 +70,6 @@ class SpotifyGateway():
 
 if __name__ == "__main__":
   #import DataParse as DataParse
-  #Delete from final
-  os.environ['SPOTIPY_CLIENT_ID'] = '***REMOVED***'
-  os.environ['SPOTIPY_CLIENT_SECRET'] = '***REMOVED***'
-  os.environ['SPOTIPY_REDIRECT_URI'] = '***REMOVED***'
   '''
   temp = DataParse.validatedFile("sophomoreResults.json")
   test = {}
