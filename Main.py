@@ -138,8 +138,8 @@ def addToPlaylist(songContainer:MasterSongContainer):
   input()#Wait for user
 
   #If timer is >0, run timed adder
-  if(S.settingByName('playlistTimer').value > 0):
-    sp.addToSpotifyTimed(songContainer.desiredSongs,S.settingByName('playlistTimer').value)
+  if(S.settingByName('playlistAddTimer').value > 0):
+    sp.addToSpotifyTimed(songContainer.desiredSongs,S.settingByName('playlistAddTimer').value)
   #Else run batch adder
   else:
     sp.addToSpotifyBatch(songContainer.desiredSongs)
