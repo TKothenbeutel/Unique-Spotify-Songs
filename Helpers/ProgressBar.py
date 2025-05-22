@@ -5,6 +5,8 @@
 #will call updateProgress, which will add one and rewrite the bar on the terminal
 #In total, outer function should create class, call updateProgress, and call finish
 
+from Helpers.Formatting import *
+
 class ProgressBar():
   def __init__(self, items: int, description: str, starting_num = 0):
     self.description = description
@@ -18,7 +20,7 @@ class ProgressBar():
     completedBars = int((self.progress/self.items)*10)
     message = '='*completedBars + '-'*(self.bar_lines-completedBars)
     #Add remaining elements
-    message += f'\t{self.progress}/{self.items}; {self.description}'
+    message += f'\t{self.progress}/{self.items}; {bold(self.description)}'
     #Print onto terminal
     print(message,end='\r')
 
@@ -28,7 +30,7 @@ class ProgressBar():
 
   def finish(self) -> None:
     print('          ',end='\r') #Remove '=' artifacts
-    print(f'Complete\t{self.progress}/{self.items}; {self.description}')
+    print(f'{underline("Complete")}\t{self.progress}/{self.items}; {bold(self.description)}')
     #'Destroy' class
     self.description = None
     self.items = None
@@ -36,6 +38,7 @@ class ProgressBar():
     self.bar_lines = None
 
 if __name__ == "__main__":
+  initFormat()
   from time import sleep
   total_items = 100
   testBar = ProgressBar(total_items, "Test Bar")

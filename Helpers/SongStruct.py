@@ -2,6 +2,7 @@ from datetime import datetime
 from Helpers.ProgressBar import ProgressBar
 from Helpers.DataParse import validatedFile
 from Helpers.Settings import settingByName
+from Helpers.Formatting import *
 
 class SongsContainer(object):
   """ """

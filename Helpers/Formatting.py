@@ -1,4 +1,7 @@
 from os import path
+import shutil
+import textwrap
+from typing import Literal
 
 def initFormat():
   CODESPACEOVERRIDE = True
@@ -71,8 +74,32 @@ def underline(s:str)->str:
   """Formats to underline given string when printed in console. Note: only letters can be underlined"""
   return '\u0332'.join(s + ' ')[:-1] if formatFunction else f'_{s}_'
 
+
+def wrap_text_to_terminal(text,sep: str | None = " ",end: str | None = "\n"):
+    """Wraps text to the current terminal width using textwrap."""
+    try:
+        terminal_size = shutil.get_terminal_size()  # Get terminal dimensions
+        width = terminal_size.columns # Extract the width
+    except (AttributeError, OSError):
+        # Fallback if terminal size cannot be determined (e.g., not in terminal)
+        width = 70  # Use a default width if terminal size is unavailable
+    
+    wrapped_text = textwrap.fill(text, width=width) # Wrap the text
+    return builtins.print(wrapped_text, sep=sep, end=end)
+
+import builtins
+def print(value,
+    sep: str | None = " ",
+    end: str | None = "\n") -> None:
+  return wrap_text_to_terminal(str(value),sep=sep,end=end)
+
+
 if __name__ == "__main__":
   initFormat()
   print(formatFunction)
   print(f"WOAHHHHH {bold('BOLDING')}")
   print(f"HOLLOY COW {underline('WE UNDERLINE')}")
+  print("Omg this is such a long text woah i dont even know what to type this is so very long i hope this text wrapping stuff will work properly man let's just hope it works good okay yeah so like good luck i guess i dont know how well this will work.")
+  input()
+  print("Omg AGAIN this is such a long AGAIN text woah i dont even AGAIN know what to type this AGAIN is so very long i hope AGAIN this text wrapping stuff will work AGAIN properly man let's just hope it works good okay AGAIN yeah so like good luck i guess i dont know how well this AGAIN will work AGAIN.")
+  print(123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890)
