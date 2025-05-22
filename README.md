@@ -1,5 +1,7 @@
 # Spotify's Unique Song Collector
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/TKothenbeutel/Unique-Spotify-Songs?quickstart=1)
+
 Simple overview of use/purpose.
 Parses through an accounts' extended streaming history and finds every unique song listened to in a given range. Spotipy is also utilized to add those results to a playlist.
 
@@ -12,11 +14,7 @@ This Python progam parses through data files the user retrieves from Spotify, an
 
 ### Opening the Program
 
-Due to environment variables storing secrets for this API, this program is made to run on Github's Codespace. Follow the instructions below if you are unsure how to access codespaces.
-
-* On the main page of the repository, click the green box that says **Code**
-* On the **Codespaces** tab, click the plus sign to create a space
-* You will now be sent to a new tab that, after loading, appears to looks like the web version of VSCode
+Due to environment variables storing secrets for this API, this program is made to run on GitHub's Codespace. To open up a Codespace, click the button labeled **Open in GitHub Codespaces**.
 
 ### Importing Files
 
