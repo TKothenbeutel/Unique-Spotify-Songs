@@ -1,6 +1,8 @@
 from os import path
 
 def initFormat():
+  CODESPACEOVERRIDE = True
+
   """Tests the bolding function to see if it works on the given device."""
   global formatFunction
   formatFunction = True
@@ -15,20 +17,34 @@ def initFormat():
       elif(bolded == 'no format\n'):
         formatFunction = False
         return
-      
-  #If file doesn't exist or first line did not give a valid bold setting
-  print(f"Before we begin, is {bold('this')} bolded and {underline('this')} underlined? (y/n)")
-  isBolded = input().lower()
-  if(isBolded == 'y' or isBolded == 'yes'):
-    formatFunction = True
-    print(f'{bold("Thank you")} for checking!')
-  elif(isBolded == 'n' or isBolded == 'no'):
-    formatFunction = False
-    print(f'{bold("Thank you")} for checking!')
+
+  if(not CODESPACEOVERRIDE):    
+    #If file doesn't exist or first line did not give a valid bold setting
+    print(f"Before we begin, is {bold('this')} bolded and {underline('this')} underlined? (y/n)")
+    isBolded = input().lower()
+    if(isBolded == 'y' or isBolded == 'yes'):
+      formatFunction = True
+      print(f'{bold("Thank you")} for checking!')
+    elif(isBolded == 'n' or isBolded == 'no'):
+      formatFunction = False
+      print(f'{bold("Thank you")} for checking!')
+    else:
+      print("Sorry, your input could not be understood, please try again.")
+      input()
+      return initFormat()
   else:
-    print("Sorry, your input could not be understood, please try again.")
-    input()
-    return initFormat()
+    #Write setting to file
+    if(path.exists('SavedSettings.txt')):
+      with open("SavedSettings.txt",'r+') as file:
+        file.readline() #Skip first line
+        kept = file.readlines() #Store other lines
+        file.seek(0)
+        file.write('format\n' if formatFunction else 'no format\n')
+        file.writelines(kept)
+        file.truncate()
+    else:
+      with open('SavedSettings.txt', 'w') as file:
+        file.write('format\n' if formatFunction else 'no format\n')
   
   #Write setting to file
   if(path.exists('SavedSettings.txt')):
@@ -41,7 +57,7 @@ def initFormat():
       file.truncate()
   else:
     with open('SavedSettings.txt', 'w') as file:
-      file.write('bolding\n' if formatFunction else 'no bolding\n')
+      file.write('format\n' if formatFunction else 'no format\n')
   print(f'It is recommended to check out {bold("Settings")} before starting the process.')
   input() #Wait for user
     
