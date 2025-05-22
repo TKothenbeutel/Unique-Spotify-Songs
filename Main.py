@@ -167,6 +167,10 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
 
     sp = SpotifyGateway(None, None)
     songs = []
+
+    print("When you enter a playlist ID, the program may take you to a new tab with a broken webpage. This is normal. This tab builds the connection between this program Spotify. What you will need to do is to copy the url and paste it in the terminal when asked. Feel free to close the tab afterwards.")
+    print("If you have done this step before, this step will be omitted.")
+    input()
     while(True):
       playlist = input(f"Please enter the id of the playlist containing the songs you would like added. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's id, or enter {bold(underline('d')+'one')} when you are finished inputting playlist ids: ")
       if(playlist.lower() == 'help' or playlist.lower() == 'h'):
@@ -208,7 +212,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
   else:
     print("Sorry, that input couldn't be read, please try again.")
     input()
-    return forceAddRemove()
+    return forceAddRemove(songContainer)
 
   #Force remove
   while(True):#While loop in case input could not be read
@@ -220,6 +224,9 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
 
       sp = SpotifyGateway(None, None)
       songs = []
+      print("When you enter a playlist ID, the program may take you to a new tab with a broken webpage. This is normal. This tab builds the connection between this program Spotify. What you will need to do is to copy the url and paste it in the terminal when asked. Feel free to close the tab afterwards.")
+      print("If you have done this step before, this step will be omitted.")
+      input()
       while(True):
         playlist = input(f"Please enter the id of the playlist containing the songs you would like removed. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's id, or enter {bold(underline('d')+'one')} when you are finished inputting playlist ids: ")
         if(playlist.lower() == 'help' or playlist.lower() == 'h'):
@@ -355,7 +362,7 @@ def run():
   input()#Wait for user
 
   #Force add or remove any songs
-  forceAddRemove()
+  forceAddRemove(songContainer)
 
   #Save for later or add to playlist
   while(True):
