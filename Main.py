@@ -125,13 +125,21 @@ def addToPlaylist(songContainer:MasterSongContainer):
   sp = SpotifyGateway(username, playlist_id)
 
   #Test
-  print('Making sure playlist is valid and accessible...')
+  print()
+  print("This program will now ask you to log in to your Spotify account to verify the username and playlist given.")
+  print("If you are not already signed in, it will redirect you to Spotify's login page. Please sign in with the account holding the username given")
+  print("Next, it will open a new tab that will fail to connect to a webpage. This is normal. You will need to copy the url of that page, and paste it when asked. Feel free to close that tab afterwards.")
+  print("If you have already given this username to the program prior, the new tab step will be ommitted.")
+  input()#Wait for user
+
+  print('Now testing to ensure the username and playlist exist.')
   test = sp.validateInformation()
   if(not test): #Test failed
     print(f'Unfortunately, the test was unsuccesful. Please keep in mind to enter your {bold("username")} and a {bold("playlist id")} that you are the owner of.')
     input(f'Press {bold("Enter")} to try again.\n')
     return addToPlaylist(songContainer)
   #Test passed
+  print()
   print("Test has successfully passed. Now it's time to add the songs to the playlist.\n")
   input()#Wait for user
 
