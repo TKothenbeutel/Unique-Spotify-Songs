@@ -24,8 +24,8 @@ The program must read your spotify data files for it to function properly. Follo
 
 * Ensure the explorer tab is showing
 * There are two ways to upload files to this space:
-   * Drag your file/folder from your File Explorer onto the empty space
-   * Right click on the empty space, and click upload to open your File Explorer for selection
+   * Drag your file/folder from your File Explorer onto the explorer tab empty space
+   * Right click on the empty space in the expolorer tab, and click upload to open your File Explorer for selection
 
 ### Running the Program
 
@@ -35,31 +35,16 @@ The program must read your spotify data files for it to function properly. Follo
 * Follow the instructions displayed in the terminal
 
 
-### Dependencies
+## Issues
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
-NO
-### Installing
-
-* How/where to download your program
-* Any modifications needed to be made to files/folders
-DONE
-### Executing program
-
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
-DONE
-
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+##### &#9679; When right-clicking in the explorer menu, the only option that appears is **Paste**, and not the full menu that gives the ability to copy a file path or upload files
+  * To fix this, right click the desired file so that **Paste** appears
+  * Right click again on either the **Paste** box or further right of it. The full menu should now appear
+  * Side note: The paste option takes a second before becoming a usable option. Wait for the paste option to be clickable before right clicking it or pasting in general
+##### &#9679; The program opens a page that cannot be connected to.
+  * This is normal behavior of the API this program uses
+  * Once the webpage is done loading, you will need to copy and paste the link into the terminal to continue. After that, feel free to close that tab
+  * If you are using a same login as done previously, this verification process should not appear
 
 ## Authors
 
@@ -76,5 +61,4 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## Acknowledgments
 
-Inspiration, code snippets, etc.
 * [README Template](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)
