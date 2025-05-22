@@ -78,11 +78,11 @@ def underline(s:str)->str:
 def wrap_text_to_terminal(text,sep: str | None = " ",end: str | None = "\n"):
     """Wraps text to the current terminal width using textwrap."""
     try:
-        terminal_size = shutil.get_terminal_size()  # Get terminal dimensions
-        width = terminal_size.columns # Extract the width
+        terminal_size = shutil.get_terminal_size()  #Get terminal dimensions
+        width = terminal_size.columns #Extract the width
     except (AttributeError, OSError):
-        # Fallback if terminal size cannot be determined (e.g., not in terminal)
-        width = 70  # Use a default width if terminal size is unavailable
+        #Fallback if breaks (105 is default for my terminal)
+        width = 105
     
     wrapped_text = textwrap.fill(text, width=width) # Wrap the text
     return builtins.print(wrapped_text, sep=sep, end=end)
