@@ -1,7 +1,7 @@
 from os import path
 import shutil
 import textwrap
-from typing import Literal
+import builtins
 
 def initFormat():
   CODESPACEOVERRIDE = True
@@ -87,7 +87,6 @@ def wrap_text_to_terminal(text,sep: str | None = " ",end: str | None = "\n"):
     wrapped_text = textwrap.fill(text, width=width) # Wrap the text
     return builtins.print(wrapped_text, sep=sep, end=end)
 
-import builtins
 def print(value,
     sep: str | None = " ",
     end: str | None = "\n") -> None:
