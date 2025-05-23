@@ -96,11 +96,21 @@ class SongsContainer(object):
     for i in self._songs.keys():
       yield i
         
-  def artists(self, artist = None):
+  def artists(self, artist = None) -> list:
     if artist:
-      return [i for i in self._artists[artist]]
+      if artist in self._artists:
+        return list([i for i in self._artists[artist]])
+      else:
+        return []
     else:
-      return [i for i in self._artists]
+      return list([i for i in self._artists])
+
+  def findSongTitle(self, title: str) -> list:
+    uriList = []
+    for i in self._songs:
+      if(self._songs[i].title.lower() == title.lower()):
+        uriList.append(i)
+    return uriList
 
   #--Accessors--
   def getTS(self, key):

@@ -219,7 +219,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
     inp = input(f"Would you like any songs to be forced removed from this data? {bold('(y/n)')} ").lower()
     
     if(inp == 'y' or inp == 'yes'):
-      print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force removed from this data.")
+      print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force removed from this data. You can also input an artist to remove all of their songs, or a specific song title or URI to ensure a particular song is not included.")
       input()
 
       sp = SpotifyGateway(None, None)
@@ -228,29 +228,118 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
       print("If you have done this step before, this step will be omitted.")
       input()
       while(True):
-        playlist = input(f"Please enter the id of the playlist containing the songs you would like removed. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's id, or enter {bold(underline('d')+'one')} when you are finished inputting playlist ids: ")
-        if(playlist.lower() == 'help' or playlist.lower() == 'h'):
+        inp = input(f"Please enter the id of the playlist, artist name (case-sensitive), or song title/URI that you would like removed. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's id, or enter {bold(underline('d')+'one')} when you are finished inputting playlist ids: ")
+        if(inp.lower() == 'help' or inp.lower() == 'h'):
           print(f"To retrieve a playlist's id, please follow these instructions:\n\t1. Open a web browser and sign into your {bold('Spotify')} account\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This keysmash of characters is your playlist id.")
-          playlist = input("Please enter the desired playlist's id: ")
-        elif(playlist.lower() == 'done' or playlist.lower() == 'd'):
+          inp = input("Please enter the desired playlist's id, artist name, or song title: ").lower()
+        elif(inp.lower() == 'done' or inp.lower() == 'd'):
           break
-        else:
-          track_results = sp.getPlaylistSongs(playlist)
-          if(track_results is None):
-            print("The input given could not be read properly, or the playlist given is empty. Remember to enter a playlist id one at a time. Please try again.")
+        else:#Input of artist/song/playlist
+          artistResult = list(songContainer.desiredSongs.artists(inp))
+          songResult = songContainer.desiredSongs.findSongTitle(inp)
+          if(artistResult or songResult): #Input was an artist or song
+            if(artistResult and songResult): #Choose which
+              print(f"It appears {bold(inp)} appears as an artist and a song name. Which would you like removed?")
+              while(True):
+                opt = input(f"Input {underline('1')} for the artist or {underline('2')} for song: ")
+                if(opt == '1'):
+                  songResult = []
+                  break
+                elif(opt == '2'):
+                  artistResult = []
+                  break
+              print("Input could not be read, please try again")
+              input()#Wait for user
+            if(artistResult): #Remove artist
+              songs += artistResult
+              print(f"Found {len(artistResult)} songs from this artist.")
+              input()#Wait for user
+            else:
+              if(len(songResult) > 1):
+                print(f"There are {bold(len(songResult))} songs with that title found in the data. Select which one you would like removed.")
+                for i in range(len(songResult)):
+                  song = songContainer.desiredSongs[songResult[i]]
+                  print(f"{i+1}. {song.title} by {bold(song.artist)} on {bold(song.album)}.")
+                while(True):
+                  opt = input(f"Select a song: ")
+                  try:
+                    opt = int(opt) -1
+                    assert opt >= 0
+                    songResult = [songResult[opt]]
+                    break
+                  except:
+                    print("Input could not be read, please try again.")
+                    input()#Wait for user
+                    continue
+              song = songContainer.desiredSongs[songResult[0]]
+              while(True):
+                opt = input(f"Are you sure you want to remove {bold(song.title)} by {bold(song.artist)} on {bold(song.album)}? {bold('(y/n)')} ").lower()
+                if(opt == 'n' or opt == 'no'):
+                  print("Song will not be removed.")
+                  input()#Wait for user
+                  break
+                elif(opt == 'y' or opt == 'yes'):
+                  songs.append(songResult[0])
+                  print("Song added to be removed.")
+                  input()#Wait for user
+                  break
+                else:
+                  print("Input could not be read, please try again.")
+                  input()#Wait for user 
+
+          #Check if inp is URI
+          elif(inp in songContainer.desiredSongs): #URI with spotify:track
+            song = songContainer.desiredSongs[inp]
+            while(True):
+                opt = input(f"Are you sure you want to remove {bold(song.title)} by {bold(song.artist)} on {bold(song.album)}? {bold('(y/n)')} ").lower()
+                if(opt == 'n' or opt == 'no'):
+                  print("Song will not be removed.")
+                  input()#Wait for user
+                  break
+                elif(opt == 'y' or opt == 'yes'):
+                  songs.append(inp)
+                  print("Song added to be removed.")
+                  input()#Wait for user
+                  break
+                else:
+                  print("Input could not be read, please try again.")
+                  input()#Wait for user 
+          elif("spotify:track:"+inp in songContainer.desiredSongs):#URI without spotify:track
+            inp = "spotify:track:"+inp
+            song = songContainer.desiredSongs[inp]
+            while(True):
+                opt = input(f"Are you sure you want to remove {bold(song.title)} by {bold(song.artist)} on {bold(song.album)}? {bold('(y/n)')} ").lower()
+                if(opt == 'n' or opt == 'no'):
+                  print("Song will not be removed.")
+                  input()#Wait for user
+                  break
+                elif(opt == 'y' or opt == 'yes'):
+                  songs.append(inp)
+                  print("Song added to be removed.")
+                  input()#Wait for user
+                  break
+                else:
+                  print("Input could not be read, please try again.")
+                  input()#Wait for user
+
+          else: #inp was a playist (or not found artist/song)
+            track_results = sp.getPlaylistSongs(inp)
+            if(track_results is None):
+              print("The input could not be used. This could mean that the artist or song is not in the data, or the playlist given is empty. Remember to enter a playlist id one at a time. Please try again.")
+              input()#Wait for user
+              continue
+            for song in track_results:
+              songs.append(song['track']['uri'])
+            print(f"Found {len(track_results)} songs from this playlist.")
             input()#Wait for user
-            continue
-          songs += track_results
-          print(f"Found {len(track_results)} songs from this playlist.")
-          input()#Wait for user
       
-      if(len(songs)>0):
+      if(len(songs) > 0):
         print("Time to remove these songs from the data!")
         input()
+        print(songs)
         prevLen = len(songContainer.desiredSongs)
         pBar = ProgressBar(len(songs), 'Removing songs from dataset')
-        for song in songs:
-          uri = song['track']['uri']
+        for uri in songs:
           songContainer.forceRemove(uri)
           pBar.updateProgress()
         pBar.finish()
