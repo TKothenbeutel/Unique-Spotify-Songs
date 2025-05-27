@@ -75,7 +75,7 @@ def underline(s:str)->str:
   return '\u0332'.join(s + ' ')[:-1] if formatFunction else f'_{s}_'
 
 
-def wrap_text_to_terminal(text,sep: str | None = " ",end: str | None = "\n"):
+def wrap_text_to_terminal(text) -> str:
     """Wraps text to the current terminal width using textwrap."""
     try:
         terminal_size = shutil.get_terminal_size()  #Get terminal dimensions
@@ -84,17 +84,28 @@ def wrap_text_to_terminal(text,sep: str | None = " ",end: str | None = "\n"):
         #Fallback if broken (105 is default width of terminal for my laptop)
         width = 105
     
-    wrapped_text = textwrap.fill(text, width=width) # Wrap the text
-    return builtins.print(wrapped_text, sep=sep, end=end)
+    wrapped_text = textwrap.fill(text, width=width, drop_whitespace=False, replace_whitespace=False) # Wrap the text
+    return wrapped_text
 
 def print(value,
     sep: str | None = " ",
     end: str | None = "\n") -> None:
-  return wrap_text_to_terminal(str(value),sep=sep,end=end)
+  return builtins.print(wrap_text_to_terminal(str(value)),sep=sep,end=end)
+
+def input(prompt: object = ""):
+  return builtins.input(wrap_text_to_terminal(str(prompt)))
 
 
 if __name__ == "__main__":
   initFormat()
+
+  input("Hello:  ")
+  builtins.input("Hello:  ")
+  input("hi")
+  builtins.input("hi")
+  input()
+  builtins.input()
+
   print(formatFunction)
   print(f"WOAHHHHH {bold('BOLDING')}")
   print(f"HOLLOY COW {underline('WE UNDERLINE')}")
