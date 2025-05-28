@@ -14,6 +14,12 @@ This Python program parses through data files the user retrieves from Spotify, a
 
 Due to environment variables storing secrets for this API, this program is made to run on GitHub's Codespace. To open up a Codespace, click the button above labeled **Open in GitHub Codespaces**.
 
+You may also open the Codespace in VS Code Desktop:
+
+* Click on the hamburger menu on the left side of the Codespace
+* Click **Open in VS Code Desktop**
+* Click **Open** when prompted to let the 'GitHub Codespaces' extension open this project's URI
+
 ### Importing Files
 
 The program must read your Spotify data files for it to function properly. Follow these steps to import the files into this codespace:
