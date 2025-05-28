@@ -1,6 +1,6 @@
-# Spotify's Unique Song Collector
-
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/TKothenbeutel/Unique-Spotify-Songs?quickstart=1)
+
+# Spotify's Unique Song Collector
 
 Parses through an account's extended streaming history and finds every unique song listened to in a given range. Spotipy is also utilized to add those results to a playlist.
 
