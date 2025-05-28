@@ -1,4 +1,5 @@
 from datetime import datetime
+from time import sleep
 from Helpers.ProgressBar import ProgressBar
 from Helpers.DataParse import validatedFile
 from Helpers.Settings import settingByName
@@ -315,8 +316,11 @@ class MasterSongContainer(object):
   def parse(self):
     """Runs data parsing functions."""
     self.removeLowCount() #Remove low counts
+    sleep(0.5)
     self.compareContainersURI() #Remove by uris from dict
+    sleep(0.5)
     self.compareContainersSong() #Remove by songs from dict
+    sleep(0.5)
     self.combineSongs() #Combine songs with diff uri
   
     
