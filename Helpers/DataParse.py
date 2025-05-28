@@ -1,6 +1,7 @@
 import json
 from os import listdir
-from Helpers.Formatting import *
+#from Helpers.Formatting import *
+from Formatting import *
 
 def validatedFile(file, ext = '.json') -> str:
   """Get file inputted by user and ensure it can be used."""
@@ -33,7 +34,10 @@ def validatedFolder(folder:str) -> list:
     print("These files were successfully imported:")
     for i in files:
       if(i.endswith(".json") and i[:23] == "Streaming_History_Audio"):
-        i = folder + '\\' + i
+        if('\\' in folder):
+          i = folder + '/' + i
+        else:
+          i = folder + '/' + i
         dump = readJSON(i)
         if(dump is not None):
           print(i)
@@ -68,9 +72,9 @@ if __name__ == "__main__":
   with open(fPath,'w') as file:
     file.write(resultToJSON)
   '''
-  folder = "C:\\Users\\tkong\\Downloads\\Python Codes\\Spotify\\AllTime_my_spotify_data\\Spotify Extended Streaming History"
+  folder = "/workspaces/Unique-Spotify-Songs/Spotify Extended Streaming History"
   data = validatedFolder(folder)
-  print(data)
-  for i in range(len(data)):
-    readJSON(data[i])
-  pass
+  #print(data)
+  files = listdir(folder)
+  #with open(folder+'/'+files[0],'r',encoding='utf-8') as f:
+    #print(json.load(f))
