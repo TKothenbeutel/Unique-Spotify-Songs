@@ -14,14 +14,14 @@ This Python program parses through data files the user retrieves from Spotify, a
 
 ### Opening the Program
 
-Due to environment variables storing secrets for this API, this program is made to run on GitHub's Codespace. To open up a Codespace, click the button labeled **Open in GitHub Codespaces**.
+Due to environment variables storing secrets for this API, this program is made to run on GitHub's Codespace. To open up a Codespace, click the button above labeled **Open in GitHub Codespaces**.
 
 ### Importing Files
 
 The program must read your Spotify data files for it to function properly. Follow these steps to import the files into this codespace:
 
 * Ensure the explorer tab is showing
-* There are two ways to upload files to this space:
+* Perform either of these actions:
    * Drag your file/folder from your File Explorer onto the explorer tab empty space
    * Right click on the empty space in the explorer tab, and click upload to open your File Explorer for selection
 
@@ -34,16 +34,16 @@ The program must read your Spotify data files for it to function properly. Follo
 
 ### Settings
 
-* Beginning Date: The date that a song must be first listened to for it to be possible to be added to the collection. Please follow yyyy-mm-dd format. Default is one year from today.
-* Min Count: Remove songs that have been listened to fewer times than this number. Default is 2.
-* Min MS: Minimum number of milliseconds (1,000ms = 1 second) the song needs to be listened to in one sitting for it to count in this data. Note: track fully finishing will override this setting. Default is 30,000.
-* Song Preference: If a song has multiple IDs (usually from it being on different albums), have it keep the oldest, newest, both copies, or ask which of the IDs to keep every time. Default is ask.
-* Min Count Override: If a song has been listened to this many more times in the collection range than out of it, then it will be included in the collection. If this number is -1, it will not do this. Default is -1.
-* Earliest Date: The earliest date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is 2000-01-01.
-* Last Date: The last date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is tomorrow's date.
-* Playlist Add Timer: Amount of time (in seconds) to wait in between adding each song to the given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is 0.
-* Song Grace Period: Period at which a song has a chance to be included in the playlist, regardless if it reaches minCount (will still be rejected if it was listened to before earlyRange). The range starts from the given day through today. Please follow yyyy-mm-dd format. Default is a week from today.
-* Universal Min Count: Determines if songs before beginningDate should also meet the minimum count requirement to be looked at. Default is False.
+* **Beginning Date**: The date that a song must be first listened to for it to be possible to be added to the collection. Please follow yyyy-mm-dd format. Default is one year from today.
+* **Min Count**: Remove songs that have been listened to fewer times than this number. Default is 2.
+* **Min MS**: Minimum number of milliseconds (1,000ms = 1 second) the song needs to be listened to in one sitting for it to count in this data. Note: track fully finishing will override this setting. Default is 30,000.
+* **Song Preference**: If a song has multiple IDs (usually from it being on different albums), have it keep the oldest, newest, both copies, or ask which of the IDs to keep every time. Default is ask.
+* **Min Count Override**: If a song has been listened to this many more times in the collection range than out of it, then it will be included in the collection. If this number is -1, it will not do this. Default is -1.
+* **Earliest Date**: The earliest date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is 2000-01-01.
+* **Last Date**: The last date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is tomorrow's date.
+* **Playlist Add Timer**: Amount of time (in seconds) to wait in between adding each song to the given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is 0.
+* **Song Grace Period**: Period at which a song has a chance to be included in the playlist, regardless if it reaches **minCount** (will still be rejected if it was listened to before earlyRange). The range starts from the given day through today. Please follow yyyy-mm-dd format. Default is a week from today.
+* **Universal Min Count**: Determines if songs before **beginningDate** should also meet the minimum count requirement to be looked at. Default is False.
 
 
 ## Issues
