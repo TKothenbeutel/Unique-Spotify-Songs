@@ -1,7 +1,7 @@
 import json
 from os import listdir
-#from Helpers.Formatting import *
-from Formatting import *
+from Helpers.Formatting import *
+
 
 def validatedFile(file, ext = '.json') -> str:
   """Get file inputted by user and ensure it can be used."""
