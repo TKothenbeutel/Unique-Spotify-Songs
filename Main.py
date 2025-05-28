@@ -363,7 +363,7 @@ def welcome():
   print(f'Welcome to the {bold("Spotify Unique Song Parser")}!')
   print(f'{bold(underline("S")+"tart")}: Start the process to parse through your data')
   print(f'{bold(underline("R")+"esume")}: Use previous program results and skip the parsing')
-  print(f'{bold(underline("Set")+"tings")}: View and change settings')
+  print(f'{bold("Se"+underline("t")+"tings")}: View and change settings')
   print(f'{bold(underline("A")+"bout")}: Learn more about this program')
   print(f'{bold(underline("E")+"xit")}: Close the program')
   inp = input('\n\n').lower()
@@ -371,7 +371,7 @@ def welcome():
     return run()
   elif(inp == 'resume' or inp == 'r'):
     return resume()
-  elif(inp == 'settings' or inp == 'set'):
+  elif(inp == 'settings' or inp == 't'):
     options()
     return welcome()
   elif(inp == 'about' or inp == 'a'):
