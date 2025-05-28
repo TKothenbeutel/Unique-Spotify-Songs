@@ -86,7 +86,7 @@ def init():
   global settings
 
   #Base
-  beginningDate = _Setting('beginningDate',today-relativedelta(year=today.year-1),f"The date that a song must be first listened to for it possible to be added to the collection. Please follow yyyy-mm-dd format. Default is {bold('one year from today')}.")
+  beginningDate = _Setting('beginningDate',today-relativedelta(year=today.year-1),f"The date that a song must be first listened to for it to be possible to be added to the collection. Please follow yyyy-mm-dd format. Default is {bold('one year from today')}.")
   minCount = _Setting('minCount',2,f"Remove songs that have been listened to fewer times than this number. Default is {bold(2)}.")
   minMS = _Setting('minMS',30_000,f"Minimum number of milliseconds (1,000ms = 1 second) the song needs to be listened to in one sitting for it to count in this data. Note: track fully finishing will override this setting. Default is {bold('30,000')}.")
   songPreference = _Setting('songPreference',3,f"If a song has multiple IDs (usually from it being on different albums), have it keep the oldest, newest, both copies, or ask which of the IDs to keep every time. Default is {bold('ask')}.",('oldest','newest','both','ask'))
