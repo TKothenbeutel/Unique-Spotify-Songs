@@ -3,11 +3,13 @@ from os import listdir
 from Helpers.Formatting import *
 
 
-def validatedFile(file, ext = '.json') -> str:
+def validatedFile(file:str, ext = '.json') -> str:
   """Get file inputted by user and ensure it can be used."""
   #Check if extension is correct
   if(file[0-len(ext):] != ext):
     print(f'Please give the absolute file location with extention {bold(ext)}.')
+  elif(file.split('/')[-1][:23] != "Streaming_History_Audio"):
+    print(f"Cannot use this file. The file must be {bold('Streaming_History_Audio_')}... and be of type {bold("JSON")}.")
   else:
     #Attempt to open and close file
     try:
@@ -45,6 +47,8 @@ def validatedFolder(folder:str) -> list:
     return spotify_audio_files
   except FileNotFoundError:
     print("Could not find the folder given. Please try again.")
+  except Exception:
+    print("Could not parse folder/file. Please try again.")
 
 def readJSON(file:str):
   """Read JSON files and converts it to a python dictionary"""

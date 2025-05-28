@@ -412,7 +412,6 @@ def run():
       if(data):
         dataContainer.append(data)
         print('File succesfully imported.')
-        input()
 
   print()#Spacing
 
