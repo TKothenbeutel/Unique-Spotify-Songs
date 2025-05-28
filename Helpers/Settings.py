@@ -86,18 +86,18 @@ def init():
   global settings
 
   #Base
-  beginningDate = _Setting('beginningDate',today-relativedelta(year=today.year-1),"The date that a song must be first listened to for it possible to be added to the collection. Please follow yyyy-mm-dd format. Default is one year from today.")
-  minCount = _Setting('minCount',2,"Remove songs that have been listened to fewer times than this number. Default is 2.")
-  minMS = _Setting('minMS',30_000,"Minimum number of milliseconds (1,000ms = 1 second) the song needs to be listened to in one sitting for it to count in this data. Note: track fully finishing will override this setting. Default is 30,000.")
-  songPreference = _Setting('songPreference',3,"If a song has multiple IDs (usually from it being on different albums), have it keep the oldest, newest, both copies, or ask which of the IDs to keep every time. Default is ask.",('oldest','newest','both','ask'))
+  beginningDate = _Setting('beginningDate',today-relativedelta(year=today.year-1),f"The date that a song must be first listened to for it possible to be added to the collection. Please follow yyyy-mm-dd format. Default is {bold('one year from today')}.")
+  minCount = _Setting('minCount',2,f"Remove songs that have been listened to fewer times than this number. Default is {bold(2)}.")
+  minMS = _Setting('minMS',30_000,f"Minimum number of milliseconds (1,000ms = 1 second) the song needs to be listened to in one sitting for it to count in this data. Note: track fully finishing will override this setting. Default is {bold('30,000')}.")
+  songPreference = _Setting('songPreference',3,f"If a song has multiple IDs (usually from it being on different albums), have it keep the oldest, newest, both copies, or ask which of the IDs to keep every time. Default is {bold('ask')}.",('oldest','newest','both','ask'))
 
   #Extras
-  minCountOverride = _Setting('minCountOverride',-1,"If a song has been listened to this many more times in the collection range than out of it, then it will be included in the collection. If this number is -1, it will not do this. Default is -1.")
-  earliestDate = _Setting('earliestDate',datetime(2000,1,1).date(),"The earliest date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is 2000-01-01.")
-  lastDate = _Setting('lastDate',today+relativedelta(days=1),"The last date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is tomorrow's date.")
-  playlistAddTimer = _Setting('playlistAddTimer',0,"Amount of time (in seconds) to wait in between adding each song to the given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is 0.")
-  songGracePeriod = _Setting('songGracePeriod',today-relativedelta(days=7),"Period at which a song has a chance to be included in the playlist, regardless if it reaches minCount (will still be rejected if it was listened to before earlyRange). The range starts from the given day through today. Please follow yyyy-mm-dd format. Default is a week from today.")
-  universalMinCount = _Setting('universalMinCount',False,"Determines if songs before beginningDate should also meet the minimum count requirement to be looked at. Default is False.")
+  minCountOverride = _Setting('minCountOverride',-1,f"If a song has been listened to this many more times in the collection range than out of it, then it will be included in the collection. If this number is -1, it will not do this. Default is {bold('-1')}.")
+  earliestDate = _Setting('earliestDate',datetime(2000,1,1).date(),f"The earliest date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is {bold('2000-01-01')}.")
+  lastDate = _Setting('lastDate',today+relativedelta(days=1),f"The last date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is {bold('''tomorrow's date''')}.")
+  playlistAddTimer = _Setting('playlistAddTimer',0,f"Amount of time (in seconds) to wait in between adding each song to the given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is {bold(0)}.")
+  songGracePeriod = _Setting('songGracePeriod',today-relativedelta(days=7),f"Period at which a song has a chance to be included in the playlist, regardless if it reaches minCount (will still be rejected if it was listened to before earlyRange). The range starts from the given day through today. Please follow yyyy-mm-dd format. Default is a {bold('week from today')}.")
+  universalMinCount = _Setting('universalMinCount',False,f"Determines if songs before beginningDate should also meet the minimum count requirement to be looked at. Default is {bold('False')}.")
   
 
   settings = [
