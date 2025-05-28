@@ -75,7 +75,7 @@ def underline(s:str)->str:
   return '\u0332'.join(s + ' ')[:-1] if formatFunction else f'_{s}_'
 
 
-def wrap_text_to_terminal(text) -> str:
+def wrap_text_to_terminal(text: str) -> str:
     """Wraps text to the current terminal width using textwrap."""
     try:
         terminal_size = shutil.get_terminal_size()  #Get terminal dimensions
@@ -84,10 +84,11 @@ def wrap_text_to_terminal(text) -> str:
         #Fallback if broken (105 is default width of terminal for my laptop)
         width = 105
     
-    wrapped_text = textwrap.fill(text, width=width, drop_whitespace=False, replace_whitespace=False) # Wrap the text
-    return wrapped_text
+    splittedText = text.splitlines()
+    wrapped_lines = [textwrap.fill(line,width=width, drop_whitespace=False, replace_whitespace=False) for line in splittedText]
+    return '\n'.join(wrapped_lines)
 
-def print(value,
+def print(value = "",
     sep: str | None = " ",
     end: str | None = "\n") -> None:
   return builtins.print(wrap_text_to_terminal(str(value)),sep=sep,end=end)
