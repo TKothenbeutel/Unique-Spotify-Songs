@@ -66,14 +66,14 @@ class _Setting():
     if(self.options): #Setting has multiple options that don't fit type
       for i in range(len(self.options)):
         if(self.value == i):
-          message += f'{bold(self.options[i])}{tab}'
+          message += f'{bold(underline(self.options[i]))}{tab}'
         else:
-          message += f'{self.options[i]}{tab}'
+          message += f'{bold(self.options[i])}{tab}'
     elif(type(self.value) == bool):
       if(self.value):
-        message += f'{bold("True")}{tab}False'
+        message += f'{bold(underline("True"))}{tab}{bold("False")}'
       else:
-        message += f'True{tab}{bold("False")}'
+        message += f'{bold("True")}{tab}{bold(underline("False"))}'
     else:
       message += f'{bold(self.value)}'
     return message
