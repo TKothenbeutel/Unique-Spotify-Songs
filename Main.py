@@ -531,6 +531,6 @@ def resume():
 
 if __name__ == "__main__":
   system('cls' if name == 'nt' else 'clear')
-  S.init()
   initFormat()
+  S.init()
   welcome()
