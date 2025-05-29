@@ -162,7 +162,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
   inp = input(f"I'm sure you got some great songs snagged already, but would you like any songs required to be in this data, regardless of the song's uniqueness? {bold('(y/n)')} ").lower()
 
   if(inp == 'y' or inp == 'yes'):
-    print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force added to this data. Please note that timestamp added these songs will be today's date and current time. If you save your song results, the songs added through this method will have a count of 0.")
+    print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force added to this data. Please note that the timestamp added to these songs will be today's date and current time. If you save your song results, the songs added through this method will have a count of 0.")
     input()
 
     sp = SpotifyGateway(None, None)
@@ -336,7 +336,6 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
       if(len(songs) > 0):
         print("Time to remove these songs from the data!")
         input()
-        print(songs)
         prevLen = len(songContainer.desiredSongs)
         pBar = ProgressBar(len(songs), 'Removing songs from dataset')
         for uri in songs:
@@ -408,6 +407,9 @@ def run():
       if(data):
         dataContainer += data
     else:
+      if(inp.split('/')[-1][:23] != "Streaming_History_Audio"):
+        print(f"Cannot use this file. The file must be {bold('Streaming_History_Audio_')}... and be of type {bold("JSON")}.")
+        continue
       data = validatedFile(inp)
       if(data):
         dataContainer.append(data)

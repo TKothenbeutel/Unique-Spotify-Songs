@@ -8,8 +8,6 @@ def validatedFile(file:str, ext = '.json') -> str:
   #Check if extension is correct
   if(file[0-len(ext):] != ext):
     print(f'Please give the absolute file location with extention {bold(ext)}.')
-  elif(file.split('/')[-1][:23] != "Streaming_History_Audio"):
-    print(f"Cannot use this file. The file must be {bold('Streaming_History_Audio_')}... and be of type {bold("JSON")}.")
   else:
     #Attempt to open and close file
     try:
