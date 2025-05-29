@@ -56,7 +56,7 @@ class _Setting():
 
   def printWithAbout(self) -> str:
     message = str(self) + '\n'
-    message += '   ' + self.message + '\n\n'
+    message += '   ' + self.message + '\n'
     return message
 
   def __repr__(self) -> str:
