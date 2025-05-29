@@ -456,7 +456,7 @@ def run():
 
   #Save for later or add to playlist
   while(True):
-    inp = input(f"Would you like to {bold(underline('s')+'ave')} the results, {bold(underline('a')+'dd')} the unique songs to a playlist, or do {bold(underline('b')+'oth')} options? \n").lower()
+    inp = input(f"Would you like to {bold(underline('s')+'ave')} the results, {bold(underline('a')+'dd')} the unique songs to a playlist, or do {bold(underline('b')+'oth')} options?\n").lower()
     if(inp == 'save' or inp == 's'):
       saveResults(songContainer)
       break

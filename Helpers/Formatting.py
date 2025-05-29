@@ -86,6 +86,8 @@ def wrap_text_to_terminal(text: str) -> str:
     
     splittedText = text.splitlines()
     wrapped_lines = [textwrap.fill(line,width=width, drop_whitespace=False, replace_whitespace=False) for line in splittedText]
+    if(len(text) > 0 and text[-1] == '\n'):
+      return '\n'.join(wrapped_lines) + '\n'
     return '\n'.join(wrapped_lines)
 
 def print(value = "",
@@ -100,12 +102,12 @@ def input(prompt: object = ""):
 if __name__ == "__main__":
   initFormat()
 
-  input("Hello:  ")
-  builtins.input("Hello:  ")
-  input("hi")
-  builtins.input("hi")
-  input()
-  builtins.input()
+  input("Hello:\n")
+  builtins.input("Hello:\n")
+  input("hi\n\n")
+  builtins.input("hi\n\n")
+  input('eep')
+  builtins.input('eep')
 
   print(formatFunction)
   print(f"WOAHHHHH {bold('BOLDING')}")
