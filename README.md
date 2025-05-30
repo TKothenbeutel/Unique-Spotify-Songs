@@ -8,6 +8,10 @@ Parses through an account's extended streaming history and finds every unique so
 
 This Python program parses through data files the user retrieves from Spotify, and collects any new and unique songs listened to in a given time range. Once run, the user interacts with the program through the terminal and follows the instructions to get the desired results. This program currently only works with Spotify's extended streaming history, not with the lesser account data package. The user can also alter the program with 10 different settings, allowing for different timeframes, changing what constitutes as a new song, and more! Afterwards, the user may save these results to a .json file, such as how Spotify gives its stored data, or it can be uploaded to a playlist thanks to Spotipy and the Spotify API.
 
+## Requirements
+
+The program requires the user to supply files from their <ins>Extended Streaming History</ins> folder received from Spotify. This program is not designed for the lesser streaming history data, as obtained from choosing "Account Data" when downloading a user's Spotify data. The user also needs an accessible Spotify account if they would like to add results to a playlist.
+
 ## Using the Program
 
 ### Opening the Program
@@ -33,10 +37,12 @@ The program must read your Spotify data files for it to function properly. Follo
 
 * Open Main.py
 * Run the file. My go-to way of going about this is to click the play button at the upper-right corner of the editor
-* The program runs in the terminal. Feel free to stretch it to view more of it at once. You can also click the up arrow at the right of the terminal to take up the code's space
+* The program runs in the terminal. Feel free to stretch it to view more of it at once. You can also click the up arrow to the right of the terminal to take up the code's space
 * Follow the instructions displayed in the terminal
 
-### Settings
+If you have a result file after running the program, you may download that file by right-clicking it in the Explorer tab and clicking "Download...". Any file uploaded or created will be saved on the Codespace as long as you do not delete the space.
+
+## Settings
 
 * **Beginning Date**: The date that a song must be first listened to for it to be possible to be added to the collection. Please follow yyyy-mm-dd format. Default is one year from today.
 * **Min Count**: Remove songs that have been listened to fewer times than this number. Default is 2.
@@ -68,7 +74,7 @@ Taylor Kothenbeutel
 ## Version History
 
 * 0.1
-  * Initial release
+  * Closed-testing release
 
 ## License
 
