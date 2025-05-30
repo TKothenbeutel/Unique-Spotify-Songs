@@ -174,11 +174,14 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
     print("If you have done this step before, this step will be omitted.")
     input()
     while(True):
-      playlist = input(f"Please enter the ID of the playlist containing the songs you would like added. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's ID, or enter {bold(underline('d')+'one')} when you are finished inputting playlist IDs: ")
+      playlist = input(f"Please enter the ID of the playlist containing the songs you would like added. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's ID. Enter {bold(underline('d')+'one')} when you are finished inputting playlist IDs, or enter {bold(underline('c')+'ancel')} if you would not like to add songs: ")
       if(playlist.lower() == 'help' or playlist.lower() == 'h'):
         print(f"To retrieve a playlist's ID, please follow these instructions:\n\t1. Navigate to the web version of Spotify.\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This key smash of characters is the playlist ID.")
         playlist = input("Please enter the desired playlist's id: ")
       elif(playlist.lower() == 'done' or playlist.lower() == 'd'):
+        break
+      elif(playlist.lower() == 'cancel' or playlist.lower() == 'c'):
+        songs = []
         break
       else:
         track_results = sp.getPlaylistSongs(playlist)
@@ -230,11 +233,14 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
       print("If you have done this step before, this step will be omitted.")
       input()
       while(True):
-        inp = input(f"Please enter the ID of the playlist, artist name (case-sensitive), or song title/URI that you would like removed. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's ID, or enter {bold(underline('d')+'one')} when you are finished inputting playlist IDs: ")
+        inp = input(f"Please enter the ID of the playlist, artist name (case-sensitive), or song title/URI that you would like removed. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's ID. Enter {bold(underline('d')+'one')} when you are finished inputting playlist IDs, or enter {bold(underline('c')+'ancel')} if you would not like to remove songs: ")
         if(inp.lower() == 'help' or inp.lower() == 'h'):
           print(f"To retrieve a playlist's ID, please follow these instructions:\n\t1. Navigate to the web version of Spotify.\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This key smash of characters is the playlist ID.")
           inp = input("Please enter the desired playlist's ID, artist name, or song title: ").lower()
         elif(inp.lower() == 'done' or inp.lower() == 'd'):
+          break
+        elif(playlist.lower() == 'cancel' or playlist.lower() == 'c'):
+          songs = []
           break
         else:#Input of artist/song/playlist
           artistResult = list(songContainer.desiredSongs.artists(inp))
