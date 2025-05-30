@@ -20,25 +20,25 @@ Due to environment variables storing secrets for this API, this program is made 
 
 You may also open the Codespace in VS Code Desktop:
 
-* Click on the hamburger menu on the left side of the Codespace
-* Click **Open in VS Code Desktop**
-* Click **Open** when prompted to let the 'GitHub Codespaces' extension open this project's URI
+1. Click on the hamburger menu on the left side of the Codespace
+2. Click **Open in VS Code Desktop**
+3. Click **Open** when prompted to let the 'GitHub Codespaces' extension open this project's URI
 
 ### Importing Files
 
 The program must read your Spotify data files for it to function properly. Follow these steps to import the files into this codespace:
 
-* Ensure the explorer tab is showing
-* Perform either of these actions:
-   * Drag your file/folder from your File Explorer onto the explorer tab empty space
-   * Right click on the empty space in the explorer tab, and click upload to open your File Explorer for selection
+1. Ensure the Explorer tab is showing
+2. Perform either of these actions:
+   - Drag your file/folder from your File Explorer onto the explorer tab empty space
+   - Right click on the empty space in the Explorer tab, and click upload to open your File Explorer for selection
 
 ### Running the Program
 
-* Open Main.py
-* Run the file. My go-to way of going about this is to click the play button at the upper-right corner of the editor
-* The program runs in the terminal. Feel free to stretch it to view more of it at once. You can also click the up arrow to the right of the terminal to take up the code's space
-* Follow the instructions displayed in the terminal
+1. Open Main.py
+2. Run the file. My go-to way of going about this is to click the play button at the upper-right corner of the editor
+3. The program runs in the terminal. Feel free to stretch it to view more of it at once. You can also click the up arrow to the right of the terminal to take up the code's space
+4. Follow the instructions displayed in the terminal
 
 If you have a result file after running the program, you may download that file by right-clicking it in the Explorer tab and clicking "Download...". Any file uploaded or created will be saved on the Codespace as long as you do not delete the space.
 
@@ -58,10 +58,10 @@ If you have a result file after running the program, you may download that file 
 
 ## Issues
 
-##### &#9679; When right-clicking in the explorer menu, the only option that appears is **Paste**, and not the full menu that gives the ability to copy a file path or upload files
+##### &#9679; When right-clicking in the explorer menu, the only option that appears is **Paste**, and not the full menu that gives the ability to copy a file path or upload files.
   * To fix this, right-click the desired file so that **Paste** appears
   * Right click again on either the **Paste** box or further right of it. The full menu should now appear
-  * Side note: The paste option takes a second before becoming a usable option. Wait for the paste option to be clickable before right-clicking it or pasting in general
+    - Note: The paste option takes a second before becoming a usable option. Wait for the paste option to be clickable before you right-click or use it
 ##### &#9679; The program opens a page that cannot be connected to.
   * This is the normal behavior of the API that this program uses
   * Once the webpage is done loading, you will need to copy and paste the link into the terminal to continue. After that, feel free to close that tab
