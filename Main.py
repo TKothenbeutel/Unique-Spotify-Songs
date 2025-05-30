@@ -24,7 +24,7 @@ def exportSettings():
       else:
         file.write(f'{setting.name}: {setting.value}\n')
     file.truncate()
-  print(f'Settings saved at {abspath(fPath)}. Please do not edit or relocate file.')
+  print(f'Settings saved at {abspath(fPath)}. Please do not edit, rename, or relocate the file.')
   input()
 
 def importSettings():
@@ -67,7 +67,7 @@ def options(abouts = False):
   else:
     S.printSettings()
 
-  inp = input(f'You may change a setting by inputting {bold("{number} {value}")}, input {bold(underline("a")+"bout")} to learn more/less about each setting, {bold(underline("e")+"xport")} to export current settings, {bold(underline("i")+"mport")} to import previously saved settings, or input {bold(underline("b")+"ack")} to go back. You may also input {bold(underline("d")+"efault")} to revert the settings back to their default values.\n\n').lower()
+  inp = input(f"You may change a setting by inputting {bold('{number} {value}')}, input {bold(underline('a')+'bout')} to learn more/less about the settings, {bold(underline('e')+'xport')} to export current settings, {bold(underline('i')+'mport')} to import previously saved settings, or input {bold(underline('b')+'ack')} to go back. You may also input {bold(underline('d')+'efault')} to revert the settings to their default values. It's recommended to export any changes because the settings will reset upon relaunch.\n\n").lower()
   
   if(inp == 'about' or inp == 'a'): #About
     return options(not abouts)
@@ -85,7 +85,7 @@ def options(abouts = False):
     S.init()
     return options()
   else:
-    print('Input given could not be used. Please try again.')
+    print("Input could not be used. Please try again." )
     input()
   return options(abouts)
 
@@ -109,7 +109,7 @@ def saveResults(songContainer:MasterSongContainer):
   resultToJSON = dictToJSON(plainSongs)
   with open(fPath,'w') as file:
     file.write(resultToJSON)
-  print(f'\nSong results written in {abspath(fPath)}')
+  print(f'\nSong results written to {abspath(fPath)}')
   input()
 
 def addToPlaylist(songContainer:MasterSongContainer):
@@ -117,9 +117,9 @@ def addToPlaylist(songContainer:MasterSongContainer):
   #Get username
   username = input(f'Please enter your {bold("Spotify username")} (not your display name): ')
   #Get playlist id (help if needed)
-  playlist_id = input(f"Now, please enter the id of the playlist you would like the songs added to. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's id: ")
+  playlist_id = input(f"Now, please enter the ID of the playlist you would like the songs added to. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's ID: ")
   if(playlist_id.lower() == 'help' or playlist_id.lower() == 'h'):
-    print(f"To retrieve a playlist's id, please follow these instructions:\n\t1. Open a web browser and sign into your {bold('Spotify')} account\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This keysmash of characters is your playlist id.")
+    print(f"To retrieve a playlist's ID, please follow these instructions:\n\t1. Navigate to the web version of Spotify.\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This key smash of characters is the playlist ID.")
     playlist_id = input("Please enter the desired playlist's id: ")
   
   sp = SpotifyGateway(username, playlist_id)
@@ -128,14 +128,14 @@ def addToPlaylist(songContainer:MasterSongContainer):
   print()
   print("This program will now ask you to log in to your Spotify account to verify the username and playlist given.")
   print("If you are not already signed in, it will redirect you to Spotify's login page. Please sign in with the account holding the username given")
-  print("Next, it will open a new tab that will fail to connect to a webpage. This is normal. You will need to copy the url of that page, and paste it when asked. Feel free to close that tab afterwards.")
+  print("Next, it will open a new tab that will fail to connect to a webpage. This is normal. You will need to copy the URL of that page, and paste it when asked. Feel free to close that tab afterwards.")
   print("If you have already given this username to the program prior, the new tab step will be ommitted.")
   input()#Wait for user
 
   print('Now testing to ensure the username and playlist exist.')
   test = sp.validateInformation()
   if(not test): #Test failed
-    print(f'Unfortunately, the test was unsuccesful. Please keep in mind to enter your {bold("username")} and a {bold("playlist id")} that you are the owner of.')
+    print(f'Unfortunately, the test was unsuccessful. Please keep in mind to enter your {bold("username")} and a {bold("playlist ID")} that you are the owner of.')
     input(f'Press {bold("Enter")} to try again.\n')
     return addToPlaylist(songContainer)
   #Test passed
@@ -159,29 +159,29 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
   system('cls' if name == 'nt' else 'clear')
 
   #Force add
-  inp = input(f"I'm sure you got some great songs snagged already, but would you like any songs required to be in this data, regardless of the song's uniqueness? {bold('(y/n)')} ").lower()
+  inp = input(f"I'm sure you got some great songs snagged already, but would you like any songs forced in the collection, regardless of the song's uniqueness? {bold('(y/n)')} ").lower()
 
   if(inp == 'y' or inp == 'yes'):
-    print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force added to this data. Please note that the timestamp added to these songs will be today's date and current time. If you save your song results, the songs added through this method will have a count of 0.")
+    print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force-added to this collection. Please note that the timestamp added to these songs will be today's date and current time. If you save your song results, the songs added via this method will have a count of 0.")
     input()
 
     sp = SpotifyGateway(None, None)
     songs = []
 
-    print("When you enter a playlist ID, the program may take you to a new tab with a broken webpage. This is normal. This tab builds the connection between this program Spotify. What you will need to do is to copy the url and paste it in the terminal when asked. Feel free to close the tab afterwards.")
+    print("When you enter a playlist ID, the program may take you to a new tab with a broken webpage. This is normal. This tab builds the connection between this program and Spotify. What you will need to do is to copy the URL and paste it into the terminal when asked. Feel free to close the tab afterward.")
     print("If you have done this step before, this step will be omitted.")
     input()
     while(True):
-      playlist = input(f"Please enter the id of the playlist containing the songs you would like added. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's id, or enter {bold(underline('d')+'one')} when you are finished inputting playlist ids: ")
+      playlist = input(f"Please enter the ID of the playlist containing the songs you would like added. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's ID, or enter {bold(underline('d')+'one')} when you are finished inputting playlist IDs: ")
       if(playlist.lower() == 'help' or playlist.lower() == 'h'):
-        print(f"To retrieve a playlist's id, please follow these instructions:\n\t1. Open a web browser and sign into your {bold('Spotify')} account\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This keysmash of characters is your playlist id.")
+        print(f"To retrieve a playlist's ID, please follow these instructions:\n\t1. Navigate to the web version of Spotify.\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This key smash of characters is the playlist ID.")
         playlist = input("Please enter the desired playlist's id: ")
       elif(playlist.lower() == 'done' or playlist.lower() == 'd'):
         break
       else:
         track_results = sp.getPlaylistSongs(playlist)
         if(track_results is None):
-          print("The input given could not be read properly, or the playlist given is empty. Remember to enter a playlist id one at a time. Please try again.")
+          print("The input could not be read properly, or the playlist was empty. Remember to enter a playlist ID one at a time. Please try again.")
           input()#Wait for user
           continue
         songs += track_results
@@ -189,13 +189,13 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
         input()#Wait for user
     
     if(len(songs)>0):
-      print("Time to add these songs to the data!")
+      print("Time to add these songs to the collection!")
       input()
-      pBar = ProgressBar(len(songs), 'Adding songs to dataset')
+      pBar = ProgressBar(len(songs), 'Adding songs to collection')
       for song in songs:
         uri = song['track']['uri']
         if(uri in songContainer.desiredSongs):
-          pBar.updateProgress() #Song already in dataset
+          pBar.updateProgress() #Song already in collection
         else:
           containerAltered = True
           title = song['track']['name']
@@ -210,28 +210,28 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
   elif(inp == 'n' or inp == 'no'):
     pass
   else:
-    print("Sorry, that input couldn't be read, please try again.")
+    print("Input could not be used. Please try again." )
     input()
     return forceAddRemove(songContainer)
 
   #Force remove
   while(True):#While loop in case input could not be read
-    inp = input(f"Would you like any songs to be forced removed from this data? {bold('(y/n)')} ").lower()
+    inp = input(f"Would you like to force remove any songs from this collection? {bold('(y/n)')} ").lower()
     
     if(inp == 'y' or inp == 'yes'):
-      print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force removed from this data. You can also input an artist to remove all of their songs, or a specific song title or URI to ensure a particular song is not included.")
+      print("Sounds good! To do this, get a playlist (or multiple) containing songs you would like to be force-removed from this collection. You can also input an artist to remove all of their songs, or a specific song title or URI to ensure a particular song is not included.")
       input()
 
       sp = SpotifyGateway(None, None)
       songs = []
-      print("When you enter a playlist ID, the program may take you to a new tab with a broken webpage. This is normal. This tab builds the connection between this program Spotify. What you will need to do is to copy the url and paste it in the terminal when asked. Feel free to close the tab afterwards.")
+      print("When you enter a playlist ID, the program may take you to a new tab with a broken webpage. This is normal. This tab builds the connection between this program and Spotify. What you will need to do is to copy the URL and paste it into the terminal when asked. Feel free to close the tab afterward.")
       print("If you have done this step before, this step will be omitted.")
       input()
       while(True):
-        inp = input(f"Please enter the id of the playlist, artist name (case-sensitive), or song title/URI that you would like removed. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's id, or enter {bold(underline('d')+'one')} when you are finished inputting playlist ids: ")
+        inp = input(f"Please enter the ID of the playlist, artist name (case-sensitive), or song title/URI that you would like removed. Enter {bold(underline('h')+'elp')} for information on how to retrieve a playlist's ID, or enter {bold(underline('d')+'one')} when you are finished inputting playlist IDs: ")
         if(inp.lower() == 'help' or inp.lower() == 'h'):
-          print(f"To retrieve a playlist's id, please follow these instructions:\n\t1. Open a web browser and sign into your {bold('Spotify')} account\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This keysmash of characters is your playlist id.")
-          inp = input("Please enter the desired playlist's id, artist name, or song title: ").lower()
+          print(f"To retrieve a playlist's ID, please follow these instructions:\n\t1. Navigate to the web version of Spotify.\n\t2. Open the desired playlist. The URL at this point should look something like {bold('open.spotify.com/playlist/...')}\n\t3. Copy the section of the URL after {bold('/playlist/')}. This key smash of characters is the playlist ID.")
+          inp = input("Please enter the desired playlist's ID, artist name, or song title: ").lower()
         elif(inp.lower() == 'done' or inp.lower() == 'd'):
           break
         else:#Input of artist/song/playlist
@@ -239,7 +239,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
           songResult = songContainer.desiredSongs.findSongTitle(inp)
           if(artistResult or songResult): #Input was an artist or song
             if(artistResult and songResult): #Choose which
-              print(f"It appears {bold(inp)} appears as an artist and a song name. Which would you like removed?")
+              print(f"{bold(inp)} is both an artist and a song name. Which would you like removed?")
               while(True):
                 opt = input(f"Input {underline('1')} for the artist or {underline('2')} for song: ")
                 if(opt == '1'):
@@ -248,7 +248,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
                 elif(opt == '2'):
                   artistResult = []
                   break
-              print("Input could not be read, please try again")
+              print("Input could not be used. Please try again.")
               input()#Wait for user
             if(artistResult): #Remove artist
               songs += artistResult
@@ -256,7 +256,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
               input()#Wait for user
             else:
               if(len(songResult) > 1):
-                print(f"There are {bold(len(songResult))} songs with that title found in the data. Select which one you would like removed.")
+                print(f"There are {bold(len(songResult))} songs with that title found in the collection. Select which one you would like removed.")
                 for i in range(len(songResult)):
                   song = songContainer.desiredSongs[songResult[i]]
                   print(f"{i+1}. {song.title} by {bold(song.artist)} on {bold(song.album)}.")
@@ -268,7 +268,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
                     songResult = [songResult[opt]]
                     break
                   except:
-                    print("Input could not be read, please try again.")
+                    print("Input could not be used. Please try again.")
                     input()#Wait for user
                     continue
               song = songContainer.desiredSongs[songResult[0]]
@@ -284,7 +284,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
                   input()#Wait for user
                   break
                 else:
-                  print("Input could not be read, please try again.")
+                  print("Input could not be used. Please try again.")
                   input()#Wait for user 
 
           #Check if inp is URI
@@ -302,7 +302,7 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
                   input()#Wait for user
                   break
                 else:
-                  print("Input could not be read, please try again.")
+                  print("Input could not be used. Please try again.")
                   input()#Wait for user 
           elif("spotify:track:"+inp in songContainer.desiredSongs):#URI without spotify:track
             inp = "spotify:track:"+inp
@@ -319,13 +319,13 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
                   input()#Wait for user
                   break
                 else:
-                  print("Input could not be read, please try again.")
+                  print("Input could not be used. Please try again.")
                   input()#Wait for user
 
           else: #inp was a playist (or not found artist/song)
             track_results = sp.getPlaylistSongs(inp)
             if(track_results is None):
-              print("The input could not be used. This could mean that the artist or song is not in the data, or the playlist given is empty. Remember to enter a playlist id one at a time. Please try again.")
+              print("The input could not be used. This could mean that the artist or song is not in the collection, or the playlist given is empty. Remember to enter a playlist ID one at a time. Please try again.")
               input()#Wait for user
               continue
             for song in track_results:
@@ -334,10 +334,10 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
             input()#Wait for user
       
       if(len(songs) > 0):
-        print("Time to remove these songs from the data!")
+        print("Time to remove these songs from the collection!")
         input()
         prevLen = len(songContainer.desiredSongs)
-        pBar = ProgressBar(len(songs), 'Removing songs from dataset')
+        pBar = ProgressBar(len(songs), 'Removing songs from collection')
         for uri in songs:
           songContainer.forceRemove(uri)
           pBar.updateProgress()
@@ -351,7 +351,8 @@ def forceAddRemove(songContainer:MasterSongContainer) -> bool:
     elif(inp == 'n' or inp == 'no'):
       return containerAltered
     else:
-      input("Sorry, that input couldn't be read, please try again. ")
+      print("Input could not be used. Please try again.")
+      input()#Wait for user
       system('cls' if name == 'nt' else 'clear')
       continue
 
@@ -379,7 +380,7 @@ def welcome():
   elif(inp == 'exit' or inp == 'q' or inp == 'e'):
     return
   else:
-    print("Couldn't use input. Please try again")
+    print("Input could not be used. Please try again.")
     input()
     return welcome()
     
@@ -393,10 +394,10 @@ def run():
   input()
 
   #Gather files
-  print("First, let's get every file containing songs from your all time Spotify history.")
-  print(f'Please input a file location (the file should be called {bold("Streaming_History_Audio")}...{bold(".json")}) or a folder containing the files, and input "Done" when all files have been imported in.')
+  print("First, let's get every file containing songs from your extended Spotify streaming history.")
+  print(f'Please input a file location (the file should be called {bold("Streaming_History_Audio")}...{bold(".json")}) or a folder containing the files, and input {bold(underline("d")+"one")} when all files have been imported in.')
   while(True):
-    inp = input(f'Enter file/folder location or {bold(underline("D")+"one")} here: ')
+    inp = input(f'Enter file/folder location or {bold(underline("d")+"one")} here: ')
     if(inp.lower() == 'done' or inp.lower() == 'd'):
       break
     if(len(inp) > 2 and inp[0] == '"' and inp[-1] == '"'): #Disregard quotations around location
@@ -435,7 +436,7 @@ def run():
   pBar.finish()
 
   #Adding to container results
-  print(f"With adding all the songs to respective containers, {bold(len(songContainer.desiredSongs))} of the {bold(len(songContainer.desiredSongs)+len(songContainer.previousSongs))} songs are potential unique songs listened to in the given range. Let's shrink that number!")
+  print(f"After adding all the songs to their respective containers, {bold(len(songContainer.desiredSongs))} of the {bold(len(songContainer.desiredSongs)+len(songContainer.previousSongs))} songs are potentially unique songs listened to in the given range. Let's shrink that number!")
 
   input()#Wait for user
 
@@ -447,7 +448,7 @@ def run():
   print()#Spacing
 
   #Announce results
-  print(f"Parsing is now complete! In the end, {bold(len(songContainer.desiredSongs))} are found to be unique songs. That's a lot of songs (probably)!\n")
+  print(f"Parsing is now complete! In all, the program found {bold(len(songContainer.desiredSongs))} unique songs. That's a lot of songs (probably)!")
 
   input()#Wait for user
 
@@ -483,7 +484,7 @@ def resume():
 
   masterSongs = MasterSongContainer()
 
-  print(f"First, please input the {bold('abolute path')} of your results from previously using this program. Ensure this file has not been altered, otherwise the program may not be able to use that file.")
+  print(f"First, please input the {bold('abolute path')} of your results from previously using this program. Ensure this file has not been altered, otherwise, the program may not be able to read the file.")
   file = input(f'Enter file location here: ')
   if(len(file) > 2 and file[0] == '"' and file[-1] == '"'): #Disregard quotations around location
       file = file[1:-1]
@@ -497,7 +498,7 @@ def resume():
     addResult = masterSongs.desiredSongs.addFromFile(file)
   
   #Songs added
-  print(f"All {len(masterSongs.desiredSongs)} songs have been imported! Let's move on.")
+  print(f"All {len(masterSongs.desiredSongs)} songs have been imported. Let's move on.")
   input()#Wait for user
 
   #Force add/remove
@@ -506,7 +507,7 @@ def resume():
   #Check if results were altered
   if(altered):
     while(True):
-      inp = input(f"Because the results were just altered, would you like to {bold(underline('s')+'ave')} the results to a new file, {bold(underline('a')+'dd')} the unique songs to a playlist, or do {bold(underline('b')+'oth')} options?\n").lower()
+      inp = input(f"Since the results were just altered, would you like to {bold(underline('s')+'ave')} the results to a new file, {bold(underline('a')+'dd')} the unique songs to a playlist, or do {bold(underline('b')+'oth')} options?\n").lower()
       if(inp == 'save' or inp == 's'):
         saveResults(masterSongs)
         break
