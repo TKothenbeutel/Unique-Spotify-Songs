@@ -1,3 +1,5 @@
+#Run this file to start the program!
+
 from os import system, name
 from Helpers.DataParse import validatedFile, dictToJSON, validatedFolder
 import Helpers.Settings as S
