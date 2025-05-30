@@ -156,7 +156,7 @@ def updateValue(setting:str, value:str):
   
   #Verify setting typed exists
   if(setting < 0 or setting > len(settings)):  #Setting does not exist
-    print(f'{bold(setting+1)} is not a possible setting option.')
+    print(f'{bold(setting+1)} can not be used as a setting number.')
     return input()
 
   sName = settings[setting].name
@@ -192,7 +192,7 @@ def updateValue(setting:str, value:str):
       newNum = settings[setting].options.index(value.lower())
       settings[setting].updateValue(newNum)
     except:
-      print(f'{bold(value)} is not a valid choice for setting {bold(sName)}.')
+      print(f'{bold(value)} is not a valid choice for {bold(sName)}.')
       return input()
   elif(type(settings[setting].value) == type(value)): #Value is correct type
     settings[setting].updateValue(value)

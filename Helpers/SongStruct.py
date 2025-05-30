@@ -264,9 +264,9 @@ class MasterSongContainer(object):
               print(f'Found a duplicate URI for {self.desiredSongs.getTitle(uri1)} by {self.desiredSongs.getArtist(uri1)}')
               print(f'\t1. open.spotify.com/track/{uri1[14:]}; from album titled {self.desiredSongs.getAlbum(uri1)}; first listened on {self.desiredSongs.getTS(uri1)}')
               print(f'\t2. open.spotify.com/track/{uri2[14:]}; from album titled {self.desiredSongs.getAlbum(uri2)}; first listened on {self.desiredSongs.getTS(uri2)}')
-              response = input("Enter '1', '2', or 'both' to pick which one to keep: ").lower()
-              while(response not in ["1","2","both"]):
-                response = input("Invalid input. Enter '1', '2', or 'both' to pick which one to keep: ").lower()
+              response = input(f"Enter {bold('1')}, {bold('2')}, or {bold(underline('b')+'oth')} to pick which one to keep: ").lower()
+              while(response not in ["1","2","both","b"]):
+                response = input(f"Invalid input. Enter {bold('1')}, {bold('2')}, or {bold(underline('b')+'oth')} to pick which one to keep: ").lower()
               if(response == "1"):
                 del self.desiredSongs[uri2]
               elif(response == "2"):

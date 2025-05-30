@@ -7,7 +7,7 @@ def validatedFile(file:str, ext = '.json') -> str:
   """Get file inputted by user and ensure it can be used."""
   #Check if extension is correct
   if(file[0-len(ext):] != ext):
-    print(f'Please give the absolute file location with extention {bold(ext)}.')
+    print(f'Please give the absolute file path with a {bold(ext)} extension.')
   else:
     #Attempt to open and close file
     try:
@@ -19,7 +19,7 @@ def validatedFile(file:str, ext = '.json') -> str:
         return file
     #File can not be found at specified location
     except FileNotFoundError:
-      print(f"File specified cannot be found. Please use its {bold('absolute location')} and try again.")
+      print(f"File specified can not be found. Please use its {bold('absolute location')} and try again.")
       return None
     #Unaccounted for error
     except Exception as e:
@@ -40,8 +40,10 @@ def validatedFolder(folder:str) -> list:
           i = folder + '/' + i
         dump = readJSON(i)
         if(dump is not None):
-          print(i)
+          print(f"   {i}")
           spotify_audio_files.append(dump)
+    if(spotify_audio_files == []):
+      print("   None")
     return spotify_audio_files
   except FileNotFoundError:
     print("Could not find the folder given. Please try again.")
@@ -55,7 +57,7 @@ def readJSON(file:str):
       data = json.load(f)
     return data
   except:
-    print(f"Unable to parse file {file}. Please try again.")
+    print(f"Unable to parse {file}. Please try again.")
     return None
   
 def dictToJSON(dictionary:dict):
