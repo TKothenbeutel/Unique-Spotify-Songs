@@ -56,7 +56,7 @@ class SongsContainer(object):
         if(detail not in song_dict[uri]):
           return False
       tempContainer.addSong(uri,
-                            song_dict[uri]['timestamp'],
+                            datetime.strptime(song_dict[uri]['timestamp'],'%Y-%m-%d %H:%M:%S.%f'),
                             song_dict[uri]['title'],
                             song_dict[uri]['artist'],
                             song_dict[uri]['album'],
@@ -97,6 +97,10 @@ class SongsContainer(object):
     for i in self._songs.keys():
       yield i
         
+  def sort(self):
+    self._songs = dict(sorted(self._songs.items(), key=lambda item: item[1].ts))
+    self._artists = dict(sorted(self._artists.items(), key=lambda item: item[0]))
+
   def artists(self, artist = None) -> list:
     if artist:
       if artist in self._artists:
@@ -308,9 +312,9 @@ class MasterSongContainer(object):
     pBar.finish()
 
 
-  def cleanup(self):
-    """runs functions to cleanup data (do we want?)"""
-    pass
+  def sort(self) -> None:
+    """Sorts the desiredSongs collection in ascending order."""
+    self.desiredSongs.sort()
 
 
   def parse(self):
