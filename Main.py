@@ -503,6 +503,9 @@ def run():
   #Force add or remove any songs
   forceAddRemove(songContainer)
 
+  #Sort collection
+  songContainer.sort()
+
   #Save for later or add to playlist
   while(True):
     inp = input(f"Would you like to {bold(underline('s')+'ave')} the results, {bold(underline('a')+'dd')} the unique songs to a playlist, or do {bold(underline('b')+'oth')} options?\n").lower()
@@ -552,6 +555,9 @@ def resume():
   #Force add/remove
   altered = forceAddRemove(masterSongs)
   
+  #Sort collection
+  masterSongs.sort()
+
   #Check if results were altered
   if(altered):
     while(True):
