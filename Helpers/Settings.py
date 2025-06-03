@@ -95,7 +95,7 @@ def init():
   minCountOverride = _Setting('minCountOverride',-1,f"If a song has been listened to this many more times in the collection range than out of it, then it will be included in the collection. If this number is -1, it will not do this. Default is {bold('-1')}.")
   earliestDate = _Setting('earliestDate',datetime(2000,1,1).date(),f"The earliest date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is {bold('2000-01-01')}.")
   lastDate = _Setting('lastDate',today+relativedelta(days=1),f"The last date this program will parse through in the given data. Please follow yyyy-mm-dd format. Default is {bold('''tomorrow's date''')}.")
-  playlistAddTimer = _Setting('playlistAddTimer',0,f"Amount of time (in seconds) to wait in between adding each song to the given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is {bold(0)}.")
+  playlistAddTimer = _Setting('playlistAddTimer',0.0,f"Amount of time (in seconds) to wait in between adding each song to the given playlist so that the 'sort by date added' feature will work properly on Spotify. Default is {bold(0)}.")
   songGracePeriod = _Setting('songGracePeriod',today-relativedelta(days=7),f"Period at which a song has a chance to be included in the playlist, regardless if it reaches minCount (will still be rejected if it was listened to before earlyRange). The range starts from the given day through today. Please follow yyyy-mm-dd format. Default is a {bold('week from today')}.")
   universalMinCount = _Setting('universalMinCount',False,f"Determines if songs before beginningDate should also meet the minimum count requirement to be looked at. Default is {bold('False')}.")
   
