@@ -1,6 +1,9 @@
 from datetime import datetime
-from ProgressBar import ProgressBar
-from DataParse import validatedFile
+from time import sleep
+from Helpers.ProgressBar import ProgressBar
+from Helpers.DataParse import validatedFile
+from Helpers.Settings import settingByName
+from Helpers.Formatting import *
 
 class SongsContainer(object):
   """ """
@@ -53,7 +56,7 @@ class SongsContainer(object):
         if(detail not in song_dict[uri]):
           return False
       tempContainer.addSong(uri,
-                            song_dict[uri]['timestamp'],
+                            datetime.strptime(song_dict[uri]['timestamp'],'%Y-%m-%d %H:%M:%S'),
                             song_dict[uri]['title'],
                             song_dict[uri]['artist'],
                             song_dict[uri]['album'],
@@ -94,11 +97,25 @@ class SongsContainer(object):
     for i in self._songs.keys():
       yield i
         
-  def artists(self, artist = None):
+  def sort(self):
+    self._songs = dict(sorted(self._songs.items(), key=lambda item: item[1].ts))
+    self._artists = dict(sorted(self._artists.items(), key=lambda item: item[0]))
+
+  def artists(self, artist = None) -> list:
     if artist:
-      return [i for i in self._artists[artist]]
+      if artist in self._artists:
+        return list([i for i in self._artists[artist]])
+      else:
+        return []
     else:
-      return [i for i in self._artists]
+      return list([i for i in self._artists])
+
+  def findSongTitle(self, title: str) -> list:
+    uriList = []
+    for i in self._songs:
+      if(self._songs[i].title.lower() == title.lower()):
+        uriList.append(i)
+    return uriList
 
   #--Accessors--
   def getTS(self, key):
@@ -135,18 +152,17 @@ class SongsContainer(object):
 class MasterSongContainer(object):
   """ """
   def __init__(self):
-    from Settings import settingByName
     self.desiredSongs = SongsContainer()
     self.previousSongs = SongsContainer()
     #Keep easier reachable references for needed settings
-    self.earlyRange = settingByName('earlyRange').value#settings['earlyRange'].value  #Earliest date of desired
+    self.earlyRange = settingByName('beginningDate').value#settings['earlyRange'].value  #Earliest date of desired
     self.lastDate = settingByName('lastDate').value  #Last date of desired
-    self.earlyDate = settingByName('earlyDate').value  #Earliest date of previous
+    self.earlyDate = settingByName('earliestDate').value  #Earliest date of previous
     self.minCount = settingByName('minCount').value  #Minimum number of times song should be counted for
     self.msPlayed = settingByName('minMS').value #Minimum milliseconds the track has to be played to count (unless track was finished)
     self.songPref = settingByName('songPreference').value #If same songs with different uris, choice of which to keep
-    self.prevCountMatters = settingByName('prevMinCount').value #If True, will follow count rules for previous songs too
-    self.gracePeriod = settingByName('gracePeriod').value #Period at which the count will not matter
+    self.prevCountMatters = settingByName('universalMinCount').value #If True, will follow count rules for previous songs too
+    self.gracePeriod = settingByName('songGracePeriod').value #Period at which the count will not matter
     self._convertDatetimes()
 
   def _convertDatetimes(self):
@@ -191,7 +207,7 @@ class MasterSongContainer(object):
   
   def forceAdd(self, uri:str, title:str, artist:str, album:str) -> None:
     """Given a song uri, title, artist, and album, add it to the desiredSongs"""
-    today = datetime.today()
+    today = datetime.today().replace(microsecond=0)
     self.desiredSongs.addSong(uri, today, title, artist, album, count=0)
 
     
@@ -252,9 +268,9 @@ class MasterSongContainer(object):
               print(f'Found a duplicate URI for {self.desiredSongs.getTitle(uri1)} by {self.desiredSongs.getArtist(uri1)}')
               print(f'\t1. open.spotify.com/track/{uri1[14:]}; from album titled {self.desiredSongs.getAlbum(uri1)}; first listened on {self.desiredSongs.getTS(uri1)}')
               print(f'\t2. open.spotify.com/track/{uri2[14:]}; from album titled {self.desiredSongs.getAlbum(uri2)}; first listened on {self.desiredSongs.getTS(uri2)}')
-              response = input("Enter '1', '2', or 'both' to pick which one to keep: ").lower()
-              while(response not in ["1","2","both"]):
-                response = input("Invalid input. Enter '1', '2', or 'both' to pick which one to keep: ").lower()
+              response = input(f"Enter {bold('1')}, {bold('2')}, or {bold(underline('b')+'oth')} to pick which one to keep: ").lower()
+              while(response not in ["1","2","both","b"]):
+                response = input(f"Invalid input. Enter {bold('1')}, {bold('2')}, or {bold(underline('b')+'oth')} to pick which one to keep: ").lower()
               if(response == "1"):
                 del self.desiredSongs[uri2]
               elif(response == "2"):
@@ -296,23 +312,26 @@ class MasterSongContainer(object):
     pBar.finish()
 
 
-  def cleanup(self):
-    """runs functions to cleanup data (do we want?)"""
-    pass
+  def sort(self) -> None:
+    """Sorts the desiredSongs collection in ascending order."""
+    self.desiredSongs.sort()
 
 
   def parse(self):
     """Runs data parsing functions."""
     self.removeLowCount() #Remove low counts
+    sleep(0.5)
     self.compareContainersURI() #Remove by uris from dict
+    sleep(0.5)
     self.compareContainersSong() #Remove by songs from dict
+    sleep(0.5)
     self.combineSongs() #Combine songs with diff uri
   
     
 
 
 if __name__ == "__main__":
-  import Settings
+  import Helpers.Settings as Settings
   Settings.init()
   Settings.updateValue('earlyRange','2023-10-17')
   Settings.updateValue('songPreference','both')
