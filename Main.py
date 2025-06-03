@@ -1,14 +1,14 @@
 #Run this file to start the program!
 
 from os import system, name
-from Helpers.DataParse import validatedFile, dictToJSON, validatedFolder
-import Helpers.Settings as S
-from Helpers.SongStruct import MasterSongContainer
-from Helpers.ProgressBar import ProgressBar
 from os.path import abspath
 from datetime import datetime
-from Helpers.SpotifyFunctions import SpotifyGateway
+import Helpers.Settings as S
 from Helpers.Formatting import *
+from Helpers.DataParse import validatedFile, dictToJSON, validatedFolder
+from Helpers.SongStruct import MasterSongContainer
+from Helpers.ProgressBar import ProgressBar
+from Helpers.SpotifyFunctions import SpotifyGateway
 
 def currentTime():
   return f'{datetime.today().date()}_{str(datetime.today().time()).replace(":","-")[:8]}'
