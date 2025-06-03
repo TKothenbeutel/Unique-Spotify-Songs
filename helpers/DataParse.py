@@ -1,6 +1,6 @@
 import json
 from os import listdir
-from Helpers.Formatting import *
+from helpers.Formatting import *
 
 
 def validatedFile(file:str, ext = '.json') -> str:

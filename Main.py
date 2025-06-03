@@ -3,19 +3,19 @@
 from os import system, name
 from os.path import abspath
 from datetime import datetime
-import Helpers.Settings as S
-from Helpers.Formatting import *
-from Helpers.DataParse import validatedFile, dictToJSON, validatedFolder
-from Helpers.SongStruct import MasterSongContainer
-from Helpers.ProgressBar import ProgressBar
-from Helpers.SpotifyFunctions import SpotifyGateway
+import helpers.Settings as S
+from helpers.Formatting import *
+from helpers.DataParse import validatedFile, dictToJSON, validatedFolder
+from helpers.SongStruct import MasterSongContainer
+from helpers.ProgressBar import ProgressBar
+from helpers.SpotifyFunctions import SpotifyGateway
 
 def currentTime():
   return f'{datetime.today().date()}_{str(datetime.today().time()).replace(":","-")[:8]}'
 
 def exportSettings():
-  fPath = f"SavedSettings.txt"
-  #Access SavedSettings.txt (assume already created because of bold quesiton)
+  fPath = f"caches/savedSettings.txt"
+  #Access savedSettings.txt (assume already created because of bold quesiton)
   with open(fPath, 'r+') as file:
     bolded = file.readline()
     file.seek(0)
@@ -31,7 +31,7 @@ def exportSettings():
 
 def importSettings():
   try:
-    with open("SavedSettings.txt",'r') as file:
+    with open("caches/savedSettings.txt",'r') as file:
       options = file.readlines()
       for i in options:
         option = i.split(': ')

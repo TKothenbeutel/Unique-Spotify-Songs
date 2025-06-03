@@ -11,8 +11,8 @@ def initFormat():
   formatFunction = True
 
   #Check if the user already tested for bolding
-  if(path.exists('SavedSettings.txt')): #SavedSettings already exists
-    with open('SavedSettings.txt', 'r') as file:
+  if(path.exists('savedSettings.txt')): #savedSettings already exists
+    with open('savedSettings.txt', 'r') as file:
       bolded = file.readline()
       if(bolded == 'format\n'):
         formatFunction = True
@@ -37,8 +37,8 @@ def initFormat():
       return initFormat()
   else:
     #Write setting to file
-    if(path.exists('SavedSettings.txt')):
-      with open("SavedSettings.txt",'r+') as file:
+    if(path.exists('caches/savedSettings.txt')):
+      with open("caches/savedSettings.txt",'r+') as file:
         file.readline() #Skip first line
         kept = file.readlines() #Store other lines
         file.seek(0)
@@ -46,12 +46,12 @@ def initFormat():
         file.writelines(kept)
         file.truncate()
     else:
-      with open('SavedSettings.txt', 'w') as file:
+      with open('caches/savedSettings.txt', 'w') as file:
         file.write('format\n' if formatFunction else 'no format\n')
   
   #Write setting to file
-  if(path.exists('SavedSettings.txt')):
-    with open("SavedSettings.txt",'r+') as file:
+  if(path.exists('caches/savedSettings.txt')):
+    with open("caches/savedSettings.txt",'r+') as file:
       file.readline() #Skip first line
       kept = file.readlines() #Store other lines
       file.seek(0)
@@ -59,7 +59,7 @@ def initFormat():
       file.writelines(kept)
       file.truncate()
   else:
-    with open('SavedSettings.txt', 'w') as file:
+    with open('caches/savedSettings.txt', 'w') as file:
       file.write('format\n' if formatFunction else 'no format\n')
   print(f'It is recommended to check out {bold("Settings")} before starting the process.')
   input() #Wait for user

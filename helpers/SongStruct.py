@@ -1,9 +1,9 @@
 from datetime import datetime
 from time import sleep
-from Helpers.ProgressBar import ProgressBar
-from Helpers.DataParse import validatedFile
-from Helpers.Settings import settingByName
-from Helpers.Formatting import *
+from helpers.ProgressBar import ProgressBar
+from helpers.DataParse import validatedFile
+from helpers.Settings import settingByName
+from helpers.Formatting import *
 
 class SongsContainer(object):
   """ """
@@ -331,7 +331,7 @@ class MasterSongContainer(object):
 
 
 if __name__ == "__main__":
-  import Helpers.Settings as Settings
+  import helpers.Settings as Settings
   Settings.init()
   Settings.updateValue('earlyRange','2023-10-17')
   Settings.updateValue('songPreference','both')

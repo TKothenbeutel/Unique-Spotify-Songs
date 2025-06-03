@@ -5,7 +5,7 @@
 #will call updateProgress, which will add one and rewrite the bar on the terminal
 #In total, outer function should create class, call updateProgress, and call finish
 
-from Helpers.Formatting import *
+from helpers.Formatting import *
 
 class ProgressBar():
   def __init__(self, items: int, description: str, starting_num = 0):

@@ -2,7 +2,7 @@ import os
 from time import sleep
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from Helpers.ProgressBar import ProgressBar
+from helpers.ProgressBar import ProgressBar
 #from ProgressBar import ProgressBar
 
 class SpotifyGateway():
