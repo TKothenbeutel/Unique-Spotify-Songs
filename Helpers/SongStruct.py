@@ -56,7 +56,7 @@ class SongsContainer(object):
         if(detail not in song_dict[uri]):
           return False
       tempContainer.addSong(uri,
-                            datetime.strptime(song_dict[uri]['timestamp'],'%Y-%m-%d %H:%M:%S.%f'),
+                            datetime.strptime(song_dict[uri]['timestamp'],'%Y-%m-%d %H:%M:%S'),
                             song_dict[uri]['title'],
                             song_dict[uri]['artist'],
                             song_dict[uri]['album'],
@@ -207,7 +207,7 @@ class MasterSongContainer(object):
   
   def forceAdd(self, uri:str, title:str, artist:str, album:str) -> None:
     """Given a song uri, title, artist, and album, add it to the desiredSongs"""
-    today = datetime.today()
+    today = datetime.today().replace(microsecond=0)
     self.desiredSongs.addSong(uri, today, title, artist, album, count=0)
 
     
