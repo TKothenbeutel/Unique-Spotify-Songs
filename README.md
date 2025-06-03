@@ -1,12 +1,12 @@
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/TKothenbeutel/Unique-Spotify-Songs?quickstart=1)
 
-# Spotify's Unique Song Collector
+# Unique Song Collector for Spotify
 
-Parses through an account's extended streaming history and finds every unique song listened to in a given range. Spotipy is also utilized to add those results to a playlist.
+Parses through an account's extended streaming history and finds every unique song listened to in a given range. Spotipy is also utilized to add those results to a Spotify playlist.
 
 ## Description
 
-This Python program parses through data files the user retrieves from Spotify, and collects any new and unique songs listened to in a given time range. Once run, the user interacts with the program through the terminal and follows the instructions to get the desired results. This program currently only works with Spotify's extended streaming history, not with the lesser account data package. The user can also alter the program with 10 different settings, allowing for different timeframes, changing what constitutes as a new song, and more! Afterwards, the user may save these results to a .json file, such as how Spotify gives its stored data, or it can be uploaded to a playlist thanks to Spotipy and the Spotify API.
+This Python program parses through data files the user retrieves from Spotify, and collects any new and unique songs listened to in a given time range. Once run, the user interacts with the program through the terminal and follows the instructions to get desired results. How the program work is by creating two containers: one for the songs in the desired time range, and one that will it be comparing against. The program will look at the count of each song, combine the differing URIs for a song, and more. The user can also alter the program with 10 different settings, allowing for different timeframes or changing what constitutes as a new song, just to name a few. Afterwards, the user may save these results to a JSON file, such as how Spotify gives its stored data, or upload the collection to a playlist thanks to Spotipy and the Spotify API.
 
 ## Requirements
 
@@ -60,7 +60,7 @@ If you have a result file after running the program, you may download that file 
 
 ##### &#9679; When right-clicking in the explorer menu, the only option that appears is **Paste**, and not the full menu that gives the ability to copy a file path or upload files.
   * To fix this, right-click the desired file so that **Paste** appears
-  * Right click again on either the **Paste** box or further right of it. The full menu should now appear
+  * Right click again on the **Paste** box. The full menu should now appear
     - Note: The paste option takes a second before becoming a usable option. Wait for the paste option to be clickable before you right-click or use it
 ##### &#9679; The program opens a page that cannot be connected to.
   * This is the normal behavior of the API that this program uses
