@@ -74,7 +74,7 @@ Taylor Kothenbeutel
 ## Version History
 
 * 0.1
-  * Closed-testing release
+  * Private Public Release
 
 ## License
 
