@@ -49,7 +49,7 @@ Taylor Kothenbeutel
 ## Version History
 
 * 0.1
-  * Private Public Release
+  * Initial Release
 
 ## License
 
