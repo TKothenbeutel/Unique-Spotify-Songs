@@ -3,5 +3,6 @@ caches/*
 savedSettings.txt
 __pycache__
 Spotify Extended Streaming History
+Environment_Variables.py
 
 !.gitkeep
