@@ -15,7 +15,7 @@ The program requires the user to supply files from their <ins>Extended Streaming
 ## Using the Program
 
 1. The program is well suited for Github Codespaces. To open one, click the link at the top of the this README labeled **Open in GitHub Codespaces**
-2. Before running the program, open the file named **Environmental_Variables**. Enter your Spotify API's client ID, client Secret, and redirect URI. If you do not have one but would like to use this program, then please check out my working demo at __WEBPAGE NOT MADE YET__
+2. Before running the program, open the file named **Environment_Variables.py**. Enter your Spotify API's client ID, client Secret, and redirect URI. If you do not have one but would like to use this program, then please check out my working demo at __WEBPAGE NOT MADE YET__
 3. Run Main.py and follow the instructions printed in the terminal
 
 ## Settings

@@ -3,6 +3,7 @@
 from os import system, name
 from os.path import abspath
 from datetime import datetime
+import Environment_Variables
 import helpers.Settings as S
 from helpers.Formatting import *
 from helpers.DataParse import validatedFile, dictToJSON, validatedFolder
@@ -588,6 +589,8 @@ def resume():
 
 if __name__ == "__main__":
   system('cls' if name == 'nt' else 'clear')
-  initFormat()
-  S.init()
-  welcome()
+  ev = Environment_Variables.innit()
+  if(not ev):
+    initFormat()
+    S.init()
+    welcome()
