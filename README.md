@@ -14,33 +14,9 @@ The program requires the user to supply files from their <ins>Extended Streaming
 
 ## Using the Program
 
-### Opening the Program
-
-Due to environment variables storing secrets for this API, this program is made to run on GitHub's Codespace. To open up a Codespace, click the button above labeled **Open in GitHub Codespaces**.
-
-You may also open the Codespace in VS Code Desktop:
-
-1. Click on the hamburger menu on the left side of the Codespace
-2. Click **Open in VS Code Desktop**
-3. Click **Open** when prompted to let the 'GitHub Codespaces' extension open this project's URI
-
-### Importing Files
-
-The program must read your Spotify data files for it to function properly. Follow these steps to import the files into this codespace:
-
-1. Ensure the Explorer tab is showing
-2. Perform either of these actions:
-   - Drag your file/folder from your File Explorer onto the explorer tab empty space
-   - Right click on the empty space in the Explorer tab, and click upload to open your File Explorer for selection
-
-### Running the Program
-
-1. Open Main.py
-2. Run the file. My go-to way of going about this is to click the play button at the upper-right corner of the editor
-3. The program runs in the terminal. Feel free to stretch it to view more of it at once. You can also click the up arrow to the right of the terminal to take up the code's space
-4. Follow the instructions displayed in the terminal
-
-If you have a result file after running the program, you may download that file by right-clicking it in the Explorer tab and clicking "Download...". Any file uploaded or created will be saved on the Codespace as long as you do not delete the space.
+1. The program is well suited for Github Codespaces. To open one, click the link at the top of the this README labeled **Open in GitHub Codespaces**
+2. Before running the program, open the file named **Environmental_Variables**. Enter your Spotify API's client ID, client Secret, and redirect URI. If you do not have one but would like to use this program, then please check out my working demo at __WEBPAGE NOT MADE YET__
+3. Run Main.py and follow the instructions printed in the terminal
 
 ## Settings
 
@@ -55,10 +31,9 @@ If you have a result file after running the program, you may download that file 
 * **Song Grace Period**: Period at which a song has a chance to be included in the playlist, regardless if it reaches **minCount** (will still be rejected if it was listened to before earlyRange). The range starts from the given day through today. Please follow yyyy-mm-dd format. Default is a week from today.
 * **Universal Min Count**: Determines if songs before **beginningDate** should also meet the minimum count requirement to be looked at. Default is False.
 
-
 ## Issues
 
-##### &#9679; When right-clicking in the explorer menu, the only option that appears is **Paste**, and not the full menu that gives the ability to copy a file path or upload files.
+##### &#9679; When right-clicking in the explorer menu in a Codespace, the only option that appears is **Paste**, and not the full menu that gives the ability to copy a file path or upload files.
   * To fix this, right-click the desired file so that **Paste** appears
   * Right click again on the **Paste** box. The full menu should now appear
     - Note: The paste option takes a second before becoming a usable option. Wait for the paste option to be clickable before you right-click or use it
