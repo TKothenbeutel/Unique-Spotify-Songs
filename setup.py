@@ -9,9 +9,7 @@ setup(
 
     author="Taylor Kothenbeutel",
     
-    package_dir={"": "helpers"},
-    
-    packages=find_packages(where="helpers"),
+    packages=['helpers'],
     
     python_requires=">=3.7, <4",
     
