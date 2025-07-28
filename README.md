@@ -6,7 +6,7 @@ Parses through an account's extended streaming history and finds every unique so
 
 ## Description
 
-This Python program parses through data files the user retrieves from Spotify, and collects any new and unique songs listened to in a given time range. Once run, the user interacts with the program through the terminal and follows the instructions to get desired results. How the program work is by creating two containers: one for the songs in the desired time range, and one that will it be comparing against. The program will look at the count of each song, combine the differing URIs for a song, and more. The user can also alter the program with 10 different settings, allowing for different timeframes or changing what constitutes as a new song, just to name a few. Afterwards, the user may save these results to a JSON file, such as how Spotify gives its stored data, or upload the collection to a playlist thanks to Spotipy and the Spotify API.
+This Python program parses data files retrieved from Spotify by the user and collects any new and unique songs listened to within a given time range. Once run, the user interacts with the program through the terminal and follows the instructions to get the desired results. How the program work is by creating two containers: one for the songs in the desired time range, and one that will it be comparing against. The program will look at the count of each song, combine the differing URIs for a song, and more. The user can also alter the program with 10 different settings, allowing for different timeframes or changing what constitutes as a new song, just to name a few. Afterwards, the user may save these results to a JSON file, such as how Spotify gives its stored data, or upload the collection to a playlist thanks to Spotipy and the Spotify API.
 
 ## Requirements
 
@@ -14,8 +14,8 @@ The program requires the user to supply files from their <ins>Extended Streaming
 
 ## Using the Program
 
-1. The program is well suited for Github Codespaces. To open one, click the link at the top of the this README labeled **Open in GitHub Codespaces**
-2. Before running the program, open the file named **Environment_Variables.py**. Enter your Spotify API's client ID, client Secret, and redirect URI. If you do not have one but would like to use this program, then please check out my working demo at __WEBPAGE NOT MADE YET__
+1. The program is well-suited for GitHub Codespaces. To open one, click the link at the top of this README labeled **Open in GitHub Codespaces**
+2. Before running the program, open the file named **Environment_Variables.py**. Enter your Spotify API's client ID, client Secret, and redirect URI. If you do not have one but would like to use this program, then please check out my working demo on [my portfolio](https://tkothenbeutel.github.io/Portfolio/spotify)
 3. Run Main.py and follow the instructions printed in the terminal
 
 ## Settings
